@@ -21,10 +21,15 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuth } from '../../context/AuthContext';
 import { AuthStackParamList } from '../../types';
+
+const { width } = Dimensions.get('window');
 
 // ============================================================================
 // Type Definitions
@@ -84,87 +89,106 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
   // ============================================================================
 
   return (
-    // KeyboardAvoidingView pushes content up when keyboard opens
-    // This prevents the keyboard from covering the input fields
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <LinearGradient
+      colors={['#1e3a5f', '#2d5a7b', '#3a7ca5']}
+      style={styles.gradient}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
     >
-      <View style={styles.content}>
-        {/* Header with app name */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Camp Geiger</Text>
-          <Text style={styles.subtitle}>Achievement Tracking System</Text>
-        </View>
-
-        {/* Login Form Card */}
-        <View style={styles.form}>
-          <Text style={styles.formTitle}>Sign In</Text>
-
-          {/* Error Message - only shows if there's an error */}
-          {error && (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>{error}</Text>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <View style={styles.content}>
+          {/* Header with app name and icon */}
+          <View style={styles.header}>
+            <View style={styles.logoContainer}>
+              <Ionicons name="trail-sign" size={48} color="#ffffff" />
             </View>
-          )}
-
-          {/* Email Input */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your email"
-              placeholderTextColor="#9ca3af"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"    // Don't auto-capitalize email
-              autoCorrect={false}       // Don't autocorrect email
-              editable={!isLoading}     // Disable while loading
-            />
+            <Text style={styles.title}>Camp Geiger</Text>
+            <Text style={styles.subtitle}>Achievement Tracking System</Text>
           </View>
 
-          {/* Password Input */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your password"
-              placeholderTextColor="#9ca3af"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry           // Hide password characters
-              editable={!isLoading}
-            />
-          </View>
+          {/* Login Form Card */}
+          <View style={styles.form}>
+            <Text style={styles.formTitle}>Welcome Back</Text>
+            <Text style={styles.formSubtitle}>Sign in to continue</Text>
 
-          {/* Submit Button */}
-          <TouchableOpacity
-            style={[styles.button, isLoading && styles.buttonDisabled]}
-            onPress={handleLogin}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              // Show spinner while loading
-              <ActivityIndicator color="#ffffff" />
-            ) : (
-              <Text style={styles.buttonText}>Sign In</Text>
+            {/* Error Message - only shows if there's an error */}
+            {error && (
+              <View style={styles.errorContainer}>
+                <Ionicons name="alert-circle" size={20} color="#dc2626" style={styles.errorIcon} />
+                <Text style={styles.errorText}>{error}</Text>
+              </View>
             )}
-          </TouchableOpacity>
 
-          {/* Link to Register Screen */}
-          <TouchableOpacity
-            style={styles.linkButton}
-            onPress={() => navigation.navigate('Register')}
-            disabled={isLoading}
-          >
-            <Text style={styles.linkText}>
-              Don't have an account? <Text style={styles.linkTextBold}>Sign Up</Text>
-            </Text>
-          </TouchableOpacity>
+            {/* Email Input */}
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Email</Text>
+              <View style={styles.inputWrapper}>
+                <Ionicons name="mail-outline" size={20} color="#6b7280" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your email"
+                  placeholderTextColor="#9ca3af"
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  editable={!isLoading}
+                />
+              </View>
+            </View>
+
+            {/* Password Input */}
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Password</Text>
+              <View style={styles.inputWrapper}>
+                <Ionicons name="lock-closed-outline" size={20} color="#6b7280" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your password"
+                  placeholderTextColor="#9ca3af"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  editable={!isLoading}
+                />
+              </View>
+            </View>
+
+            {/* Submit Button */}
+            <TouchableOpacity
+              style={[styles.button, isLoading && styles.buttonDisabled]}
+              onPress={handleLogin}
+              disabled={isLoading}
+              activeOpacity={0.8}
+            >
+              {isLoading ? (
+                <ActivityIndicator color="#ffffff" />
+              ) : (
+                <View style={styles.buttonContent}>
+                  <Text style={styles.buttonText}>Sign In</Text>
+                  <Ionicons name="arrow-forward" size={20} color="#ffffff" style={styles.buttonIcon} />
+                </View>
+              )}
+            </TouchableOpacity>
+
+            {/* Link to Register Screen */}
+            <TouchableOpacity
+              style={styles.linkButton}
+              onPress={() => navigation.navigate('Register')}
+              disabled={isLoading}
+            >
+              <Text style={styles.linkText}>
+                Don't have an account? <Text style={styles.linkTextBold}>Sign Up</Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 };
 
@@ -173,104 +197,142 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
 // ============================================================================
 
 const styles = StyleSheet.create({
-  // Main container - fills the screen with gray background
+  gradient: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#f3f4f6',
   },
-  // Content wrapper - centers the form vertically
   content: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 24,
   },
-  // Header section with title
   header: {
     alignItems: 'center',
-    marginBottom: 48,
+    marginBottom: 40,
+  },
+  logoContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
   },
   title: {
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: 'bold',
-    color: '#1f2937',
+    color: '#ffffff',
     marginBottom: 8,
+    letterSpacing: 1,
   },
   subtitle: {
     fontSize: 16,
-    color: '#6b7280',
+    color: 'rgba(255, 255, 255, 0.8)',
+    letterSpacing: 0.5,
   },
-  // Form card with shadow
   form: {
     backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 24,
-    // Shadow for iOS
+    borderRadius: 24,
+    padding: 22,
+    width: '100%',
+    maxWidth: 340,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    // Shadow for Android
-    elevation: 3,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 10,
   },
   formTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: 22,
+    fontWeight: '700',
     color: '#1f2937',
-    marginBottom: 24,
     textAlign: 'center',
   },
-  // Error message styling - red background with border
+  formSubtitle: {
+    fontSize: 14,
+    color: '#6b7280',
+    textAlign: 'center',
+    marginTop: 4,
+    marginBottom: 20,
+  },
   errorContainer: {
     backgroundColor: '#fef2f2',
     borderWidth: 1,
     borderColor: '#fecaca',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  errorIcon: {
+    marginRight: 10,
   },
   errorText: {
     color: '#dc2626',
     fontSize: 14,
-    textAlign: 'center',
+    flex: 1,
   },
-  // Input field wrapper
   inputContainer: {
-    marginBottom: 16,
+    marginBottom: 14,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 13,
+    fontWeight: '600',
     color: '#374151',
     marginBottom: 6,
   },
-  // Text input styling
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f8fafc',
+    borderWidth: 1.5,
+    borderColor: '#e2e8f0',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+  },
+  inputIcon: {
+    marginRight: 10,
+  },
   input: {
-    backgroundColor: '#f9fafb',
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    paddingHorizontal: 16,
+    flex: 1,
     paddingVertical: 12,
-    fontSize: 16,
+    fontSize: 15,
     color: '#1f2937',
   },
-  // Primary button styling
   button: {
-    backgroundColor: '#2563eb',
-    borderRadius: 8,
+    backgroundColor: '#1e3a5f',
+    borderRadius: 10,
     paddingVertical: 14,
     alignItems: 'center',
     marginTop: 8,
+    shadowColor: '#1e3a5f',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
   },
   buttonDisabled: {
-    backgroundColor: '#93c5fd', // Lighter blue when disabled
+    backgroundColor: '#94a3b8',
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   buttonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
   },
-  // Link button for navigation
+  buttonIcon: {
+    marginLeft: 8,
+  },
   linkButton: {
     marginTop: 16,
     alignItems: 'center',
@@ -280,7 +342,7 @@ const styles = StyleSheet.create({
     color: '#6b7280',
   },
   linkTextBold: {
-    color: '#2563eb',
-    fontWeight: '600',
+    color: '#1e3a5f',
+    fontWeight: '700',
   },
 });
