@@ -58,5 +58,6 @@ src/
 | Role | Access |
 |------|--------|
 | Admin | Web dashboard - manage users, badges, schedules, reports |
+| Area Director | Web dashboard/Mobile App - (manage users, badges, schedules, reports) In area |
 | Counselor | Mobile app - attendance, badge progress tracking |
 
