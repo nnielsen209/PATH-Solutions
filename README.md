@@ -59,4 +59,4 @@ src/
 |------|--------|
 | Admin | Web dashboard - manage users, badges, schedules, reports |
 | Counselor | Mobile app - attendance, badge progress tracking |
-| Student/Scout | Mobile app - view badges, schedule, progress |
+
