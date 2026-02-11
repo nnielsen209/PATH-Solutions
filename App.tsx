@@ -1,47 +1,46 @@
 /**
  * App.tsx - Root Application Component
  *
- * This is the entry point of our React Native application.
- * It sets up all the providers and handles the main navigation logic.
- *
- * Structure:
- * - SafeAreaProvider: Handles safe areas (notches, status bars) on different devices
- * - AuthProvider: Provides authentication state to all components
- * - NavigationContainer: React Navigation's container for all navigators
- * - RootNavigator: Decides which screens to show based on auth state
- *
- * Flow:
- * 1. App loads and shows loading spinner
- * 2. AuthContext checks if user is already logged in
- * 3. If not logged in -> Show AuthNavigator (Login/Register)
- * 4. If logged in -> Show appropriate dashboard based on role
+ * Entry point of the app. Wraps everything in SafeAreaProvider, AuthProvider,
+ * and NavigationContainer. RootNavigator then shows either the auth screens,
+ * a loading spinner, or the right dashboard (admin, counselor, area director).
  */
 
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, useAuth } from './src/context/AuthContext';
-import { AuthNavigator } from './src/navigation';
-
-// ============================================================================
-// Root Navigator Component
-// ============================================================================
+import { AuthNavigator, AdminNavigator, CounselorNavigator, AreaDirectorNavigator } from './src/navigation';
 
 /**
- * RootNavigator - Handles top-level navigation logic
+ * Shown when the user is logged in but has no valid role (e.g. role missing or unsupported).
+ * Signs them out so they are redirected to the login screen.
+ */
+const RedirectToLogin = () => {
+  const { logout } = useAuth();
+  React.useEffect(() => {
+    logout();
+  }, [logout]);
+  return (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color="#2563eb" />
+      <Text style={styles.loadingText}>Signing out...</Text>
+    </View>
+  );
+};
+
+/**
+ * RootNavigator Component
  *
- * This component decides what to render based on the authentication state:
- * - Loading: Shows a spinner while checking auth status
- * - Not logged in: Shows the AuthNavigator (Login/Register screens)
- * - Logged in: Shows the appropriate dashboard (TODO: implement role-based dashboards)
+ * Decides what to show based on auth state: loading spinner, login/register,
+ * or the dashboard for the user's role (admin, counselor, area_director).
+ * If the user has no valid role, we sign them out and redirect to login.
  */
 const RootNavigator = () => {
-  // Get authentication state from our context
   const { user, userRole, isLoading } = useAuth();
 
-  // Show loading spinner while checking if user is logged in
-  // This prevents a flash of the login screen on app start
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -51,41 +50,28 @@ const RootNavigator = () => {
     );
   }
 
-  // If no user is logged in, show the authentication screens
   if (!user) {
     return <AuthNavigator />;
   }
 
-  // ========== User is Logged In ==========
-  // TODO: Replace this with role-based navigators:
-  // - Admin -> AdminNavigator (dashboard, user management, reports)
-  // - Counselor -> CounselorNavigator (activities, attendance)
-  // - Scout Leader -> ScoutLeaderNavigator (troop management)
-  // - Scout -> ScoutNavigator (badges, progress)
+  if (userRole === 'admin') {
+    return <AdminNavigator />;
+  }
+  if (userRole === 'counselor') {
+    return <CounselorNavigator />;
+  }
+  if (userRole === 'area_director') {
+    return <AreaDirectorNavigator />;
+  }
 
-  // For now, show a simple welcome screen with user info
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome!</Text>
-      <Text style={styles.subtitle}>Logged in as: {userRole || 'Unknown role'}</Text>
-      <Text style={styles.email}>{user.email}</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <RedirectToLogin />;
 };
 
-// ============================================================================
-// Main App Component
-// ============================================================================
-
 /**
- * App - The root component exported to the system
+ * App Component
  *
- * Sets up all the necessary providers in the correct order:
- * 1. SafeAreaProvider - Must wrap everything for safe area handling
- * 2. AuthProvider - Makes auth state available throughout the app
- * 3. NavigationContainer - Required by React Navigation
- * 4. RootNavigator - Our custom navigation logic
+ * Renders the app with providers (safe area, auth, navigation) and
+ * RootNavigator so the right screen shows based on login and role.
  */
 export default function App() {
   return (
@@ -100,19 +86,7 @@ export default function App() {
   );
 }
 
-// ============================================================================
-// Styles
-// ============================================================================
-
 const styles = StyleSheet.create({
-  // Temporary container for logged-in state
-  container: {
-    flex: 1,
-    backgroundColor: '#f3f4f6',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  // Loading screen container
   loadingContainer: {
     flex: 1,
     backgroundColor: '#f3f4f6',
@@ -123,21 +97,5 @@ const styles = StyleSheet.create({
     marginTop: 12,
     fontSize: 16,
     color: '#6b7280',
-  },
-  // Welcome text styles (temporary)
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#6b7280',
-  },
-  email: {
-    fontSize: 14,
-    color: '#9ca3af',
-    marginTop: 4,
   },
 });

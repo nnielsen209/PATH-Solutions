@@ -1,9 +1,12 @@
 /**
- * Navigation Index
+ * index.ts - Navigation Exports
  *
- * This file exports all navigation components.
- * As we add more navigators (AdminNavigator, CounselorNavigator, etc.),
- * we'll export them here for easy importing.
+ * Re-exports all navigators so the rest of the app can import from one place
+ * (e.g. import { AdminNavigator } from '../navigation'). App.tsx uses these
+ * to show the right navigator based on login and role.
  */
 
 export { AuthNavigator } from './AuthNavigator';
+export { AdminNavigator } from './AdminNavigator';
+export { CounselorNavigator } from './CounselorNavigator';
+export { AreaDirectorNavigator } from './AreaDirectorNavigator';
