@@ -9,8 +9,11 @@ BEGIN
 END
 $$;
 
+DROP TYPE troop_type;
+DROP TYPE user_role;
+
 CREATE TYPE troop_type AS ENUM ('BTROOP', 'GTROOP', 'MTROOP');
-CREATE TYPE user_role AS ENUM ('ADMIN', 'EMPLOYEE', 'SCOUT', 'LEADER', 'DEPARTMENT_HEAD');
+CREATE TYPE user_role AS ENUM ('admin', 'employee', 'scout', 'leader', 'department_head');
 
 CREATE TABLE IF NOT EXISTS public.camp_dpmt (
     dpmt_id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -42,8 +45,8 @@ CREATE TABLE IF NOT EXISTS public.troop (
     troop_state char(2) NOT NULL,
     crtn_date timestamp with time zone NOT NULL DEFAULT now(),
     last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT troop_pkey PRIMARY KEY (troop_id)
-	CONSTRAINT troop_state_key UNIQUE (troop_nmbr, troop_state)
+    CONSTRAINT troop_pkey PRIMARY KEY (troop_id),
+	CONSTRAINT troop_state_key UNIQUE (troop_nmbr, troop_state, troop_type)
 	--CONSTRAINT troop_troop_number_key UNIQUE (troop_number) Troop number may not be unique, further research required
 );
 
@@ -140,18 +143,20 @@ CREATE TABLE IF NOT EXISTS public.scout_badge_sub_rqmt (
 );
 
 CREATE TABLE IF NOT EXISTS public.users (
-    user_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    user_id uuid NOT NULL,
     user_email varchar(150) NOT NULL,
     user_first_name varchar(150) NOT NULL,
     user_last_name varchar(150) NOT NULL,
     user_role user_role NOT NULL,
     emp_id uuid,
-    scout_leader_id uuid,
-    scout_id uuid,
     crtn_date timestamp with time zone NOT NULL DEFAULT now(),
     last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
     CONSTRAINT users_pkey PRIMARY KEY (user_id),
-    CONSTRAINT users_email_key UNIQUE (user_email)
+    CONSTRAINT users_email_key UNIQUE (user_email),
+    CONSTRAINT users_auth_fkey
+        FOREIGN KEY (user_id)
+        REFERENCES auth.users (id)
+        ON DELETE CASCADE
 );
 
 
@@ -234,8 +239,8 @@ FOR EACH ROW
 EXECUTE FUNCTION public.set_last_updated_date();
 
 
---ALTER TABLE IF EXISTS public."USERS"
---    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS public.users
+    ENABLE ROW LEVEL SECURITY;
 
 -- Foreign Keys 
 

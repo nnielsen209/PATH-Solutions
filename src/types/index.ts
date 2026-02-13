@@ -20,7 +20,7 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
-  role: UserRole;
+  userRole: UserRole;
   avatarUrl?: string;    // Optional profile picture
   createdAt: string;
   updatedAt: string;
@@ -30,7 +30,7 @@ export interface User {
  * Counselor - Camp staff member who teaches merit badge classes
  */
 export interface Counselor extends User {
-  role: 'counselor';
+  userRole: 'counselor';
   specializations: string[]; // Merit badge areas they can teach
   yearsExperience: number;
 }
@@ -39,7 +39,7 @@ export interface Counselor extends User {
  * Admin - Camp administrator with full system access
  */
 export interface Admin extends User {
-  role: 'admin';
+  userRole: 'admin';
   permissions: AdminPermission[];
 }
 
@@ -47,7 +47,7 @@ export interface Admin extends User {
  * AreaDirector - Area director overseeing camp operations
  */
 export interface AreaDirector extends User {
-  role: 'area_director';
+  userRole: 'area_director';
   areaName?: string;
 }
 
