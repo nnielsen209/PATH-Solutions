@@ -1,10 +1,9 @@
 /**
  * supabase.ts - Supabase Client Configuration
  *
- * This file sets up our connection to Supabase, which is our backend service.
- * Supabase provides us with a PostgreSQL database and authentication out of the box.
- *
- * I chose Supabase because it's free for small projects and has great React Native support.
+ * Creates the Supabase client we use for auth and database. We use a custom
+ * storage adapter so sessions are saved in SecureStore on mobile and
+ * localStorage on web. URL and key come from environment variables.
  */
 
 import 'react-native-url-polyfill/auto';
@@ -12,19 +11,14 @@ import { createClient } from '@supabase/supabase-js';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-// Load environment variables for Supabase connection
-// These are stored in .env file and should never be committed to git
 const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
 const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
 
 /**
- * Custom Storage Adapter
+ * ExpoSecureStoreAdapter
  *
- * Supabase needs somewhere to store the user's session token so they stay logged in.
- * - On mobile (iOS/Android): We use SecureStore which encrypts the data
- * - On web: We use localStorage (built into browsers)
- *
- * This lets our app work on all platforms with the same code!
+ * Tells Supabase where to store the session so the user stays logged in.
+ * On mobile we use SecureStore; on web we use localStorage.
  */
 const ExpoSecureStoreAdapter = {
   getItem: async (key: string): Promise<string | null> => {
@@ -50,13 +44,10 @@ const ExpoSecureStoreAdapter = {
 };
 
 /**
- * Initialize the Supabase Client
+ * supabase - Shared Supabase client.
  *
- * This creates our connection to Supabase with some important settings:
- * - storage: Where to save session tokens (using our adapter above)
- * - autoRefreshToken: Automatically get new tokens before they expire
- * - persistSession: Remember the user between app restarts
- * - detectSessionInUrl: Disabled because we're not using OAuth redirects
+ * Used for auth and database calls. Session is persisted using our storage
+ * adapter; tokens refresh automatically.
  */
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
@@ -67,14 +58,9 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   },
 });
 
-// ============================================================================
-// Authentication Helper Functions
-// These make it easier to call Supabase auth methods throughout the app
-// ============================================================================
-
 /**
- * Sign up a new user
- * Creates an account in Supabase Auth and stores metadata (name, role)
+ * signUp - Create a new user account in Supabase Auth.
+ * Optional metadata (e.g. name, role) is stored on the user and used by our app.
  */
 export const signUp = async (email: string, password: string, metadata?: object) => {
   const { data, error } = await supabase.auth.signUp({
@@ -100,11 +86,12 @@ export const signIn = async (email: string, password: string) => {
 };
 
 /**
- * Sign out the current user
- * Clears the session from storage
+ * Sign out the current user.
+ * scope: 'local' clears the session from our storage (SecureStore / localStorage)
+ * so the user is not restored on next load.
  */
 export const signOut = async () => {
-  const { error } = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut({ scope: 'local' });
   return { error };
 };
 

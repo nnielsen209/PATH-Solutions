@@ -1,18 +1,9 @@
 /**
  * RegisterScreen.tsx - User Registration Page
  *
- * This screen allows new users to create an account.
- * Users provide their personal info and select their role in the system.
- *
- * Features:
- * - Name, email, password fields
- * - Password confirmation with validation
- * - Role selection (Admin, Counselor, Scout Leader, Scout)
- * - Validation and error handling
- *
- * Note: The actual user record in the database is created by a Supabase
- * trigger (handle_new_user) that fires after the auth account is created.
- * This keeps the auth and profile data in sync automatically.
+ * Lets new users create an account with name, email, password, and role.
+ * We validate the form and then call Supabase auth; a database trigger
+ * creates the user row in our users table so role and name are stored there too.
  */
 
 import React, { useState } from 'react';
@@ -33,19 +24,12 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../types';
 import { supabase } from '../../services/supabase';
 
-// ============================================================================
-// Type Definitions
-// ============================================================================
-
-// Props passed by React Navigation
 type RegisterScreenProps = {
   navigation: NativeStackNavigationProp<AuthStackParamList, 'Register'>;
 };
 
-// The different user roles available in our system
-type UserRole = 'admin' | 'counselor' | 'scout_leader' | 'scout';
+type UserRole = 'admin' | 'counselor' | 'area_director';
 
-// Structure for each role option displayed to the user
 interface RoleOption {
   value: UserRole;
   label: string;
@@ -53,27 +37,20 @@ interface RoleOption {
   icon: keyof typeof Ionicons.glyphMap;
 }
 
-// ============================================================================
-// Constants
-// ============================================================================
-
-/**
- * Role options for the selection UI
- * Each role has a user-friendly label, description, and icon
- */
+/** Role choices shown on the registration form with label, description, and icon. */
 const roleOptions: RoleOption[] = [
   { value: 'admin', label: 'Admin', description: 'Camp administrator with full access', icon: 'shield-checkmark' },
   { value: 'counselor', label: 'Counselor', description: 'Camp staff member', icon: 'people' },
-  { value: 'scout_leader', label: 'Scout Leader', description: 'Adult troop leader', icon: 'flag' },
-  { value: 'scout', label: 'Scout', description: 'Youth member', icon: 'compass' },
+  { value: 'area_director', label: 'Area Director', description: 'Area director overseeing camp operations', icon: 'business' },
 ];
 
-// ============================================================================
-// Component
-// ============================================================================
-
+/**
+ * RegisterScreen Component
+ *
+ * Renders the registration form (name, email, password, confirm password, role).
+ * Submits to Supabase and then navigates to login on success.
+ */
 export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
-  // Form state - all the fields the user needs to fill out
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -155,10 +132,6 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
 
     setIsLoading(false);
   };
-
-  // ============================================================================
-  // Render
-  // ============================================================================
 
   return (
     <LinearGradient
@@ -365,10 +338,6 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
     </LinearGradient>
   );
 };
-
-// ============================================================================
-// Styles
-// ============================================================================
 
 const styles = StyleSheet.create({
   gradient: {

@@ -1,14 +1,9 @@
 /**
  * LoginScreen.tsx - User Login Page
  *
- * This is the first screen users see when they open the app (if not logged in).
- * It provides a simple form for email/password authentication.
- *
- * Features:
- * - Email and password input fields
- * - Loading state while authenticating
- * - Error message display
- * - Link to registration page
+ * First screen when the user is not logged in. Has email and password fields,
+ * a login button, and a link to the registration screen. Uses the auth context
+ * to sign in; on success the app switches to the right dashboard.
  */
 
 import React, { useState } from 'react';
@@ -31,62 +26,36 @@ import { AuthStackParamList } from '../../types';
 
 const { width } = Dimensions.get('window');
 
-// ============================================================================
-// Type Definitions
-// ============================================================================
-
-// Props type - navigation is automatically passed by React Navigation
 type LoginScreenProps = {
   navigation: NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 };
 
-// ============================================================================
-// Component
-// ============================================================================
-
+/**
+ * LoginScreen Component
+ *
+ * Renders the login form with email, password, and a link to register.
+ * On submit we call the auth context's login; errors show below the button.
+ */
 export const LoginScreen = ({ navigation }: LoginScreenProps) => {
-  // Get the login function from our auth context
   const { login } = useAuth();
-
-  // Form state - stores what the user types
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // UI state - controls loading spinner and error messages
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  /**
-   * Handle the login button press
-   * Validates input, calls the login function, and handles errors
-   */
   const handleLogin = async () => {
-    // Basic validation - make sure fields aren't empty
     if (!email || !password) {
       setError('Please enter both email and password');
       return;
     }
-
-    // Start loading and clear any previous errors
     setIsLoading(true);
     setError(null);
-
-    // Attempt to log in using our auth context
     const { error: loginError } = await login(email, password);
-
-    // If there was an error, display it to the user
     if (loginError) {
       setError(loginError.message || 'Failed to sign in');
     }
-    // If successful, the AuthContext will automatically update
-    // and App.tsx will navigate to the appropriate dashboard
-
     setIsLoading(false);
   };
-
-  // ============================================================================
-  // Render
-  // ============================================================================
 
   return (
     <LinearGradient
@@ -191,10 +160,6 @@ export const LoginScreen = ({ navigation }: LoginScreenProps) => {
     </LinearGradient>
   );
 };
-
-// ============================================================================
-// Styles
-// ============================================================================
 
 const styles = StyleSheet.create({
   gradient: {

@@ -1,0 +1,1 @@
+export { AreaDirectorDashboardScreen } from './DashboardScreen';

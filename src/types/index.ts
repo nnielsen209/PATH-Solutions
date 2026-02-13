@@ -1,27 +1,15 @@
 /**
  * types/index.ts - TypeScript Type Definitions
  *
- * This file contains all the TypeScript interfaces and types used in the app.
- * Having them in one place makes it easy to:
- * - See the structure of our data
- * - Reuse types across different files
- * - Get autocomplete and error checking in our IDE
- *
- * Note: These types should match our Supabase database schema!
+ * Central place for all shared types (users, roles, badges, navigation, etc.).
+ * Keeping them here gives us autocomplete and type checking across the app;
+ * these should stay in sync with the Supabase database schema.
  */
-
-// ============================================================================
-// User & Role Types
-// ============================================================================
 
 /**
- * UserRole - The different types of users in our system
- * - admin: Camp administrator with full access to everything
- * - counselor: Camp staff who teach merit badge classes
- * - scout_leader: Adult troop leaders who bring scouts to camp
- * - scout: Youth members working on merit badges
+ * UserRole - The three roles in the app. Used for login routing and permissions.
  */
-export type UserRole = 'admin' | 'counselor' | 'scout_leader' | 'scout';
+export type UserRole = 'admin' | 'counselor' | 'area_director';
 
 /**
  * Base User type - common fields for all users
@@ -37,41 +25,6 @@ export interface User {
   createdAt: string;
   updatedAt: string;
 }
-
-// ============================================================================
-// Scout-Related Types
-// ============================================================================
-
-/**
- * Scout - Youth member working on merit badges
- * Extends User with scout-specific fields
- */
-export interface Scout extends User {
-  role: 'scout';
-  troopNumber: string;
-  rank: ScoutRank;
-  dateOfBirth: string;
-  parentGuardianName: string;
-  parentGuardianPhone: string;
-  parentGuardianEmail: string;
-}
-
-/**
- * ScoutRank - The ranks a scout can achieve
- * Listed in order from beginning to Eagle Scout
- */
-export type ScoutRank =
-  | 'scout'
-  | 'tenderfoot'
-  | 'second_class'
-  | 'first_class'
-  | 'star'
-  | 'life'
-  | 'eagle';
-
-// ============================================================================
-// Staff Types
-// ============================================================================
 
 /**
  * Counselor - Camp staff member who teaches merit badge classes
@@ -91,6 +44,14 @@ export interface Admin extends User {
 }
 
 /**
+ * AreaDirector - Area director overseeing camp operations
+ */
+export interface AreaDirector extends User {
+  role: 'area_director';
+  areaName?: string;
+}
+
+/**
  * AdminPermission - Specific permissions an admin can have
  * This allows for granular access control if needed
  */
@@ -101,12 +62,9 @@ export type AdminPermission =
   | 'view_reports'
   | 'manage_settings';
 
-// ============================================================================
-// Merit Badge Types
-// ============================================================================
-
+/** Merit badges, categories, requirements, and prerequisites. */
 /**
- * MeritBadge - A merit badge that scouts can earn
+ * MeritBadge - A merit badge that participants can earn
  * Contains all the requirements and prerequisites
  */
 export interface MeritBadge {
@@ -161,12 +119,9 @@ export interface Prerequisite {
   description: string;
 }
 
-// ============================================================================
-// Progress Tracking Types
-// ============================================================================
-
+/** Progress on badges and individual requirements. */
 /**
- * BadgeProgress - Tracks a scout's progress on a specific badge
+ * BadgeProgress - Tracks a participant's progress on a specific badge
  */
 export interface BadgeProgress {
   id: string;
@@ -191,10 +146,7 @@ export interface RequirementProgress {
   notes?: string; // Counselor can add notes about completion
 }
 
-// ============================================================================
-// Camp Session & Scheduling Types
-// ============================================================================
-
+/** Camp sessions, activities, enrollment, and attendance. */
 /**
  * CampSession - A week-long camp session
  * Camp Geiger runs multiple sessions each summer
@@ -218,7 +170,7 @@ export interface Activity {
   counselorId: string;
   name: string;
   location: string;      // Where the class meets
-  maxCapacity: number;   // Maximum number of scouts
+  maxCapacity: number;   // Maximum number of participants
   schedule: ActivitySchedule[];
 }
 
@@ -235,7 +187,7 @@ export interface ActivitySchedule {
 }
 
 /**
- * Enrollment - A scout's enrollment in an activity
+ * Enrollment - A participant's enrollment in an activity
  */
 export interface Enrollment {
   id: string;
@@ -246,7 +198,7 @@ export interface Enrollment {
 }
 
 /**
- * Attendance - Daily attendance record for enrolled scouts
+ * Attendance - Daily attendance record for enrolled participants
  */
 export interface Attendance {
   id: string;
@@ -258,22 +210,16 @@ export interface Attendance {
   markedAt: string;
 }
 
-// ============================================================================
-// Navigation Types (React Navigation)
-// ============================================================================
-
 /**
- * These types define the screens in each navigation stack
- * TypeScript uses these to ensure we navigate to valid screens
- * and pass the correct parameters
+ * Navigation Types
+ *
+ * Param lists for each navigator so we get type-safe screen names and params.
  */
-
-// Root level navigation - switches between auth and main app
+/** Root level: auth vs which dashboard to show. */
 export type RootStackParamList = {
   Auth: undefined;              // No params needed
   AdminDashboard: undefined;
   CounselorDashboard: undefined;
-  StudentDashboard: undefined;
 };
 
 // Authentication screens (login, register, etc.)
@@ -296,17 +242,20 @@ export type AdminTabParamList = {
 // Counselor tab navigation
 export type CounselorTabParamList = {
   Dashboard: undefined;
+  Users: undefined;
   MyActivities: undefined;
   Attendance: undefined;
   Progress: undefined;
   Profile: undefined;
 };
 
-// Scout/Student tab navigation
-export type StudentTabParamList = {
+
+// Area Director tab navigation (same structure as Admin)
+export type AreaDirectorTabParamList = {
   Dashboard: undefined;
-  MyBadges: undefined;
+  Users: undefined;
+  Badges: undefined;
   Schedule: undefined;
-  Progress: undefined;
-  Profile: undefined;
+  Reports: undefined;
+  Settings: undefined;
 };
