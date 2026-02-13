@@ -97,7 +97,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const { data, error } = await supabase
         .from('users')
-        .select('user_role as userRole')
+        .select('user_role')
         .eq('user_id', userId)
         .single();
 
@@ -106,7 +106,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return;
       }
 
-      setUserRole(data?.userRole as UserRole);
+      setUserRole(data?.user_role as UserRole);
     } catch (error) {
       console.error('Error fetching user role:', error);
     }
