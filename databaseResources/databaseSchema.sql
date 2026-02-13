@@ -1,280 +1,464 @@
-
-
 -- Drop all tables in the database
-DO $$ 
-DECLARE 
-    r RECORD;
-BEGIN 
-    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+DO $$
+DECLARE r RECORD;
+BEGIN
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public')
+    LOOP
         EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
-    END LOOP; 
-END $$;
+    END LOOP;
+END
+$$;
 
 CREATE TYPE troop_type AS ENUM ('BTROOP', 'GTROOP', 'MTROOP');
+CREATE TYPE user_role AS ENUM ('ADMIN', 'EMPLOYEE', 'SCOUT', 'LEADER', 'DEPARTMENT_HEAD');
 
-
-
-CREATE TABLE IF NOT EXISTS public."CAMP_DPMT"
-(
-    "DPMT_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "DPMT_NAME" varchar(50) NOT NULL,
-    "DPMT_HEAD_ID" uuid,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "CAMP_DPMT_PKEY" PRIMARY KEY ("DPMT_ID")
+CREATE TABLE IF NOT EXISTS public.camp_dpmt (
+    dpmt_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    dpmt_name varchar(50) NOT NULL,
+    dpmt_head_id uuid,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT camp_dpmt_pkey PRIMARY KEY (dpmt_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."EMPLOYEE"
-(
-    "EMP_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "EMP_FIRST_NAME" varchar(150) NOT NULL,
-    "EMP_LAST_NAME" varchar(150)	NOT NULL,
-    "EMP_PHONE_NMBR" varchar(20),
-    "DPMT_ID" uuid NOT NULL,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "EMPLOYEE_PKEY" PRIMARY KEY ("EMP_ID")
+CREATE TABLE IF NOT EXISTS public.employee (
+    emp_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    emp_first_name varchar(150) NOT NULL,
+    emp_last_name varchar(150) NOT NULL,
+    emp_phone_nmbr varchar(20),
+    dpmt_id uuid NOT NULL,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT employee_pkey PRIMARY KEY (emp_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."TROOP"
-(
-    "TROOP_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "TROOP_NMBR" integer NOT NULL,
-	"TROOP_PHONE_NMBR" varchar(20),
-	"TROOP_EMAIL" varchar(80) NOT NULL,
-	"TROOP_TYPE" troop_type NOT NULL,
-	"TROOP_CITY" varchar(150) NOT NULL,
-	"TROOP_STATE" char(2) NOT NULL,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "TROOP_PKEY" PRIMARY KEY ("TROOP_ID")--,
-    --CONSTRAINT troop_troop_number_key UNIQUE (troop_number) Troop number may not be unique, further research required
+CREATE TABLE IF NOT EXISTS public.troop (
+    troop_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    troop_nmbr integer NOT NULL,
+    troop_phone_nmbr varchar(20),
+    troop_email varchar(80) NOT NULL,
+    troop_type troop_type NOT NULL,
+    troop_city varchar(150) NOT NULL,
+    troop_state char(2) NOT NULL,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT troop_pkey PRIMARY KEY (troop_id)
+	CONSTRAINT troop_state_key UNIQUE (troop_nmbr, troop_state)
+	--CONSTRAINT troop_troop_number_key UNIQUE (troop_number) Troop number may not be unique, further research required
 );
 
-CREATE TABLE IF NOT EXISTS public."SCOUT_LEADER"
-(
-    "SCOUT_LEADER_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "SCOUT_LEADER_FIRST_NAME" varchar(150) NOT NULL,
-    "SCOUT_LEADER_LAST_NAME" varchar(150) NOT NULL,
-    "TROOP_ID" uuid NOT NULL,
-    "TROOP_LEADER_PHONE_NMBR" varchar(20),
-    "TROOP_LEADER_EMAIL" varchar(80),
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "SCOUT_LEADER_PKEY" PRIMARY KEY ("SCOUT_LEADER_ID")
+CREATE TABLE IF NOT EXISTS public.scout_leader (
+    scout_leader_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    scout_leader_first_name varchar(150) NOT NULL,
+    scout_leader_last_name varchar(150) NOT NULL,
+    troop_id uuid NOT NULL,
+    troop_leader_phone_nmbr varchar(20),
+    troop_leader_email varchar(80),
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT scout_leader_pkey PRIMARY KEY (scout_leader_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."SCOUT"
-(
-    "SCOUT_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "SCOUT_FIRST_NAME" varchar(150) NOT NULL,
-    "SCOUT_LAST_NAME" varchar(150) NOT NULL,
-    "TROOP_ID" uuid NOT NULL,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "SCOUT_PKEY" PRIMARY KEY ("SCOUT_ID")
+CREATE TABLE IF NOT EXISTS public.scout (
+    scout_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    scout_first_name varchar(150) NOT NULL,
+    scout_last_name varchar(150) NOT NULL,
+    troop_id uuid NOT NULL,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT scout_pkey PRIMARY KEY (scout_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."MERIT_BADGE"
-(
-    "BADGE_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "BADGE_NAME" varchar(150) NOT NULL,
-    "BADGE_DESC" text COLLATE pg_catalog."default",
-    "EAGLE_BADGE" boolean NOT NULL DEFAULT false,
-	"DPMT_ID" uuid NOT NULL, 
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "MERIT_BADGE_PKEY" PRIMARY KEY ("BADGE_ID"),
-    CONSTRAINT "MERIT_BADGE_NAME_KEY" UNIQUE ("BADGE_NAME")
+CREATE TABLE IF NOT EXISTS public.merit_badge (
+    badge_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    badge_name varchar(150) NOT NULL,
+    badge_desc text COLLATE pg_catalog.default,
+    eagle_badge boolean NOT NULL DEFAULT false,
+    dpmt_id uuid NOT NULL,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT merit_badge_pkey PRIMARY KEY (badge_id),
+    CONSTRAINT merit_badge_name_key UNIQUE (badge_name)
 );
 
-CREATE TABLE IF NOT EXISTS public."MERIT_BADGE_MAIN_RQMT"
-(
-    "MAIN_RQMT_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "BADGE_ID" uuid NOT NULL,
-    "RQMT_DESC" text COLLATE pg_catalog."default" NOT NULL,
-    "RQMT_NMBR" varchar(10) NOT NULL,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "MERIT_BADGE_MAIN_RQMT_PKEY" PRIMARY KEY ("MAIN_RQMT_ID"),
-    CONSTRAINT "MERIT_BADGE_MAIN_RQMT_BADGE_ID_RQMT_NMBR_KEY" UNIQUE ("BADGE_ID", "RQMT_NMBR")
+CREATE TABLE IF NOT EXISTS public.merit_badge_main_rqmt (
+    main_rqmt_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    badge_id uuid NOT NULL,
+    rqmt_desc text COLLATE pg_catalog.default NOT NULL,
+    rqmt_nmbr varchar(10) NOT NULL,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT merit_badge_main_rqmt_pkey PRIMARY KEY (main_rqmt_id),
+    CONSTRAINT merit_badge_main_rqmt_badge_id_rqmt_nmbr_key UNIQUE (badge_id, rqmt_nmbr)
 );
 
-CREATE TABLE IF NOT EXISTS public."MERIT_BADGE_SUB_RQMT"
-(
-    "SUB_RQMT_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "MAIN_RQMT_ID" uuid NOT NULL,
-    "SUB_RQMT_IDNF" varchar(10) NOT NULL,
-    "SUB_RQMT_DESC" text COLLATE pg_catalog."default" NOT NULL,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "MERIT_BADGE_SUB_RQMT_PKEY" PRIMARY KEY ("SUB_RQMT_ID"),
-    CONSTRAINT "MERIT_BADGE_SUB_RQMT_MAIN_RQMT_ID_SUB_RQMT_IDNF_KEY" UNIQUE ("MAIN_RQMT_ID", "SUB_RQMT_IDNF")
+CREATE TABLE IF NOT EXISTS public.merit_badge_sub_rqmt (
+    sub_rqmt_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    main_rqmt_id uuid NOT NULL,
+    sub_rqmt_idnf varchar(10) NOT NULL,
+    sub_rqmt_desc text COLLATE pg_catalog.default NOT NULL,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT merit_badge_sub_rqmt_pkey PRIMARY KEY (sub_rqmt_id),
+    CONSTRAINT merit_badge_sub_rqmt_main_rqmt_id_sub_rqmt_idnf_key UNIQUE (main_rqmt_id, sub_rqmt_idnf)
 );
 
-CREATE TABLE IF NOT EXISTS public."SCOUT_BADGE"
-(
-    "SCOUT_BADGE_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "SCOUT_ID" uuid NOT NULL,
-    "BADGE_ID" uuid NOT NULL,
-    "COMPLETED" boolean NOT NULL DEFAULT false,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "SCOUT_BADGE_PKEY" PRIMARY KEY ("SCOUT_BADGE_ID"),
-    CONSTRAINT "SCOUT_BADGE_SCOUT_ID_BADGE_ID_KEY" UNIQUE ("SCOUT_ID", "BADGE_ID")
+CREATE TABLE IF NOT EXISTS public.scout_badge (
+    scout_badge_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    scout_id uuid NOT NULL,
+    badge_id uuid NOT NULL,
+    completed boolean NOT NULL DEFAULT false,
+	signed_by_id uuid,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT scout_badge_pkey PRIMARY KEY (scout_badge_id),
+    CONSTRAINT scout_badge_scout_id_badge_id_key UNIQUE (scout_id, badge_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."SCOUT_BADGE_MAIN_RQMT"
-(
-    "SCOUT_BADGE_MAIN_RQMT_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "SCOUT_BADGE_ID" uuid NOT NULL,
-    "MAIN_RQMT_ID" uuid NOT NULL,
-    "COMPLETED" boolean NOT NULL DEFAULT false,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "SCOUT_BADGE_MAIN_RQMT_PKEY" PRIMARY KEY ("SCOUT_BADGE_MAIN_RQMT_ID"),
-    CONSTRAINT "SCOUT_BADGE_MAIN_RQMT_SCOUT_BADGE_ID_MAIN_RQMT_ID_KEY" UNIQUE ("SCOUT_BADGE_ID", "MAIN_RQMT_ID")
+CREATE TABLE IF NOT EXISTS public.scout_badge_main_rqmt (
+    scout_badge_main_rqmt_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    scout_badge_id uuid NOT NULL,
+    main_rqmt_id uuid NOT NULL,
+    completed boolean NOT NULL DEFAULT false,
+	signed_by_id uuid,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT scout_badge_main_rqmt_pkey PRIMARY KEY (scout_badge_main_rqmt_id),
+    CONSTRAINT scout_badge_main_rqmt_scout_badge_id_main_rqmt_id_key UNIQUE (scout_badge_id, main_rqmt_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."SCOUT_BADGE_SUB_RQMT"
-(
-    "SCOUT_BADGE_SUB_RQMT_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "SCOUT_BADGE_MAIN_RQMT_ID" uuid NOT NULL,
-    "SUB_RQMT_ID" uuid NOT NULL,
-    "COMPLETED" boolean NOT NULL DEFAULT false,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "SCOUT_BADGE_SUB_RQMT_PKEY" PRIMARY KEY ("SCOUT_BADGE_SUB_RQMT_ID"),
-    CONSTRAINT "SCOUT_BADGE_SUB_RQMT_MAIN_RQMT_ID_SUB_RQMT_ID_KEY" UNIQUE ("SCOUT_BADGE_MAIN_RQMT_ID", "SUB_RQMT_ID")
+CREATE TABLE IF NOT EXISTS public.scout_badge_sub_rqmt (
+    scout_badge_sub_rqmt_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    scout_badge_main_rqmt_id uuid NOT NULL,
+    sub_rqmt_id uuid NOT NULL,
+    completed boolean NOT NULL DEFAULT false,
+	signed_by_id uuid,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT scout_badge_sub_rqmt_pkey PRIMARY KEY (scout_badge_sub_rqmt_id),
+    CONSTRAINT scout_badge_sub_rqmt_main_rqmt_id_sub_rqmt_id_key UNIQUE (scout_badge_main_rqmt_id, sub_rqmt_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."USERS"
-(
-    "USER_ID" uuid NOT NULL DEFAULT gen_random_uuid(),
-    "USER_EMAIL" varchar(150) NOT NULL,
-    "USER_FIRST_NAME" varchar(150) NOT NULL,
-    "USER_LAST_NAME" varchar(150) NOT NULL,
-    "USER_ROLE" varchar(150) NOT NULL,
-    "EMP_ID" uuid,
-    "SCOUT_LEADER_ID" uuid,
-    "SCOUT_ID" uuid,
-    "CRTN_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    "LAST_UPTD_DATE" timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "USERS_PKEY" PRIMARY KEY ("USER_ID"),
-    CONSTRAINT "USERS_EMAIL_KEY" UNIQUE ("USER_EMAIL")
+CREATE TABLE IF NOT EXISTS public.users (
+    user_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    user_email varchar(150) NOT NULL,
+    user_first_name varchar(150) NOT NULL,
+    user_last_name varchar(150) NOT NULL,
+    user_role user_role NOT NULL,
+    emp_id uuid,
+    scout_leader_id uuid,
+    scout_id uuid,
+    crtn_date timestamp with time zone NOT NULL DEFAULT now(),
+    last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT users_pkey PRIMARY KEY (user_id),
+    CONSTRAINT users_email_key UNIQUE (user_email)
 );
 
 
-ALTER TABLE IF EXISTS public."USERS"
-    ENABLE ROW LEVEL SECURITY;
+-- ============================================
+-- AUTO-UPDATE last_uptd_date FUNCTION
+-- ============================================
 
-ALTER TABLE IF EXISTS public."CAMP_DPMT"
-    ADD CONSTRAINT "FK_DPMT_HEAD" FOREIGN KEY ("DPMT_HEAD_ID")
-    REFERENCES public."EMPLOYEE" ("EMP_ID") MATCH SIMPLE
+CREATE OR REPLACE FUNCTION public.set_last_updated_date()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF ROW(NEW.*) IS DISTINCT FROM ROW(OLD.*) THEN
+        NEW.last_uptd_date = now();
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ============================================
+-- TRIGGERS FOR AUTO-UPDATING last_uptd_date
+-- ============================================
+
+CREATE TRIGGER trg_camp_dpmt_last_updated
+BEFORE UPDATE ON public.camp_dpmt
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_employee_last_updated
+BEFORE UPDATE ON public.employee
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_troop_last_updated
+BEFORE UPDATE ON public.troop
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_scout_leader_last_updated
+BEFORE UPDATE ON public.scout_leader
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_scout_last_updated
+BEFORE UPDATE ON public.scout
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_merit_badge_last_updated
+BEFORE UPDATE ON public.merit_badge
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_merit_badge_main_rqmt_last_updated
+BEFORE UPDATE ON public.merit_badge_main_rqmt
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_merit_badge_sub_rqmt_last_updated
+BEFORE UPDATE ON public.merit_badge_sub_rqmt
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_scout_badge_last_updated
+BEFORE UPDATE ON public.scout_badge
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_scout_badge_main_rqmt_last_updated
+BEFORE UPDATE ON public.scout_badge_main_rqmt
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_scout_badge_sub_rqmt_last_updated
+BEFORE UPDATE ON public.scout_badge_sub_rqmt
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_users_last_updated
+BEFORE UPDATE ON public.users
+FOR EACH ROW
+EXECUTE FUNCTION public.set_last_updated_date();
+
+
+--ALTER TABLE IF EXISTS public."USERS"
+--    ENABLE ROW LEVEL SECURITY;
+
+-- Foreign Keys 
+
+ALTER TABLE IF EXISTS public.camp_dpmt
+    ADD CONSTRAINT fk_dpmt_head
+    FOREIGN KEY (dpmt_head_id)
+    REFERENCES public.employee (emp_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS public.employee
+    ADD CONSTRAINT employee_dpmt_id_fkey
+    FOREIGN KEY (dpmt_id)
+    REFERENCES public.camp_dpmt (dpmt_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+	
+ALTER TABLE public.merit_badge
+	ADD CONSTRAINT merit_badge_dpmt_id_fkey
+	FOREIGN KEY (dpmt_id)
+	REFERENCES public.camp_dpmt(dpmt_id)
+	MATCH SIMPLE
+	ON DELETE RESTRICT;
+
+ALTER TABLE IF EXISTS public.merit_badge_main_rqmt
+    ADD CONSTRAINT merit_badge_main_rqmt_badge_id_fkey
+    FOREIGN KEY (badge_id)
+    REFERENCES public.merit_badge (badge_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS public.merit_badge_sub_rqmt
+    ADD CONSTRAINT merit_badge_sub_rqmt_main_rqmt_id_fkey
+    FOREIGN KEY (main_rqmt_id)
+    REFERENCES public.merit_badge_main_rqmt (main_rqmt_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS public.scout
+    ADD CONSTRAINT scout_troop_id_fkey
+    FOREIGN KEY (troop_id)
+    REFERENCES public.troop (troop_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS public.scout_badge
+    ADD CONSTRAINT scout_badge_badge_id_fkey
+    FOREIGN KEY (badge_id)
+    REFERENCES public.merit_badge (badge_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+
+ALTER TABLE IF EXISTS public.scout_badge
+    ADD CONSTRAINT scout_badge_scout_id_fkey
+    FOREIGN KEY (scout_id)
+    REFERENCES public.scout (scout_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+	
+ALTER TABLE IF EXISTS public.scout_badge
+    ADD CONSTRAINT scout_badge_signed_by_id_fkey
+    FOREIGN KEY (signed_by_id)
+    REFERENCES public.employee (emp_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS public.scout_badge_main_rqmt
+    ADD CONSTRAINT scout_badge_main_rqmt_main_rqmt_id_fkey
+    FOREIGN KEY (main_rqmt_id)
+    REFERENCES public.merit_badge_main_rqmt (main_rqmt_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+
+ALTER TABLE IF EXISTS public.scout_badge_main_rqmt
+    ADD CONSTRAINT scout_badge_main_rqmt_scout_badge_id_fkey
+    FOREIGN KEY (scout_badge_id)
+    REFERENCES public.scout_badge (scout_badge_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+	
+ALTER TABLE IF EXISTS public.scout_badge_main_rqmt
+    ADD CONSTRAINT scout_badge_main_rqmt_signed_by_id_fkey
+    FOREIGN KEY (signed_by_id)
+    REFERENCES public.employee (emp_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS public.scout_badge_sub_rqmt
+    ADD CONSTRAINT scout_badge_sub_rqmt_main_rqmt_id_fkey
+    FOREIGN KEY (scout_badge_main_rqmt_id)
+    REFERENCES public.scout_badge_main_rqmt (scout_badge_main_rqmt_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS public.scout_badge_sub_rqmt
+    ADD CONSTRAINT scout_badge_sub_rqmt_sub_rqmt_id_fkey
+    FOREIGN KEY (sub_rqmt_id)
+    REFERENCES public.merit_badge_sub_rqmt (sub_rqmt_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+	
+ALTER TABLE IF EXISTS public.scout_badge_sub_rqmt
+    ADD CONSTRAINT scout_badge_sub_rqmt_signed_by_id_fkey
+    FOREIGN KEY (signed_by_id)
+    REFERENCES public.employee (emp_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS public.scout_leader
+    ADD CONSTRAINT scout_leader_troop_id_fkey
+    FOREIGN KEY (troop_id)
+    REFERENCES public.troop (troop_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS public.users
+    ADD CONSTRAINT users_employee_id_fkey
+    FOREIGN KEY (emp_id)
+    REFERENCES public.employee (emp_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS public.users
+    ADD CONSTRAINT users_scout_id_fkey
+    FOREIGN KEY (scout_id)
+    REFERENCES public.scout (scout_id)
+    MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS public.users
+    ADD CONSTRAINT users_scout_leader_id_fkey
+    FOREIGN KEY (scout_leader_id)
+    REFERENCES public.scout_leader (scout_leader_id)
+    MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE SET NULL;
 
 
-ALTER TABLE IF EXISTS public."EMPLOYEE"
-    ADD CONSTRAINT "EMPLOYEE_DPMT_ID_FKEY" FOREIGN KEY ("DPMT_ID")
-    REFERENCES public."CAMP_DPMT" ("DPMT_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE RESTRICT;
+-- ============================================
+-- INDEXES FOR FOREIGN KEYS
+-- ============================================
 
+-- camp_dpmt
+CREATE INDEX idx_camp_dpmt_head_id
+    ON public.camp_dpmt(dpmt_head_id);
 
-ALTER TABLE IF EXISTS public."MERIT_BADGE_MAIN_RQMT"
-    ADD CONSTRAINT "MERIT_BADGE_MAIN_RQMT_BADGE_ID_FKEY" FOREIGN KEY ("BADGE_ID")
-    REFERENCES public."MERIT_BADGE" ("BADGE_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE;
+-- employee
+CREATE INDEX idx_employee_dpmt_id
+    ON public.employee(dpmt_id);
 
+-- scout
+CREATE INDEX idx_scout_troop_id
+    ON public.scout(troop_id);
 
-ALTER TABLE IF EXISTS public."MERIT_BADGE_SUB_RQMT"
-    ADD CONSTRAINT "MERIT_BADGE_SUB_RQMT_MAIN_RQMT_ID_FKEY" FOREIGN KEY ("MAIN_RQMT_ID")
-    REFERENCES public."MERIT_BADGE_MAIN_RQMT" ("MAIN_RQMT_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE;
+-- scout_leader
+CREATE INDEX idx_scout_leader_troop_id
+    ON public.scout_leader(troop_id);
 
+-- merit_badge
+CREATE INDEX idx_merit_badge_dpmt_id
+    ON public.merit_badge(dpmt_id);
 
-ALTER TABLE IF EXISTS public."SCOUT"
-    ADD CONSTRAINT "SCOUT_TROOP_ID_FKEY" FOREIGN KEY ("TROOP_ID")
-    REFERENCES public."TROOP" ("TROOP_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE;
+-- merit_badge_main_rqmt
+CREATE INDEX idx_main_rqmt_badge_id
+    ON public.merit_badge_main_rqmt(badge_id);
 
+-- merit_badge_sub_rqmt
+CREATE INDEX idx_sub_rqmt_main_rqmt_id
+    ON public.merit_badge_sub_rqmt(main_rqmt_id);
 
-ALTER TABLE IF EXISTS public."SCOUT_BADGE"
-    ADD CONSTRAINT "SCOUT_BADGE_BADGE_ID_FKEY" FOREIGN KEY ("BADGE_ID")
-    REFERENCES public."MERIT_BADGE" ("BADGE_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE RESTRICT;
+-- scout_badge
+CREATE INDEX idx_scout_badge_scout_id
+    ON public.scout_badge(scout_id);
 
+CREATE INDEX idx_scout_badge_badge_id
+    ON public.scout_badge(badge_id);
 
-ALTER TABLE IF EXISTS public."SCOUT_BADGE"
-    ADD CONSTRAINT "SCOUT_BADGE_SCOUT_ID_FKEY" FOREIGN KEY ("SCOUT_ID")
-    REFERENCES public."SCOUT" ("SCOUT_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE;
+CREATE INDEX idx_scout_badge_signed_by_id
+    ON public.scout_badge(signed_by_id);
 
+-- scout_badge_main_rqmt
+CREATE INDEX idx_sb_main_scout_badge_id
+    ON public.scout_badge_main_rqmt(scout_badge_id);
 
-ALTER TABLE IF EXISTS public."SCOUT_BADGE_MAIN_RQMT"
-    ADD CONSTRAINT "SCOUT_BADGE_MAIN_RQMT_MAIN_RQMT_ID_FKEY" FOREIGN KEY ("MAIN_RQMT_ID")
-    REFERENCES public."MERIT_BADGE_MAIN_RQMT" ("MAIN_RQMT_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE RESTRICT;
+CREATE INDEX idx_sb_main_main_rqmt_id
+    ON public.scout_badge_main_rqmt(main_rqmt_id);
 
+CREATE INDEX idx_sb_main_signed_by_id
+    ON public.scout_badge_main_rqmt(signed_by_id);
 
-ALTER TABLE IF EXISTS public."SCOUT_BADGE_MAIN_RQMT"
-    ADD CONSTRAINT "SCOUT_BADGE_MAIN_RQMT_SCOUT_BADGE_ID_FKEY" FOREIGN KEY ("SCOUT_BADGE_ID")
-    REFERENCES public."SCOUT_BADGE" ("SCOUT_BADGE_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE;
+-- scout_badge_sub_rqmt
+CREATE INDEX idx_sb_sub_main_id
+    ON public.scout_badge_sub_rqmt(scout_badge_main_rqmt_id);
 
+CREATE INDEX idx_sb_sub_sub_rqmt_id
+    ON public.scout_badge_sub_rqmt(sub_rqmt_id);
 
-ALTER TABLE IF EXISTS public."SCOUT_BADGE_SUB_RQMT"
-    ADD CONSTRAINT "SCOUT_BADGE_SUB_RQMT_MAIN_RQMT_ID_FKEY" FOREIGN KEY ("MAIN_RQMT_ID")
-    REFERENCES public."SCOUT_BADGE_MAIN_RQMT" ("SCOUT_BADGE_MAIN_RQMT_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE;
+CREATE INDEX idx_sb_sub_signed_by_id
+    ON public.scout_badge_sub_rqmt(signed_by_id);
 
+-- users
+CREATE INDEX idx_users_emp_id
+    ON public.users(emp_id);
 
-ALTER TABLE IF EXISTS public."SCOUT_BADGE_SUB_RQMT"
-    ADD CONSTRAINT "SCOUT_BADGE_SUB_RQMT_SUB_RQMT_ID_FKEY" FOREIGN KEY ("SUB_RQMT_ID")
-    REFERENCES public."MERIT_BADGE_SUB_RQMT" ("SUB_RQMT_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE RESTRICT;
+CREATE INDEX idx_users_scout_id
+    ON public.users(scout_id);
 
-
-ALTER TABLE IF EXISTS public."SCOUT_LEADER"
-    ADD CONSTRAINT "SCOUT_LEADER_TROOP_ID_FKEY" FOREIGN KEY ("TROOP_ID")
-    REFERENCES public."TROOP" ("TROOP_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE;
-
-
---ALTER TABLE IF EXISTS public.troop
---    ADD CONSTRAINT fk_troop_current_leader FOREIGN KEY (leader_id)
---    REFERENCES public.scout_leader (id) MATCH SIMPLE
---    ON UPDATE NO ACTION
---    ON DELETE SET NULL;
-
-
-ALTER TABLE IF EXISTS public."USERS"
-    ADD CONSTRAINT "USERS_EMPLOYEE_ID_FKEY" FOREIGN KEY ("EMP_ID")
-    REFERENCES public."EMPLOYEE" ("EMP_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE SET NULL;
-
-
-ALTER TABLE IF EXISTS public."USERS"
-    ADD CONSTRAINT "USERS_SCOUT_ID_FKEY" FOREIGN KEY ("SCOUT_ID")
-    REFERENCES public."SCOUT" ("SCOUT_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE SET NULL;
-
-
-ALTER TABLE IF EXISTS public."USERS"
-    ADD CONSTRAINT "USERS_SCOUT_LEADER_ID_FKEY" FOREIGN KEY ("SCOUT_LEADER_ID")
-    REFERENCES public."SCOUT_LEADER" ("SCOUT_LEADER_ID") MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE SET NULL;
+CREATE INDEX idx_users_scout_leader_id
+    ON public.users(scout_leader_id);
