@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { MOCK_BADGES } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 
@@ -32,7 +33,7 @@ export const BadgesScreen = () => {
   const { width } = useWindowDimensions();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
-  const badgeCount = 0;
+  const badgeCount = MOCK_BADGES.length;
 
   const handleAddBadge = () => {};
 
@@ -100,8 +101,18 @@ export const BadgesScreen = () => {
                 </Text>
               </View>
             ) : (
-              <View style={styles.placeholderList}>
-                <Text style={styles.placeholderListText}>Badge list will load here</Text>
+              <View style={styles.badgeList}>
+                {MOCK_BADGES.map((badge) => (
+                  <View key={badge.id} style={styles.badgeRow}>
+                    <View style={[styles.badgeIconWrap, { backgroundColor: BADGE_ACCENT_COLOR + '20' }]}>
+                      <Ionicons name="ribbon" size={20} color={BADGE_ACCENT_COLOR} />
+                    </View>
+                    <View style={styles.badgeRowText}>
+                      <Text style={styles.badgeRowName}>{badge.name}</Text>
+                      <Text style={styles.badgeRowMeta}>{badge.category} · {badge.requirementsCount} requirements</Text>
+                    </View>
+                  </View>
+                ))}
               </View>
             )}
           </View>
@@ -256,12 +267,23 @@ const styles = StyleSheet.create({
     marginTop: 6,
     textAlign: 'center',
   },
-  placeholderList: {
+  badgeList: {},
+  badgeRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
   },
-  placeholderListText: {
-    fontSize: 14,
-    color: '#9ca3af',
+  badgeIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
   },
+  badgeRowText: { flex: 1, minWidth: 0 },
+  badgeRowName: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  badgeRowMeta: { fontSize: 12, color: '#6b7280', marginTop: 2 },
 });

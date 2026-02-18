@@ -20,6 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { UserRole } from '../../types';
 import { useAuth } from '../../context/AuthContext';
+import { MOCK_USERS_BY_ROLE } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 
@@ -63,11 +64,12 @@ const ROLE_SECTIONS: RoleSectionConfig[] = [
 type RoleSectionProps = {
   config: RoleSectionConfig;
   count: number;
+  users: { id: string; name: string; email: string; role: UserRole }[];
   isDesktop: boolean;
   onAddUser?: (role: UserRole) => void;
 };
 
-const RoleSection = ({ config, count, isDesktop, onAddUser }: RoleSectionProps) => {
+const RoleSection = ({ config, count, users, isDesktop, onAddUser }: RoleSectionProps) => {
   const { label, description, icon, color, role } = config;
   return (
     <View style={[styles.sectionCard, isDesktop && styles.sectionCardDesktop]}>
@@ -108,8 +110,18 @@ const RoleSection = ({ config, count, isDesktop, onAddUser }: RoleSectionProps) 
             </Text>
           </View>
         ) : (
-          <View style={styles.placeholderList}>
-            <Text style={styles.placeholderListText}>User list will load here</Text>
+          <View style={styles.userList}>
+            {users.map((u) => (
+              <View key={u.id} style={styles.userRow}>
+                <View style={[styles.userIconWrap, { backgroundColor: color + '20' }]}>
+                  <Ionicons name="person" size={20} color={color} />
+                </View>
+                <View style={styles.userRowText}>
+                  <Text style={styles.userRowName}>{u.name}</Text>
+                  <Text style={styles.userRowEmail}>{u.email}</Text>
+                </View>
+              </View>
+            ))}
           </View>
         )}
       </View>
@@ -137,9 +149,9 @@ export const UsersScreen = () => {
   }, [userRole]);
 
   const countsByRole: Record<UserRole, number> = {
-    admin: 0,
-    counselor: 0,
-    area_director: 0,
+    admin: MOCK_USERS_BY_ROLE.admin.length,
+    counselor: MOCK_USERS_BY_ROLE.counselor.length,
+    area_director: MOCK_USERS_BY_ROLE.area_director.length,
   };
 
   const handleAddUser = (role: UserRole) => {
@@ -170,6 +182,7 @@ export const UsersScreen = () => {
             key={config.role}
             config={config}
             count={countsByRole[config.role]}
+            users={MOCK_USERS_BY_ROLE[config.role]}
             isDesktop={isDesktop}
             onAddUser={userRole === 'admin' ? handleAddUser : undefined}
           />
@@ -324,12 +337,23 @@ const styles = StyleSheet.create({
     color: '#9ca3af',
     marginTop: 4,
   },
-  placeholderList: {
+  userList: {},
+  userRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
   },
-  placeholderListText: {
-    fontSize: 14,
-    color: '#9ca3af',
+  userIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
   },
+  userRowText: { flex: 1, minWidth: 0 },
+  userRowName: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  userRowEmail: { fontSize: 12, color: '#6b7280', marginTop: 2 },
 });

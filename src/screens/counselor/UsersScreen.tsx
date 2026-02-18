@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { MOCK_COUNSELOR_PARTICIPANTS } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 const ACCENT_COLOR = '#2563eb';
@@ -59,12 +60,18 @@ export const CounselorUsersScreen = () => {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <View style={styles.emptyState}>
-              <Ionicons name="people-outline" size={48} color="#d1d5db" />
-              <Text style={styles.emptyStateText}>Users section coming soon</Text>
-              <Text style={styles.emptyStateSubtext}>
-                Relevant users or contacts will appear here
-              </Text>
+            <View style={styles.participantList}>
+              {MOCK_COUNSELOR_PARTICIPANTS.map((p) => (
+                <View key={p.id} style={styles.participantRow}>
+                  <View style={[styles.participantIconWrap, { backgroundColor: ACCENT_COLOR + '20' }]}>
+                    <Ionicons name="person" size={20} color={ACCENT_COLOR} />
+                  </View>
+                  <View style={styles.participantRowText}>
+                    <Text style={styles.participantRowName}>{p.name}</Text>
+                    <Text style={styles.participantRowMeta}>{p.troop} · {p.roleLabel}</Text>
+                  </View>
+                </View>
+              ))}
             </View>
           </View>
         </View>
@@ -140,4 +147,23 @@ const styles = StyleSheet.create({
     marginTop: 6,
     textAlign: 'center',
   },
+  participantList: {},
+  participantRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  participantIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  participantRowText: { flex: 1, minWidth: 0 },
+  participantRowName: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  participantRowMeta: { fontSize: 12, color: '#6b7280', marginTop: 2 },
 });

@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { MOCK_REPORTS } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 const ACCENT_COLOR = '#7c3aed';
@@ -77,12 +78,19 @@ export const ReportsScreen = () => {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <View style={styles.emptyState}>
-              <Ionicons name="bar-chart-outline" size={48} color="#d1d5db" />
-              <Text style={styles.emptyStateText}>No reports yet</Text>
-              <Text style={styles.emptyStateSubtext}>
-                Generate reports for attendance, progress, or session summaries
-              </Text>
+            <View style={styles.reportList}>
+              {MOCK_REPORTS.map((report) => (
+                <View key={report.id} style={styles.reportRow}>
+                  <View style={[styles.reportIconWrap, { backgroundColor: ACCENT_COLOR + '20' }]}>
+                    <Ionicons name="document-text" size={20} color={ACCENT_COLOR} />
+                  </View>
+                  <View style={styles.reportRowText}>
+                    <Text style={styles.reportRowTitle}>{report.title}</Text>
+                    <Text style={styles.reportRowSubtitle}>{report.subtitle}</Text>
+                    <Text style={styles.reportRowTime}>{report.generatedAt}</Text>
+                  </View>
+                </View>
+              ))}
             </View>
           </View>
         </View>
@@ -169,4 +177,24 @@ const styles = StyleSheet.create({
     marginTop: 6,
     textAlign: 'center',
   },
+  reportList: {},
+  reportRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  reportIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  reportRowText: { flex: 1, minWidth: 0 },
+  reportRowTitle: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  reportRowSubtitle: { fontSize: 12, color: '#6b7280', marginTop: 2 },
+  reportRowTime: { fontSize: 11, color: '#9ca3af', marginTop: 2 },
 });

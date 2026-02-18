@@ -18,6 +18,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
+import { MOCK_COUNSELOR_STATS, MOCK_COUNSELOR_ACTIVITY } from '../../data/mockDashboardData';
 
 const DESKTOP_BREAKPOINT = 768;
 
@@ -117,9 +118,9 @@ export const CounselorDashboardScreen = () => {
         <View style={[styles.contentInner, { paddingHorizontal: contentPadding }, isDesktop && styles.contentInnerDesktop]}>
           <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>Overview</Text>
           <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
-            <StatCard title="My Activities" value="--" icon="calendar" color="#2563eb" cardStyle={statCardStyle} />
-            <StatCard title="Today's Attendance" value="--" icon="people" color="#059669" cardStyle={statCardStyle} />
-            <StatCard title="Progress to Review" value="--" icon="checkmark-done" color="#d97706" cardStyle={statCardStyleThird} />
+            <StatCard title="My Activities" value={MOCK_COUNSELOR_STATS.myActivities} icon="calendar" color="#2563eb" cardStyle={statCardStyle} />
+            <StatCard title="Today's Attendance" value={MOCK_COUNSELOR_STATS.todaysAttendance} icon="people" color="#059669" cardStyle={statCardStyle} />
+            <StatCard title="Progress to Review" value={MOCK_COUNSELOR_STATS.progressToReview} icon="checkmark-done" color="#d97706" cardStyle={statCardStyleThird} />
           </View>
 
           <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>Quick Actions</Text>
@@ -132,11 +133,21 @@ export const CounselorDashboardScreen = () => {
 
           <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>Recent Activity</Text>
           <View style={[styles.activityCard, isDesktop && styles.activityCardDesktop]}>
-            <View style={styles.emptyState}>
-              <Ionicons name="time-outline" size={48} color="#9ca3af" />
-              <Text style={styles.emptyStateText}>No recent activity</Text>
-              <Text style={styles.emptyStateSubtext}>Activity will appear here</Text>
-            </View>
+            {MOCK_COUNSELOR_ACTIVITY.map((item, index) => (
+              <View
+                key={item.id}
+                style={[styles.activityRow, index === MOCK_COUNSELOR_ACTIVITY.length - 1 && styles.activityRowLast]}
+              >
+                <View style={[styles.activityIconWrap, { backgroundColor: item.color + '20' }]}>
+                  <Ionicons name={item.icon as keyof typeof Ionicons.glyphMap} size={20} color={item.color} />
+                </View>
+                <View style={styles.activityTextWrap}>
+                  <Text style={styles.activityTitle}>{item.title}</Text>
+                  <Text style={styles.activitySubtitle}>{item.subtitle}</Text>
+                </View>
+                <Text style={styles.activityTime}>{item.time}</Text>
+              </View>
+            ))}
           </View>
           <View style={{ height: 24 }} />
         </View>
@@ -193,6 +204,26 @@ const styles = StyleSheet.create({
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 2, elevation: 2,
   },
   activityCardDesktop: { maxWidth: 1200, width: '100%' },
+  activityRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  activityIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  activityTextWrap: { flex: 1, minWidth: 0 },
+  activityTitle: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  activitySubtitle: { fontSize: 12, color: '#6b7280', marginTop: 2 },
+  activityTime: { fontSize: 12, color: '#9ca3af', marginLeft: 8 },
+  activityRowLast: { borderBottomWidth: 0 },
   emptyState: { alignItems: 'center', paddingVertical: 16 },
   emptyStateText: { fontSize: 16, fontWeight: '500', color: '#6b7280', marginTop: 12 },
   emptyStateSubtext: { fontSize: 13, color: '#9ca3af', marginTop: 4, textAlign: 'center' },

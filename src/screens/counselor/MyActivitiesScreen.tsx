@@ -6,6 +6,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { MOCK_COUNSELOR_ACTIVITIES } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 const ACCENT_COLOR = '#2563eb';
@@ -41,10 +42,19 @@ export const MyActivitiesScreen = () => {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <View style={styles.emptyState}>
-              <Ionicons name="calendar-outline" size={48} color="#d1d5db" />
-              <Text style={styles.emptyStateText}>No activities assigned</Text>
-              <Text style={styles.emptyStateSubtext}>Your scheduled activities will appear here</Text>
+            <View style={styles.activityList}>
+              {MOCK_COUNSELOR_ACTIVITIES.map((act) => (
+                <View key={act.id} style={styles.activityRow}>
+                  <View style={[styles.activityIconWrap, { backgroundColor: ACCENT_COLOR + '20' }]}>
+                    <Ionicons name="calendar" size={20} color={ACCENT_COLOR} />
+                  </View>
+                  <View style={styles.activityRowText}>
+                    <Text style={styles.activityRowName}>{act.name}</Text>
+                    <Text style={styles.activityRowMeta}>{act.schedule} · {act.location}</Text>
+                    <Text style={styles.activityRowCapacity}>{act.enrolled}/{act.maxCapacity} enrolled</Text>
+                  </View>
+                </View>
+              ))}
             </View>
           </View>
         </View>
@@ -79,4 +89,24 @@ const styles = StyleSheet.create({
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 32 },
   emptyStateText: { fontSize: 16, fontWeight: '500', color: '#6b7280', marginTop: 16 },
   emptyStateSubtext: { fontSize: 13, color: '#9ca3af', marginTop: 6, textAlign: 'center' },
+  activityList: {},
+  activityRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  activityIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  activityRowText: { flex: 1, minWidth: 0 },
+  activityRowName: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  activityRowMeta: { fontSize: 12, color: '#6b7280', marginTop: 2 },
+  activityRowCapacity: { fontSize: 11, color: '#9ca3af', marginTop: 2 },
 });

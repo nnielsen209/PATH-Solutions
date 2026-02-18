@@ -18,6 +18,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthContext';
+import { MOCK_SETTINGS } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 const ACCENT_COLOR = '#6b7280';
@@ -65,12 +66,13 @@ export const SettingsScreen = () => {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <View style={styles.emptyState}>
-              <Ionicons name="settings-outline" size={48} color="#d1d5db" />
-              <Text style={styles.emptyStateText}>Settings coming soon</Text>
-              <Text style={styles.emptyStateSubtext}>
-                Camp name, contact info, notifications, and other options will appear here
-              </Text>
+            <View style={styles.settingsList}>
+              {MOCK_SETTINGS.map((setting) => (
+                <View key={setting.id} style={styles.settingRow}>
+                  <Text style={styles.settingLabel}>{setting.label}</Text>
+                  <Text style={styles.settingValue}>{setting.value}</Text>
+                </View>
+              ))}
             </View>
           </View>
         </View>
@@ -155,6 +157,17 @@ const styles = StyleSheet.create({
     marginTop: 6,
     textAlign: 'center',
   },
+  settingsList: {},
+  settingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  settingLabel: { fontSize: 14, color: '#6b7280' },
+  settingValue: { fontSize: 14, fontWeight: '500', color: '#1f2937' },
   signOutCard: {
     backgroundColor: '#fff',
     borderRadius: 12,

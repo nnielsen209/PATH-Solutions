@@ -6,6 +6,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { MOCK_ATTENDANCE_LIST } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 const ACCENT_COLOR = '#059669';
@@ -41,10 +42,18 @@ export const AttendanceScreen = () => {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <View style={styles.emptyState}>
-              <Ionicons name="people-outline" size={48} color="#d1d5db" />
-              <Text style={styles.emptyStateText}>No attendance to record</Text>
-              <Text style={styles.emptyStateSubtext}>Select an activity to mark attendance</Text>
+            <View style={styles.attendanceList}>
+              {MOCK_ATTENDANCE_LIST.map((item) => (
+                <View key={item.id} style={styles.attendanceRow}>
+                  <View style={[styles.attendanceIconWrap, { backgroundColor: ACCENT_COLOR + '20' }]}>
+                    <Ionicons name="people" size={20} color={ACCENT_COLOR} />
+                  </View>
+                  <View style={styles.attendanceRowText}>
+                    <Text style={styles.attendanceRowName}>{item.activityName}</Text>
+                    <Text style={styles.attendanceRowMeta}>{item.date} · {item.present} present, {item.absent} absent</Text>
+                  </View>
+                </View>
+              ))}
             </View>
           </View>
         </View>
@@ -79,4 +88,23 @@ const styles = StyleSheet.create({
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 32 },
   emptyStateText: { fontSize: 16, fontWeight: '500', color: '#6b7280', marginTop: 16 },
   emptyStateSubtext: { fontSize: 13, color: '#9ca3af', marginTop: 6, textAlign: 'center' },
+  attendanceList: {},
+  attendanceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  attendanceIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  attendanceRowText: { flex: 1, minWidth: 0 },
+  attendanceRowName: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  attendanceRowMeta: { fontSize: 12, color: '#6b7280', marginTop: 2 },
 });

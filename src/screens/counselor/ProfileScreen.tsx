@@ -7,6 +7,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensio
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthContext';
+import { MOCK_PROFILE_PREFERENCES } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 const ACCENT_COLOR = '#6b7280';
@@ -43,10 +44,13 @@ export const ProfileScreen = () => {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <View style={styles.emptyState}>
-              <Ionicons name="person-outline" size={48} color="#d1d5db" />
-              <Text style={styles.emptyStateText}>Profile settings coming soon</Text>
-              <Text style={styles.emptyStateSubtext}>Update your name, email, and preferences here</Text>
+            <View style={styles.preferenceList}>
+              {MOCK_PROFILE_PREFERENCES.map((pref) => (
+                <View key={pref.id} style={styles.preferenceRow}>
+                  <Text style={styles.preferenceLabel}>{pref.label}</Text>
+                  <Text style={styles.preferenceValue}>{pref.value}</Text>
+                </View>
+              ))}
             </View>
           </View>
         </View>
@@ -90,6 +94,17 @@ const styles = StyleSheet.create({
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 32 },
   emptyStateText: { fontSize: 16, fontWeight: '500', color: '#6b7280', marginTop: 16 },
   emptyStateSubtext: { fontSize: 13, color: '#9ca3af', marginTop: 6, textAlign: 'center' },
+  preferenceList: {},
+  preferenceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  preferenceLabel: { fontSize: 14, color: '#6b7280' },
+  preferenceValue: { fontSize: 14, fontWeight: '500', color: '#1f2937' },
   signOutCard: {
     backgroundColor: '#fff',
     borderRadius: 12,

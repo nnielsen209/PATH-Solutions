@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { MOCK_SESSIONS } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 const ACCENT_COLOR = '#d97706';
@@ -26,7 +27,7 @@ export const ScheduleScreen = () => {
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
 
-  const sessionCount = 0;
+  const sessionCount = MOCK_SESSIONS.length;
 
   const handleNewSession = () => {
     // TODO: Navigate to new-session flow or open modal
@@ -85,13 +86,29 @@ export const ScheduleScreen = () => {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <View style={styles.emptyState}>
-              <Ionicons name="calendar-outline" size={48} color="#d1d5db" />
-              <Text style={styles.emptyStateText}>No sessions yet</Text>
-              <Text style={styles.emptyStateSubtext}>
-                Create a camp session to add activities and let counselors and participants view the schedule
-              </Text>
-            </View>
+            {sessionCount === 0 ? (
+              <View style={styles.emptyState}>
+                <Ionicons name="calendar-outline" size={48} color="#d1d5db" />
+                <Text style={styles.emptyStateText}>No sessions yet</Text>
+                <Text style={styles.emptyStateSubtext}>
+                  Create a camp session to add activities and let counselors and participants view the schedule
+                </Text>
+              </View>
+            ) : (
+              <View style={styles.sessionList}>
+                {MOCK_SESSIONS.map((session) => (
+                  <View key={session.id} style={styles.sessionRow}>
+                    <View style={[styles.sessionIconWrap, { backgroundColor: ACCENT_COLOR + '20' }]}>
+                      <Ionicons name="calendar" size={20} color={ACCENT_COLOR} />
+                    </View>
+                    <View style={styles.sessionRowText}>
+                      <Text style={styles.sessionRowName}>{session.name}</Text>
+                      <Text style={styles.sessionRowMeta}>{session.dateRange} · {session.year} · {session.activityCount} activities</Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
         </View>
         <View style={{ height: 24 }} />
@@ -186,4 +203,23 @@ const styles = StyleSheet.create({
     marginTop: 6,
     textAlign: 'center',
   },
+  sessionList: {},
+  sessionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  sessionIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  sessionRowText: { flex: 1, minWidth: 0 },
+  sessionRowName: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  sessionRowMeta: { fontSize: 12, color: '#6b7280', marginTop: 2 },
 });

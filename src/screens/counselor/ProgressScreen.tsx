@@ -6,6 +6,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { MOCK_PROGRESS_ITEMS } from '../../data/mockScreensData';
 
 const DESKTOP_BREAKPOINT = 768;
 const ACCENT_COLOR = '#d97706';
@@ -41,10 +42,19 @@ export const ProgressScreen = () => {
             </View>
           </View>
           <View style={styles.cardContent}>
-            <View style={styles.emptyState}>
-              <Ionicons name="ribbon-outline" size={48} color="#d1d5db" />
-              <Text style={styles.emptyStateText}>No progress to review</Text>
-              <Text style={styles.emptyStateSubtext}>Progress submissions will appear here</Text>
+            <View style={styles.progressList}>
+              {MOCK_PROGRESS_ITEMS.map((item) => (
+                <View key={item.id} style={styles.progressRow}>
+                  <View style={[styles.progressIconWrap, { backgroundColor: ACCENT_COLOR + '20' }]}>
+                    <Ionicons name="ribbon" size={20} color={ACCENT_COLOR} />
+                  </View>
+                  <View style={styles.progressRowText}>
+                    <Text style={styles.progressRowName}>{item.scoutName} · {item.badgeName}</Text>
+                    <Text style={styles.progressRowReq}>{item.requirement}</Text>
+                    <Text style={styles.progressRowTime}>{item.submittedAt}</Text>
+                  </View>
+                </View>
+              ))}
             </View>
           </View>
         </View>
@@ -79,4 +89,24 @@ const styles = StyleSheet.create({
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 32 },
   emptyStateText: { fontSize: 16, fontWeight: '500', color: '#6b7280', marginTop: 16 },
   emptyStateSubtext: { fontSize: 13, color: '#9ca3af', marginTop: 6, textAlign: 'center' },
+  progressList: {},
+  progressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  progressIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  progressRowText: { flex: 1, minWidth: 0 },
+  progressRowName: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  progressRowReq: { fontSize: 12, color: '#6b7280', marginTop: 2 },
+  progressRowTime: { fontSize: 11, color: '#9ca3af', marginTop: 2 },
 });
