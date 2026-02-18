@@ -21,14 +21,12 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../../types';
+import { AuthStackParamList, UserRole } from '../../types';
 import { supabase } from '../../services/supabase';
 
 type RegisterScreenProps = {
   navigation: NativeStackNavigationProp<AuthStackParamList, 'Register'>;
 };
-
-type UserRole = 'admin' | 'counselor' | 'area_director';
 
 interface RoleOption {
   value: UserRole;

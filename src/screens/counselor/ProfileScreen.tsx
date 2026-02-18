@@ -7,8 +7,9 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensio
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthContext';
+import { TABLET_BREAKPOINT } from '../../types';
 
-const DESKTOP_BREAKPOINT = 768;
+const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 const ACCENT_COLOR = '#6b7280';
 
 export const ProfileScreen = () => {

@@ -15,8 +15,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { TABLET_BREAKPOINT } from '../../types';
 
-const DESKTOP_BREAKPOINT = 768;
+const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 const ACCENT_COLOR = '#2563eb';
 
 export const CounselorUsersScreen = () => {

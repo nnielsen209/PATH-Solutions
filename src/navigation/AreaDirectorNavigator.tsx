@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { AreaDirectorTabParamList } from '../types';
+import { AreaDirectorTabParamList, TABLET_BREAKPOINT } from '../types';
 import { AreaDirectorSidebar } from '../components';
 import { AreaDirectorDashboardScreen } from '../screens/areaDirector';
 import {
@@ -21,7 +21,6 @@ import {
   SettingsScreen,
 } from '../screens/admin';
 
-const TABLET_BREAKPOINT = 768;
 const Tab = createBottomTabNavigator<AreaDirectorTabParamList>();
 
 /**
@@ -84,8 +83,13 @@ const MobileAreaDirectorNavigator = () => {
   );
 };
 
+/** Props that desktop screens can receive for navigation. */
+type ScreenProps = {
+  onNavigate?: (routeName: string) => void;
+};
+
 /** Map of tab names to screen components for the desktop sidebar layout. */
-const screens: Record<keyof AreaDirectorTabParamList, React.ComponentType> = {
+const screens: Record<keyof AreaDirectorTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: AreaDirectorDashboardScreen,
   Users: UsersScreen,
   Badges: BadgesScreen,
@@ -110,7 +114,9 @@ const DesktopAreaDirectorNavigator = () => {
         onNavigate={(routeName) => setCurrentRoute(routeName as keyof AreaDirectorTabParamList)}
       />
       <View style={styles.content}>
-        <CurrentScreen />
+        <CurrentScreen
+          onNavigate={(routeName) => setCurrentRoute(routeName as keyof AreaDirectorTabParamList)}
+        />
       </View>
     </View>
   );

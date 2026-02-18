@@ -18,10 +18,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { UserRole } from '../../types';
+import { UserRole, TABLET_BREAKPOINT } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 
-const DESKTOP_BREAKPOINT = 768;
+const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
 /** Config for each role section: label, description, icon, and accent color. */
 type RoleSectionConfig = {
@@ -137,6 +137,7 @@ export const UsersScreen = () => {
   }, [userRole]);
 
   const countsByRole: Record<UserRole, number> = {
+    dev: 0,
     admin: 0,
     counselor: 0,
     area_director: 0,

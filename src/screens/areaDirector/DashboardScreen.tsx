@@ -17,8 +17,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
+import { TABLET_BREAKPOINT } from '../../types';
 
-const DESKTOP_BREAKPOINT = 768;
+const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
 type StatCardProps = {
   title: string;

@@ -1,20 +1,19 @@
 /**
- * AdminNavigator.tsx - Responsive Admin Navigation
+ * DevNavigator.tsx - Responsive Developer Navigation
  *
- * Handles navigation for admin users. On small screens we show bottom tabs;
- * on wider screens (768px and up) we show a left sidebar instead. The same
- * six screens (Dashboard, Users, Badges, Schedule, Reports, Settings) are
- * available in both layouts.
+ * Handles navigation for developers. Has all admin screens with purple
+ * accent color to distinguish from admin. Bottom tabs on mobile, sidebar
+ * on tablet/desktop.
  */
 
 import React, { useState } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { AdminTabParamList, TABLET_BREAKPOINT } from '../types';
-import { AdminSidebar } from '../components';
+import { DevTabParamList, TABLET_BREAKPOINT } from '../types';
+import { DevSidebar } from '../components';
+import { DevDashboardScreen } from '../screens/dev';
 import {
-  DashboardScreen,
   UsersScreen,
   BadgesScreen,
   ScheduleScreen,
@@ -22,15 +21,15 @@ import {
   SettingsScreen,
 } from '../screens/admin';
 
-const Tab = createBottomTabNavigator<AdminTabParamList>();
+const Tab = createBottomTabNavigator<DevTabParamList>();
 
 /**
- * MobileAdminNavigator
+ * MobileDevNavigator
  *
- * Renders the admin screens in a bottom tab bar for phones and small tablets.
- * Each tab has an icon; we hide the default header because each screen has its own.
+ * Renders the dev screens in a bottom tab bar for phones and small tablets.
+ * Uses purple accent color to distinguish from admin.
  */
-const MobileAdminNavigator = () => {
+const MobileDevNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -63,7 +62,7 @@ const MobileAdminNavigator = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#2563eb',
+        tabBarActiveTintColor: '#7c3aed',
         tabBarInactiveTintColor: '#6b7280',
         tabBarStyle: {
           backgroundColor: '#fff',
@@ -79,7 +78,7 @@ const MobileAdminNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="Dashboard" component={DashboardScreen} />
+      <Tab.Screen name="Dashboard" component={DevDashboardScreen} />
       <Tab.Screen name="Users" component={UsersScreen} />
       <Tab.Screen name="Badges" component={BadgesScreen} />
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
@@ -98,8 +97,8 @@ type ScreenProps = {
  * Map of tab names to screen components. Used on desktop to render the
  * selected screen next to the sidebar.
  */
-const screens: Record<keyof AdminTabParamList, React.ComponentType<ScreenProps>> = {
-  Dashboard: DashboardScreen,
+const screens: Record<keyof DevTabParamList, React.ComponentType<ScreenProps>> = {
+  Dashboard: DevDashboardScreen,
   Users: UsersScreen,
   Badges: BadgesScreen,
   Schedule: ScheduleScreen,
@@ -108,24 +107,24 @@ const screens: Record<keyof AdminTabParamList, React.ComponentType<ScreenProps>>
 };
 
 /**
- * DesktopAdminNavigator
+ * DesktopDevNavigator
  *
  * Renders the sidebar on the left and the current screen on the right.
  * Clicking a sidebar item updates state so we show that screen.
  */
-const DesktopAdminNavigator = () => {
-  const [currentRoute, setCurrentRoute] = useState<keyof AdminTabParamList>('Dashboard');
+const DesktopDevNavigator = () => {
+  const [currentRoute, setCurrentRoute] = useState<keyof DevTabParamList>('Dashboard');
   const CurrentScreen = screens[currentRoute];
 
   return (
     <View style={styles.desktopContainer}>
-      <AdminSidebar
+      <DevSidebar
         currentRoute={currentRoute}
-        onNavigate={(routeName) => setCurrentRoute(routeName as keyof AdminTabParamList)}
+        onNavigate={(routeName) => setCurrentRoute(routeName as keyof DevTabParamList)}
       />
       <View style={styles.content}>
         <CurrentScreen
-          onNavigate={(routeName) => setCurrentRoute(routeName as keyof AdminTabParamList)}
+          onNavigate={(routeName) => setCurrentRoute(routeName as keyof DevTabParamList)}
         />
       </View>
     </View>
@@ -133,20 +132,20 @@ const DesktopAdminNavigator = () => {
 };
 
 /**
- * AdminNavigator Component
+ * DevNavigator Component
  *
  * Chooses which layout to show based on screen width. At 768px or wider we
  * use the sidebar layout; otherwise we use bottom tabs.
  */
-export const AdminNavigator = () => {
+export const DevNavigator = () => {
   const { width } = useWindowDimensions();
   const isDesktop = width >= TABLET_BREAKPOINT;
 
   if (isDesktop) {
-    return <DesktopAdminNavigator />;
+    return <DesktopDevNavigator />;
   }
 
-  return <MobileAdminNavigator />;
+  return <MobileDevNavigator />;
 };
 
 const styles = StyleSheet.create({

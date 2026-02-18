@@ -7,9 +7,26 @@
  */
 
 /**
- * UserRole - The three roles in the app. Used for login routing and permissions.
+ * Layout Constants
  */
-export type UserRole = 'admin' | 'counselor' | 'area_director';
+export const TABLET_BREAKPOINT = 768;
+
+/**
+ * UserRole - The four roles in the app. Used for login routing and permissions.
+ * - dev: Developer with all admin permissions plus future dev-specific features
+ * - admin: Camp administrator with full access
+ * - counselor: Camp staff member
+ * - area_director: Area director overseeing operations
+ */
+export type UserRole = 'dev' | 'admin' | 'counselor' | 'area_director';
+
+/**
+ * Check if a role has admin-level access (dev or admin).
+ * Use this instead of `role === 'admin'` to support permission inheritance.
+ */
+export const hasAdminAccess = (role: UserRole | null): boolean => {
+  return role === 'admin' || role === 'dev';
+};
 
 /**
  * Base User type - common fields for all users
@@ -252,6 +269,16 @@ export type CounselorTabParamList = {
 
 // Area Director tab navigation (same structure as Admin)
 export type AreaDirectorTabParamList = {
+  Dashboard: undefined;
+  Users: undefined;
+  Badges: undefined;
+  Schedule: undefined;
+  Reports: undefined;
+  Settings: undefined;
+};
+
+// Dev tab navigation
+export type DevTabParamList = {
   Dashboard: undefined;
   Users: undefined;
   Badges: undefined;

@@ -10,3 +10,4 @@ export { AuthNavigator } from './AuthNavigator';
 export { AdminNavigator } from './AdminNavigator';
 export { CounselorNavigator } from './CounselorNavigator';
 export { AreaDirectorNavigator } from './AreaDirectorNavigator';
+export { DevNavigator } from './DevNavigator';

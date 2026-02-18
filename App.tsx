@@ -12,7 +12,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, useAuth } from './src/context/AuthContext';
-import { AuthNavigator, AdminNavigator, CounselorNavigator, AreaDirectorNavigator } from './src/navigation';
+import { AuthNavigator, AdminNavigator, CounselorNavigator, AreaDirectorNavigator, DevNavigator } from './src/navigation';
 
 /**
  * Shown when the user is logged in but has no valid role (e.g. role missing or unsupported).
@@ -64,6 +64,9 @@ const RootNavigator = () => {
     );
   }
 
+  if (userRole === 'dev') {
+    return <DevNavigator />;
+  }
   if (userRole === 'admin') {
     return <AdminNavigator />;
   }
