@@ -39,7 +39,7 @@ const RedirectToLogin = () => {
  * If the user has no valid role, we sign them out and redirect to login.
  */
 const RootNavigator = () => {
-  const { user, userRole, isLoading } = useAuth();
+  const { user, userRole, isLoading, isRoleLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -52,6 +52,16 @@ const RootNavigator = () => {
 
   if (!user) {
     return <AuthNavigator />;
+  }
+
+  // Wait for role to be fetched before deciding dashboard vs redirect-to-login
+  if (isRoleLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#2563eb" />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
   }
 
   if (userRole === 'admin') {

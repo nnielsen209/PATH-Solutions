@@ -11,12 +11,14 @@ import { Session, User } from '@supabase/supabase-js';
 import { supabase, signIn, signUp, signOut, getSession } from '../services/supabase';
 import { UserRole } from '../types';
 
-/** What the auth context exposes: user, session, role, loading flag, and login/register/logout. */
+/** What the auth context exposes: user, session, role, loading flags, and login/register/logout. */
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   userRole: UserRole | null;
   isLoading: boolean;
+  /** True while we're fetching user role from DB (only relevant when user is set). Prevents redirect-to-login before role is loaded. */
+  isRoleLoading: boolean;
   login: (email: string, password: string) => Promise<{ error: Error | null }>;
   register: (email: string, password: string, metadata: object) => Promise<{ error: Error | null }>;
   logout: () => Promise<void>;
@@ -54,6 +56,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRoleLoading, setIsRoleLoading] = useState(false);
+
+  const fetchUserRole = async (userId: string) => {
+    setIsRoleLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('user_role')
+        .eq('user_id', userId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching user role:', error);
+        return;
+      }
+
+      setUserRole(data?.user_role as UserRole);
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+    } finally {
+      setIsRoleLoading(false);
+    }
+  };
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -65,6 +90,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // If user is logged in, get their role from the database
         if (existingSession?.user) {
           await fetchUserRole(existingSession.user.id);
+        } else {
+          setIsRoleLoading(false);
         }
       } catch (error) {
         console.error('Error initializing auth:', error);
@@ -84,6 +111,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           await fetchUserRole(newSession.user.id);
         } else {
           setUserRole(null);
+          setIsRoleLoading(false);
         }
       }
     );
@@ -92,25 +120,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       subscription.unsubscribe();
     };
   }, []);
-
-  const fetchUserRole = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('users')
-        .select('user_role')
-        .eq('user_id', userId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching user role:', error);
-        return;
-      }
-
-      setUserRole(data?.user_role as UserRole);
-    } catch (error) {
-      console.error('Error fetching user role:', error);
-    }
-  };
 
   const login = async (email: string, password: string) => {
     try {
@@ -147,6 +156,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     session,
     userRole,
     isLoading,
+    isRoleLoading,
     login,
     register,
     logout,
