@@ -74,7 +74,11 @@ const QuickAction = ({ title, icon, color, onPress, cardStyle }: QuickActionProp
  * then scrollable content with stats, quick actions, and recent activity.
  * Layout adjusts for desktop (wider padding, different card widths).
  */
-export const DashboardScreen = () => {
+type DashboardScreenProps = {
+  onNavigate?: (routeName: string) => void;
+};
+
+export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
   const { width } = useWindowDimensions();
   const { user, logout } = useAuth();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
@@ -166,28 +170,28 @@ export const DashboardScreen = () => {
               title="Add User"
               icon="person-add"
               color="#2563eb"
-              onPress={() => {}}
+              onPress={() => onNavigate?.('Users')}
               cardStyle={quickActionCardStyle}
             />
             <QuickAction
               title="New Session"
               icon="add-circle"
               color="#059669"
-              onPress={() => {}}
+              onPress={() => onNavigate?.('Schedule')}
               cardStyle={quickActionCardStyle}
             />
             <QuickAction
               title="View Reports"
               icon="bar-chart"
               color="#d97706"
-              onPress={() => {}}
+              onPress={() => onNavigate?.('Reports')}
               cardStyle={quickActionCardStyle}
             />
             <QuickAction
               title="Settings"
               icon="settings"
               color="#6b7280"
-              onPress={() => {}}
+              onPress={() => onNavigate?.('Settings')}
               cardStyle={quickActionCardStyle}
             />
           </View>

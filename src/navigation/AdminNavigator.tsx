@@ -117,10 +117,12 @@ const DesktopAdminNavigator = () => {
     <View style={styles.desktopContainer}>
       <AdminSidebar
         currentRoute={currentRoute}
-        onNavigate={(routeName) => setCurrentRoute(routeName as keyof AdminTabParamList)}
+        onNavigate={(routeName: keyof AdminTabParamList) => setCurrentRoute(routeName)}
       />
       <View style={styles.content}>
-        <CurrentScreen />
+        <CurrentScreen
+          onNavigate={(routeName: keyof AdminTabParamList) => setCurrentRoute(routeName)}
+        />
       </View>
     </View>
   );
