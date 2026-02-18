@@ -121,3 +121,12 @@ export const resetPassword = async (email: string) => {
   const { data, error } = await supabase.auth.resetPasswordForEmail(email);
   return { data, error };
 };
+
+/**
+ * Update the authenticated user's password.
+ * Caller should verify current password (e.g. via signIn) before calling this.
+ */
+export const updatePassword = async (newPassword: string) => {
+  const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+  return { data, error };
+};
