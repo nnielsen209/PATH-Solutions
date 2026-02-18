@@ -6,7 +6,7 @@
  * check for an existing session and fetch the user's role from the database.
  */
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase, signIn, signUp, signOut, getSession } from '../services/supabase';
 import { UserRole } from '../types';
@@ -57,6 +57,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRoleLoading, setIsRoleLoading] = useState(false);
+  const lastSessionTokenRef = useRef<string | null>(null);
 
   const fetchUserRole = async (userId: string) => {
     setIsRoleLoading(true);
@@ -84,6 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const initializeAuth = async () => {
       try {
         const { session: existingSession } = await getSession();
+        lastSessionTokenRef.current = existingSession?.access_token ?? null;
         setSession(existingSession);
         setUser(existingSession?.user ?? null);
 
@@ -104,6 +106,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, newSession) => {
+        // When returning to the tab, Supabase can fire with null session or duplicate
+        // events. Re-verify from storage before clearing so we don't log the user out.
+        if (!newSession) {
+          const { session: storedSession } = await getSession();
+          if (storedSession) {
+            newSession = storedSession;
+          }
+        }
+
+        // Skip redundant updates (e.g. same session on tab focus) to avoid re-fetches and re-renders
+        const newToken = newSession?.access_token ?? null;
+        if (newToken === lastSessionTokenRef.current) {
+          return;
+        }
+        lastSessionTokenRef.current = newToken;
+
         setSession(newSession);
         setUser(newSession?.user ?? null);
 
