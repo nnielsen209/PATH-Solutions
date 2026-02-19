@@ -12,9 +12,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { DevTabParamList, TABLET_BREAKPOINT } from '../types';
 import { DevSidebar } from '../components';
-import { DevDashboardScreen } from '../screens/dev';
+import { DevDashboardScreen, DevUsersScreen } from '../screens/dev';
 import {
-  UsersScreen,
   BadgesScreen,
   ScheduleScreen,
   ReportsScreen,
@@ -79,7 +78,7 @@ const MobileDevNavigator = () => {
       })}
     >
       <Tab.Screen name="Dashboard" component={DevDashboardScreen} />
-      <Tab.Screen name="Users" component={UsersScreen} />
+      <Tab.Screen name="Users" component={DevUsersScreen} />
       <Tab.Screen name="Badges" component={BadgesScreen} />
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
       <Tab.Screen name="Reports" component={ReportsScreen} />
@@ -99,7 +98,7 @@ type ScreenProps = {
  */
 const screens: Record<keyof DevTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: DevDashboardScreen,
-  Users: UsersScreen,
+  Users: DevUsersScreen,
   Badges: BadgesScreen,
   Schedule: ScheduleScreen,
   Reports: ReportsScreen,

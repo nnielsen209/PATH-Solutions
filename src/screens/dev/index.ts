@@ -5,3 +5,4 @@
  */
 
 export { DevDashboardScreen } from './DashboardScreen';
+export { DevUsersScreen } from './UsersScreen';

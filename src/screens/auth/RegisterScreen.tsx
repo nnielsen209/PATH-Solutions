@@ -39,7 +39,7 @@ interface RoleOption {
 const roleOptions: RoleOption[] = [
   { value: 'admin', label: 'Admin', description: 'Camp administrator with full access', icon: 'shield-checkmark' },
   { value: 'counselor', label: 'Counselor', description: 'Camp staff member', icon: 'people' },
-  { value: 'area_director', label: 'Area Director', description: 'Area director overseeing camp operations', icon: 'business' },
+  { value: 'areadirector', label: 'Area Director', description: 'Area director overseeing camp operations', icon: 'business' },
 ];
 
 /**

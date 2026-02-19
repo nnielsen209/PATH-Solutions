@@ -12,13 +12,14 @@
 export const TABLET_BREAKPOINT = 768;
 
 /**
- * UserRole - The four roles in the app. Used for login routing and permissions.
- * - dev: Developer with all admin permissions plus future dev-specific features
+ * UserRole - The five roles in the app. Used for login routing and permissions.
+ * - dev: Developer with all admin permissions plus dev-specific features (persona switching)
  * - admin: Camp administrator with full access
  * - counselor: Camp staff member
- * - area_director: Area director overseeing operations
+ * - areadirector: Area director overseeing operations
+ * - scout: Scout/participant
  */
-export type UserRole = 'dev' | 'admin' | 'counselor' | 'area_director';
+export type UserRole = 'dev' | 'admin' | 'counselor' | 'areadirector' | 'scout';
 
 /**
  * Check if a role has admin-level access (dev or admin).
@@ -64,7 +65,7 @@ export interface Admin extends User {
  * AreaDirector - Area director overseeing camp operations
  */
 export interface AreaDirector extends User {
-  userRole: 'area_director';
+  userRole: 'areadirector';
   areaName?: string;
 }
 

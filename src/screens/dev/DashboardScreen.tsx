@@ -152,7 +152,7 @@ export const DevDashboardScreen = ({ onNavigate }: DevDashboardScreenProps) => {
           <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>Quick Actions</Text>
           <View style={[styles.quickActionsGrid, isDesktop && styles.quickActionsGridDesktop]}>
             <QuickAction
-              title="Add User"
+              title="Users"
               icon="person-add"
               color="#7c3aed"
               onPress={() => onNavigate?.('Users')}

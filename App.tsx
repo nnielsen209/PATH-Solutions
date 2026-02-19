@@ -73,7 +73,7 @@ const RootNavigator = () => {
   if (userRole === 'counselor') {
     return <CounselorNavigator />;
   }
-  if (userRole === 'area_director') {
+  if (userRole === 'areadirector') {
     return <AreaDirectorNavigator />;
   }
 

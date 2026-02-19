@@ -1,13 +1,13 @@
 /**
  * UsersScreen.tsx - User Management (Admin & Area Director)
  *
- * Admin: sees all role sections (Admins, Counselors, Area Directors).
- * Area Director: sees only the Counselors section.
- * Each section has a count and Add button; list area is placeholder until
- * we connect to the users table in Supabase.
+ * Fetches real user data from Supabase and displays users grouped by role.
+ * Also fetches scouts from the scout table.
+ * Admin sees all sections; Area Director sees Counselors and Scouts.
+ * Admin and Area Director can add scouts only.
  */
 
-import React, { useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -15,13 +15,39 @@ import {
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { UserRole, TABLET_BREAKPOINT } from '../../types';
 import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../services/supabase';
+import { AddScoutModal } from '../../components';
 
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
+
+/** Database user record from Supabase */
+interface DbUser {
+  user_id: string;
+  user_email: string;
+  user_first_name: string;
+  user_last_name: string;
+  user_role: UserRole;
+  crtn_date: string;
+}
+
+/** Scout record from Supabase */
+interface DbScout {
+  scout_id: string;
+  scout_first_name: string;
+  scout_last_name: string;
+  troop_id: string;
+  troop?: {
+    troop_nmbr: number;
+    troop_city: string;
+    troop_state: string;
+  };
+}
 
 /** Config for each role section: label, description, icon, and accent color. */
 type RoleSectionConfig = {
@@ -41,34 +67,96 @@ const ROLE_SECTIONS: RoleSectionConfig[] = [
     color: '#7c3aed',
   },
   {
+    role: 'areadirector',
+    label: 'Area Directors',
+    description: 'Area directors overseeing camp operations',
+    icon: 'business',
+    color: '#2563eb',
+  },
+  {
     role: 'counselor',
     label: 'Counselors',
     description: 'Camp staff who teach merit badge classes',
     icon: 'people',
     color: '#059669',
   },
-  {
-    role: 'area_director',
-    label: 'Area Directors',
-    description: 'Area directors overseeing camp operations',
-    icon: 'business',
-    color: '#2563eb',
-  },
 ];
 
+/** Get config for a specific role */
+const getRoleConfig = (role: UserRole): RoleSectionConfig => {
+  return ROLE_SECTIONS.find((s) => s.role === role) || ROLE_SECTIONS[0];
+};
+
 /**
- * RoleSection - One card per role (Admins, Counselors, Area Directors).
- * Shows icon, title, description, count badge, and optional Add button.
+ * UserCard - Displays a single user (read-only)
+ */
+type UserCardProps = {
+  user: DbUser;
+  isDesktop: boolean;
+};
+
+const UserCard = ({ user, isDesktop }: UserCardProps) => {
+  const config = getRoleConfig(user.user_role);
+
+  return (
+    <View style={[styles.userCard, isDesktop && styles.userCardDesktop]}>
+      <View style={[styles.userAvatar, { backgroundColor: config.color + '20' }]}>
+        <Text style={[styles.userInitials, { color: config.color }]}>
+          {user.user_first_name[0]}{user.user_last_name[0]}
+        </Text>
+      </View>
+      <View style={styles.userInfo}>
+        <Text style={styles.userName}>
+          {user.user_first_name} {user.user_last_name}
+        </Text>
+        <Text style={styles.userEmail}>{user.user_email}</Text>
+      </View>
+    </View>
+  );
+};
+
+/**
+ * ScoutCard - Displays a single scout
+ */
+type ScoutCardProps = {
+  scout: DbScout;
+  isDesktop: boolean;
+};
+
+const ScoutCard = ({ scout, isDesktop }: ScoutCardProps) => {
+  const troopInfo = scout.troop
+    ? `Troop ${scout.troop.troop_nmbr} - ${scout.troop.troop_city}, ${scout.troop.troop_state}`
+    : 'No troop assigned';
+
+  return (
+    <View style={[styles.userCard, isDesktop && styles.userCardDesktop]}>
+      <View style={[styles.userAvatar, { backgroundColor: '#d9770620' }]}>
+        <Text style={[styles.userInitials, { color: '#d97706' }]}>
+          {scout.scout_first_name[0]}{scout.scout_last_name[0]}
+        </Text>
+      </View>
+      <View style={styles.userInfo}>
+        <Text style={styles.userName}>
+          {scout.scout_first_name} {scout.scout_last_name}
+        </Text>
+        <Text style={styles.userEmail}>{troopInfo}</Text>
+      </View>
+    </View>
+  );
+};
+
+/**
+ * RoleSection - One card per role showing users in that role
  */
 type RoleSectionProps = {
   config: RoleSectionConfig;
-  count: number;
+  users: DbUser[];
   isDesktop: boolean;
-  onAddUser?: (role: UserRole) => void;
 };
 
-const RoleSection = ({ config, count, isDesktop, onAddUser }: RoleSectionProps) => {
-  const { label, description, icon, color, role } = config;
+const RoleSection = ({ config, users, isDesktop }: RoleSectionProps) => {
+  const { label, description, icon, color } = config;
+
   return (
     <View style={[styles.sectionCard, isDesktop && styles.sectionCardDesktop]}>
       <View style={styles.sectionHeader}>
@@ -82,24 +170,13 @@ const RoleSection = ({ config, count, isDesktop, onAddUser }: RoleSectionProps) 
             </Text>
             <Text style={styles.sectionDescription}>{description}</Text>
           </View>
-          <View style={styles.sectionMeta}>
-            <View style={[styles.countBadge, { backgroundColor: color + '20' }]}>
-              <Text style={[styles.countText, { color }]}>{count}</Text>
-            </View>
-            {onAddUser && (
-              <TouchableOpacity
-                style={[styles.addButton, { borderColor: color }]}
-                onPress={() => onAddUser(role)}
-              >
-                <Ionicons name="person-add" size={18} color={color} />
-                <Text style={[styles.addButtonText, { color }]}>Add</Text>
-              </TouchableOpacity>
-            )}
+          <View style={[styles.countBadge, { backgroundColor: color + '20' }]}>
+            <Text style={[styles.countText, { color }]}>{users.length}</Text>
           </View>
         </View>
       </View>
       <View style={styles.sectionContent}>
-        {count === 0 ? (
+        {users.length === 0 ? (
           <View style={styles.emptyRole}>
             <Ionicons name={icon} size={40} color="#d1d5db" />
             <Text style={styles.emptyRoleText}>No {label.toLowerCase()} yet</Text>
@@ -108,8 +185,79 @@ const RoleSection = ({ config, count, isDesktop, onAddUser }: RoleSectionProps) 
             </Text>
           </View>
         ) : (
-          <View style={styles.placeholderList}>
-            <Text style={styles.placeholderListText}>User list will load here</Text>
+          <View style={styles.usersList}>
+            {users.map((user) => (
+              <UserCard
+                key={user.user_id}
+                user={user}
+                isDesktop={isDesktop}
+              />
+            ))}
+          </View>
+        )}
+      </View>
+    </View>
+  );
+};
+
+/**
+ * ScoutsSection - Shows scouts from the scout table with Add button
+ */
+type ScoutsSectionProps = {
+  scouts: DbScout[];
+  isDesktop: boolean;
+  canAdd: boolean;
+  onAddScout: () => void;
+};
+
+const ScoutsSection = ({ scouts, isDesktop, canAdd, onAddScout }: ScoutsSectionProps) => {
+  return (
+    <View style={[styles.sectionCard, isDesktop && styles.sectionCardDesktop]}>
+      <View style={styles.sectionHeader}>
+        <View style={styles.sectionTitleRow}>
+          <View style={[styles.sectionIconWrap, { backgroundColor: '#d9770620' }]}>
+            <Ionicons name="person" size={24} color="#d97706" />
+          </View>
+          <View style={styles.sectionTitleBlock}>
+            <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>
+              Scouts
+            </Text>
+            <Text style={styles.sectionDescription}>Scout participants</Text>
+          </View>
+          <View style={styles.sectionMeta}>
+            <View style={[styles.countBadge, { backgroundColor: '#d9770620' }]}>
+              <Text style={[styles.countText, { color: '#d97706' }]}>{scouts.length}</Text>
+            </View>
+            {canAdd && (
+              <TouchableOpacity
+                style={[styles.addButton, { borderColor: '#d97706' }]}
+                onPress={onAddScout}
+              >
+                <Ionicons name="person-add" size={18} color="#d97706" />
+                <Text style={[styles.addButtonText, { color: '#d97706' }]}>Add</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      </View>
+      <View style={styles.sectionContent}>
+        {scouts.length === 0 ? (
+          <View style={styles.emptyRole}>
+            <Ionicons name="person" size={40} color="#d1d5db" />
+            <Text style={styles.emptyRoleText}>No scouts yet</Text>
+            <Text style={styles.emptyRoleSubtext}>
+              {canAdd ? 'Click "Add" to add a scout' : 'Scouts will appear here'}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.usersList}>
+            {scouts.map((scout) => (
+              <ScoutCard
+                key={scout.scout_id}
+                scout={scout}
+                isDesktop={isDesktop}
+              />
+            ))}
           </View>
         )}
       </View>
@@ -120,8 +268,8 @@ const RoleSection = ({ config, count, isDesktop, onAddUser }: RoleSectionProps) 
 /**
  * UsersScreen Component
  *
- * Renders the Users page. Admin sees all role sections; Area Director sees
- * only Counselors. Header and subtitle reflect the viewer's role.
+ * Renders the Users page with real data from Supabase.
+ * Admin sees all role sections + scouts; Area Director sees Counselors + Scouts.
  */
 export const UsersScreen = () => {
   const { width } = useWindowDimensions();
@@ -129,28 +277,87 @@ export const UsersScreen = () => {
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
 
+  const [users, setUsers] = useState<DbUser[]>([]);
+  const [scouts, setScouts] = useState<DbScout[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showAddScoutModal, setShowAddScoutModal] = useState(false);
+
+  /** Fetch all users and scouts from Supabase */
+  const fetchData = useCallback(async () => {
+    try {
+      setError(null);
+      setIsLoading(true);
+
+      // Fetch users and scouts in parallel
+      const [usersResult, scoutsResult] = await Promise.all([
+        supabase
+          .from('users')
+          .select('user_id, user_email, user_first_name, user_last_name, user_role, crtn_date')
+          .order('user_first_name', { ascending: true }),
+        supabase
+          .from('scout')
+          .select(`
+            scout_id,
+            scout_first_name,
+            scout_last_name,
+            troop_id,
+            troop:troop_id (
+              troop_nmbr,
+              troop_city,
+              troop_state
+            )
+          `)
+          .order('scout_first_name', { ascending: true }),
+      ]);
+
+      if (usersResult.error) throw usersResult.error;
+      if (scoutsResult.error) throw scoutsResult.error;
+
+      setUsers(usersResult.data || []);
+      setScouts(scoutsResult.data || []);
+    } catch (err) {
+      console.error('Error fetching data:', err);
+      setError('Failed to load data');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  /** Filter sections based on user role */
   const visibleSections = useMemo(() => {
-    if (userRole === 'area_director') {
+    if (userRole === 'areadirector') {
+      // Area Directors see Counselors only (scouts handled separately)
       return ROLE_SECTIONS.filter((s) => s.role === 'counselor');
     }
+    // Admins see all sections
     return ROLE_SECTIONS;
   }, [userRole]);
 
-  const countsByRole: Record<UserRole, number> = {
-    dev: 0,
-    admin: 0,
-    counselor: 0,
-    area_director: 0,
-  };
+  /** Group users by role */
+  const usersByRole = useMemo(() => {
+    return ROLE_SECTIONS.reduce((acc, config) => {
+      acc[config.role] = users.filter((u) => u.user_role === config.role);
+      return acc;
+    }, {} as Record<UserRole, DbUser[]>);
+  }, [users]);
 
-  const handleAddUser = (role: UserRole) => {
-    // TODO: Navigate to add-user flow or open modal with role pre-selected
+  // Admin and Area Director can add scouts
+  const canAddScout = userRole === 'admin' || userRole === 'areadirector';
+
+  const handleAddScoutSuccess = () => {
+    setShowAddScoutModal(false);
+    fetchData(); // Refresh the data
   };
 
   const subtitle =
-    userRole === 'area_director'
-      ? 'View and manage counselors'
-      : 'Manage users by role';
+    userRole === 'areadirector'
+      ? 'View counselors and manage scouts'
+      : 'Manage users and scouts';
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -161,22 +368,55 @@ export const UsersScreen = () => {
         </View>
       </View>
 
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={[styles.scrollContent, { paddingHorizontal: contentPadding }, isDesktop && styles.scrollContentDesktop]}
-        showsVerticalScrollIndicator={false}
-      >
-        {visibleSections.map((config) => (
-          <RoleSection
-            key={config.role}
-            config={config}
-            count={countsByRole[config.role]}
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#2563eb" />
+          <Text style={styles.loadingText}>Loading users...</Text>
+        </View>
+      ) : error ? (
+        <View style={styles.errorContainer}>
+          <Ionicons name="alert-circle" size={48} color="#dc2626" />
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity style={styles.retryButton} onPress={fetchData}>
+            <Text style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingHorizontal: contentPadding },
+            isDesktop && styles.scrollContentDesktop,
+          ]}
+          showsVerticalScrollIndicator={false}
+        >
+          {visibleSections.map((config) => (
+            <RoleSection
+              key={config.role}
+              config={config}
+              users={usersByRole[config.role] || []}
+              isDesktop={isDesktop}
+            />
+          ))}
+
+          {/* Scouts Section - Always visible for admin and area director */}
+          <ScoutsSection
+            scouts={scouts}
             isDesktop={isDesktop}
-            onAddUser={userRole === 'admin' ? handleAddUser : undefined}
+            canAdd={canAddScout}
+            onAddScout={() => setShowAddScoutModal(true)}
           />
-        ))}
-        <View style={{ height: 24 }} />
-      </ScrollView>
+
+          <View style={{ height: 24 }} />
+        </ScrollView>
+      )}
+
+      <AddScoutModal
+        visible={showAddScoutModal}
+        onClose={() => setShowAddScoutModal(false)}
+        onSuccess={handleAddScoutSuccess}
+      />
     </SafeAreaView>
   );
 };
@@ -215,6 +455,40 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#6b7280',
     marginTop: 4,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#6b7280',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#dc2626',
+    marginTop: 12,
+    textAlign: 'center',
+  },
+  retryButton: {
+    marginTop: 16,
+    backgroundColor: '#2563eb',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
   scroll: {
     flex: 1,
@@ -306,7 +580,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   sectionContent: {
-    minHeight: 100,
     padding: 16,
   },
   emptyRole: {
@@ -325,12 +598,42 @@ const styles = StyleSheet.create({
     color: '#9ca3af',
     marginTop: 4,
   },
-  placeholderList: {
-    alignItems: 'center',
-    paddingVertical: 16,
+  usersList: {
+    gap: 8,
   },
-  placeholderListText: {
-    fontSize: 14,
-    color: '#9ca3af',
+  userCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f9fafb',
+    borderRadius: 10,
+    padding: 12,
+    gap: 12,
+  },
+  userCardDesktop: {
+    padding: 14,
+  },
+  userAvatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userInitials: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#1f2937',
+  },
+  userEmail: {
+    fontSize: 13,
+    color: '#6b7280',
+    marginTop: 2,
   },
 });
