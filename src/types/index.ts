@@ -251,7 +251,7 @@ export type AuthStackParamList = {
 export type AdminTabParamList = {
   Dashboard: undefined;
   Users: undefined;
-  Badges: undefined;
+  Programs: undefined;
   Schedule: undefined;
   Reports: undefined;
   Settings: undefined;
@@ -272,7 +272,7 @@ export type CounselorTabParamList = {
 export type AreaDirectorTabParamList = {
   Dashboard: undefined;
   Users: undefined;
-  Badges: undefined;
+  Programs: undefined;
   Schedule: undefined;
   Reports: undefined;
   Settings: undefined;
@@ -282,7 +282,7 @@ export type AreaDirectorTabParamList = {
 export type DevTabParamList = {
   Dashboard: undefined;
   Users: undefined;
-  Badges: undefined;
+  Programs: undefined;
   Schedule: undefined;
   Reports: undefined;
   Settings: undefined;

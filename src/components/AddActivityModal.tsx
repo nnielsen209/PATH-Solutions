@@ -2,7 +2,7 @@
  * AddActivityModal.tsx - Modal for Adding New Activities
  *
  * Popup modal for creating new activities in the schedule.
- * Includes fields for name, start time, duration, and optional badge.
+ * Includes fields for name, start time, duration, and optional program.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -198,7 +198,7 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
   const getBadgeLabel = () => {
     if (!badgeId) return 'None (optional)';
     const badge = badges.find(b => b.badge_id === badgeId);
-    return badge ? badge.badge_name : 'Select badge';
+    return badge ? badge.badge_name : 'Select program';
   };
 
   return (
@@ -343,9 +343,9 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
               )}
             </View>
 
-            {/* Badge */}
+            {/* Program */}
             <View style={styles.field}>
-              <Text style={styles.label}>Merit Badge</Text>
+              <Text style={styles.label}>Program</Text>
               <TouchableOpacity
                 style={styles.dropdown}
                 onPress={() => setShowBadgePicker(!showBadgePicker)}

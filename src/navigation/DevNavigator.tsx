@@ -14,7 +14,7 @@ import { DevTabParamList, TABLET_BREAKPOINT } from '../types';
 import { DevSidebar } from '../components';
 import { DevDashboardScreen, DevUsersScreen } from '../screens/dev';
 import {
-  BadgesScreen,
+  ProgramsScreen,
   ScheduleScreen,
   ReportsScreen,
   SettingsScreen,
@@ -43,7 +43,7 @@ const MobileDevNavigator = () => {
             case 'Users':
               iconName = focused ? 'people' : 'people-outline';
               break;
-            case 'Badges':
+            case 'Programs':
               iconName = focused ? 'ribbon' : 'ribbon-outline';
               break;
             case 'Schedule':
@@ -79,7 +79,7 @@ const MobileDevNavigator = () => {
     >
       <Tab.Screen name="Dashboard" component={DevDashboardScreen} />
       <Tab.Screen name="Users" component={DevUsersScreen} />
-      <Tab.Screen name="Badges" component={BadgesScreen} />
+      <Tab.Screen name="Programs" component={ProgramsScreen} />
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
       <Tab.Screen name="Reports" component={ReportsScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
@@ -99,7 +99,7 @@ type ScreenProps = {
 const screens: Record<keyof DevTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: DevDashboardScreen,
   Users: DevUsersScreen,
-  Badges: BadgesScreen,
+  Programs: ProgramsScreen,
   Schedule: ScheduleScreen,
   Reports: ReportsScreen,
   Settings: SettingsScreen,

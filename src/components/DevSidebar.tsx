@@ -30,7 +30,7 @@ type DevSidebarProps = {
 const navItems: NavItem[] = [
   { name: 'Dashboard', label: 'Dashboard', icon: 'grid-outline', iconFocused: 'grid' },
   { name: 'Users', label: 'Users', icon: 'people-outline', iconFocused: 'people' },
-  { name: 'Badges', label: 'Badges', icon: 'ribbon-outline', iconFocused: 'ribbon' },
+  { name: 'Programs', label: 'Programs', icon: 'ribbon-outline', iconFocused: 'ribbon' },
   { name: 'Schedule', label: 'Schedule', icon: 'calendar-outline', iconFocused: 'calendar' },
   { name: 'Reports', label: 'Reports', icon: 'bar-chart-outline', iconFocused: 'bar-chart' },
   { name: 'Settings', label: 'Settings', icon: 'settings-outline', iconFocused: 'settings' },

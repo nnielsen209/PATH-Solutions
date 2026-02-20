@@ -3,7 +3,7 @@
  *
  * Handles navigation for admin users. On small screens we show bottom tabs;
  * on wider screens (768px and up) we show a left sidebar instead. The same
- * six screens (Dashboard, Users, Badges, Schedule, Reports, Settings) are
+ * six screens (Dashboard, Users, Programs, Schedule, Reports, Settings) are
  * available in both layouts.
  */
 
@@ -16,7 +16,7 @@ import { AdminSidebar } from '../components';
 import {
   DashboardScreen,
   UsersScreen,
-  BadgesScreen,
+  ProgramsScreen,
   ScheduleScreen,
   ReportsScreen,
   SettingsScreen,
@@ -45,7 +45,7 @@ const MobileAdminNavigator = () => {
             case 'Users':
               iconName = focused ? 'people' : 'people-outline';
               break;
-            case 'Badges':
+            case 'Programs':
               iconName = focused ? 'ribbon' : 'ribbon-outline';
               break;
             case 'Schedule':
@@ -81,7 +81,7 @@ const MobileAdminNavigator = () => {
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
       <Tab.Screen name="Users" component={UsersScreen} />
-      <Tab.Screen name="Badges" component={BadgesScreen} />
+      <Tab.Screen name="Programs" component={ProgramsScreen} />
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
       <Tab.Screen name="Reports" component={ReportsScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
@@ -101,7 +101,7 @@ type ScreenProps = {
 const screens: Record<keyof AdminTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: DashboardScreen,
   Users: UsersScreen,
-  Badges: BadgesScreen,
+  Programs: ProgramsScreen,
   Schedule: ScheduleScreen,
   Reports: ReportsScreen,
   Settings: SettingsScreen,
