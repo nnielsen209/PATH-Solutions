@@ -60,4 +60,94 @@ src/
 | Admin | Web dashboard - manage users, badges, schedules, reports |
 | Area Director | Web dashboard/Mobile App - (manage users, badges, schedules, reports) In area |
 | Counselor | Mobile app - attendance, badge progress tracking |
+| Dev | Full admin access plus developer testing features |
 
+---
+
+## Release Notes
+
+### Version 1.0 - Current Working Features
+
+#### Authentication System
+- **Login & Registration** - Full email/password authentication via Supabase Auth
+- **Role-Based Routing** - Automatic navigation to role-specific dashboards after login
+- **Session Persistence** - Sessions stored securely (Expo Secure Store on mobile, localStorage on web)
+- **Password Reset** - Email-based password recovery functionality
+- **Password Change** - In-app password change with current password verification
+- **Logout** - Available from all dashboard headers
+
+#### User Roles & Permissions
+Five distinct user roles with tailored experiences:
+- **Admin** - Full system access with user management, scheduling, and reports
+- **Area Director** - Scoped admin access for their area (counselors and scouts only)
+- **Counselor** - Mobile-focused interface for attendance and progress tracking
+- **Dev** - Admin capabilities plus developer testing features (activity deletion)
+- **Scout** - Participant role (future expansion)
+
+#### Admin Dashboard
+- **Dashboard Home** - Time-based greeting, stat cards (Total Users, Counselors, Active Sessions), quick action buttons
+- **Users Screen** - View all users grouped by role with color-coded badges, real-time data from Supabase
+- **Scout Management** - Add scouts via modal with troop selection, view scouts with troop information
+- **Schedule Screen** - View all activities with date/time/duration, create new activities via modal, delete activities (dev only)
+- **Programs Screen** - Structure in place for merit badge program management
+- **Reports Screen** - UI framework ready for report generation
+- **Settings Screen** - Change password functionality with validation
+
+#### Counselor Dashboard
+- **Dashboard Home** - Personalized greeting, stat cards (My Activities, Today's Attendance, Progress to Review)
+- **Quick Action Buttons** - Navigate to key features
+- **My Activities** - Screen for viewing counselor-led activities
+- **Attendance** - Screen structure for taking attendance
+- **Progress** - Screen structure for badge progress review
+- **Profile** - Counselor profile information
+
+#### Area Director Dashboard
+- Same navigation as Admin with content filtered to their area
+- Can view and manage counselors and scouts
+- Access to scheduling and reports within their scope
+
+#### Developer Dashboard
+- Purple gradient header to distinguish from admin
+- Full admin capabilities
+- Activity deletion enabled for testing
+- All quick actions available
+
+#### Modals & Forms
+- **Add Scout Modal** - Create scouts with first name, last name, and troop selection (dropdown with all troops fetched from database)
+- **Add Activity Modal** - Create activities with name, date picker (60-day range), time picker (7 AM - 5 PM, 30-min intervals), duration selector (30 min - 3 hours), and optional program/badge association
+
+#### Responsive Design
+- **Mobile (< 768px)** - Bottom tab navigation with icons and labels
+- **Desktop (≥ 768px)** - Sidebar navigation with selected route highlighting
+- Safe area handling for notched devices
+- Adaptive spacing and card-based layouts
+
+#### Database Integration
+- Real-time data fetching from Supabase PostgreSQL
+- **Working Queries:**
+  - Fetch all users by role
+  - Fetch scouts with troop relations
+  - Fetch all troops
+  - Fetch all merit badges/programs
+  - Fetch activities with program associations
+- **Working Inserts:**
+  - Create new scouts
+  - Create new activities
+- **Working Deletes:**
+  - Delete activities (dev role only)
+
+#### UI/UX Features
+- Gradient headers with role-specific colors (Admin: blue, Dev: purple, Counselor: green)
+- Loading states on all data operations
+- Error messaging with retry buttons
+- Profile avatars with user initials
+- Activity list with formatted dates, times, and durations
+- Empty state messaging when no data
+
+### Known Limitations / In Progress
+- **Programs Screen** - UI ready, list population not yet implemented
+- **Reports Screen** - Framework in place, report generation logic pending
+- **Attendance Marking** - Screen ready, attendance recording logic pending
+- **Progress Review** - Screen ready, badge progress workflow pending
+- **Recent Activity** - Dashboard sections prepared but not yet connected to real-time data
+- **Camp Settings** - Placeholder for future camp configuration options
