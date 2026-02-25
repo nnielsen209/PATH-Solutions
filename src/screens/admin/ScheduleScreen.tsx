@@ -39,7 +39,11 @@ export const ScheduleScreen = () => {
   const { userRole } = useAuth();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
-  const isDev = userRole === 'dev';
+
+  //allow a few roles to edit 
+  const canEdit =
+    userRole === 'dev' ||
+    userRole === 'admin' 
 
   const [showModal, setShowModal] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -47,19 +51,36 @@ export const ScheduleScreen = () => {
   const [deleting, setDeleting] = useState<string | null>(null);
 
   const fetchActivities = useCallback(async () => {
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from('activity')
-        .select('activity_id, activity_name, activity_date, activity_start_time, activity_duration, badge_id, merit_badge(badge_name)')
-        .order('activity_date')
-        .order('activity_start_time');
+        .select(
+          `
+          activity_id,
+          activity_name,
+          activity_date,
+          activity_start_time,
+          activity_duration,
+          badge_id,
+          merit_badge(badge_name)
+        `
+        )
+        .order('activity_date', { ascending: true })
+        .order('activity_start_time', { ascending: true });
 
       if (error) throw error;
 
-      const formatted = (data || []).map((item: any) => ({
-        ...item,
-        merit_badge: item.merit_badge || null,
-      }));
+      const formatted: Activity[] = (data || []).map((item: any) => {
+        const mb =
+          Array.isArray(item.merit_badge) ? item.merit_badge[0] : item.merit_badge;
+
+        return {
+          ...item,
+          merit_badge: mb ? { badge_name: mb.badge_name } : null,
+        };
+      });
+
       setActivities(formatted);
     } catch (err) {
       console.error('Error fetching activities:', err);
@@ -75,7 +96,6 @@ export const ScheduleScreen = () => {
         .from('activity')
         .delete()
         .eq('activity_id', activityId);
-
       if (error) throw error;
       fetchActivities();
     } catch (err) {
@@ -128,9 +148,7 @@ export const ScheduleScreen = () => {
       <View style={[styles.header, isDesktop && styles.headerDesktop]}>
         <View style={[styles.headerInner, isDesktop && styles.headerInnerDesktop]}>
           <Text style={[styles.title, isDesktop && styles.titleDesktop]}>Schedule</Text>
-          <Text style={styles.subtitle}>
-            Manage camp sessions and activity schedules
-          </Text>
+          <Text style={styles.subtitle}>Manage camp sessions and activity schedules</Text>
         </View>
       </View>
 
@@ -149,6 +167,7 @@ export const ScheduleScreen = () => {
               <View style={[styles.cardIconWrap, { backgroundColor: ACCENT_COLOR + '20' }]}>
                 <Ionicons name="calendar" size={24} color={ACCENT_COLOR} />
               </View>
+
               <View style={styles.cardTitleBlock}>
                 <Text style={[styles.cardTitle, isDesktop && styles.cardTitleDesktop]}>
                   Activities
@@ -157,24 +176,29 @@ export const ScheduleScreen = () => {
                   Schedule merit badge classes and activities
                 </Text>
               </View>
+
               <View style={styles.cardMeta}>
                 <View style={[styles.countBadge, { backgroundColor: ACCENT_COLOR + '20' }]}>
                   <Text style={[styles.countText, { color: ACCENT_COLOR }]}>
                     {activities.length}
                   </Text>
                 </View>
-                <TouchableOpacity
-                  style={[styles.addButton, { borderColor: ACCENT_COLOR }]}
-                  onPress={handleNewSession}
-                >
-                  <Ionicons name="add-circle" size={18} color={ACCENT_COLOR} />
-                  <Text style={[styles.addButtonText, { color: ACCENT_COLOR }]}>
-                    New activity
-                  </Text>
-                </TouchableOpacity>
+
+                {canEdit && (
+                  <TouchableOpacity
+                    style={[styles.addButton, { borderColor: ACCENT_COLOR }]}
+                    onPress={handleNewSession}
+                  >
+                    <Ionicons name="add-circle" size={18} color={ACCENT_COLOR} />
+                    <Text style={[styles.addButtonText, { color: ACCENT_COLOR }]}>
+                      New activity
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </View>
+
           <View style={styles.cardContent}>
             {loading ? (
               <View style={styles.loadingState}>
@@ -185,7 +209,9 @@ export const ScheduleScreen = () => {
                 <Ionicons name="calendar-outline" size={48} color="#d1d5db" />
                 <Text style={styles.emptyStateText}>No activities yet</Text>
                 <Text style={styles.emptyStateSubtext}>
-                  Create an activity to schedule merit badge classes
+                  {canEdit
+                    ? 'Create an activity to schedule merit badge classes'
+                    : 'Check back later — activities will appear here once created'}
                 </Text>
               </View>
             ) : (
@@ -203,18 +229,21 @@ export const ScheduleScreen = () => {
                         {formatDuration(activity.activity_duration)}
                       </Text>
                     </View>
+
                     <View style={styles.activityInfo}>
                       <Text style={styles.activityName}>{activity.activity_name}</Text>
-                      {activity.merit_badge && (
+
+                      {activity.merit_badge?.badge_name ? (
                         <View style={styles.badgeTag}>
                           <Ionicons name="ribbon" size={12} color="#d97706" />
                           <Text style={styles.badgeTagText}>
                             {activity.merit_badge.badge_name}
                           </Text>
                         </View>
-                      )}
+                      ) : null}
                     </View>
-                    {isDev && (
+
+                    {canEdit && (
                       <TouchableOpacity
                         style={styles.deleteButton}
                         onPress={() => handleDelete(activity.activity_id)}
@@ -233,14 +262,17 @@ export const ScheduleScreen = () => {
             )}
           </View>
         </View>
+
         <View style={{ height: 24 }} />
       </ScrollView>
 
-      <AddActivityModal
-        visible={showModal}
-        onClose={() => setShowModal(false)}
-        onSuccess={handleModalSuccess}
-      />
+      {canEdit && (
+        <AddActivityModal
+          visible={showModal}
+          onClose={() => setShowModal(false)}
+          onSuccess={handleModalSuccess}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -314,31 +346,16 @@ const styles = StyleSheet.create({
   },
   addButtonText: { fontSize: 13, fontWeight: '600' },
   cardContent: { minHeight: 200, padding: 16 },
-  loadingState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 48,
-  },
-  emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 32,
-  },
+  loadingState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 48 },
+  emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 32 },
   emptyStateText: {
     fontSize: 16,
     fontWeight: '500',
     color: '#6b7280',
     marginTop: 16,
   },
-  emptyStateSubtext: {
-    fontSize: 13,
-    color: '#9ca3af',
-    marginTop: 6,
-    textAlign: 'center',
-  },
-  activitiesList: {
-    gap: 8,
-  },
+  emptyStateSubtext: { fontSize: 13, color: '#9ca3af', marginTop: 6, textAlign: 'center' },
+  activitiesList: { gap: 8 },
   activityItem: {
     flexDirection: 'row',
     backgroundColor: '#f9fafb',
@@ -347,47 +364,13 @@ const styles = StyleSheet.create({
     borderLeftWidth: 3,
     borderLeftColor: '#d97706',
   },
-  activityTime: {
-    width: 80,
-    marginRight: 12,
-  },
-  activityTimeText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1f2937',
-  },
-  activityDuration: {
-    fontSize: 12,
-    color: '#6b7280',
-    marginTop: 2,
-  },
-  activityInfo: {
-    flex: 1,
-  },
-  activityName: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#1f2937',
-  },
-  badgeTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    marginTop: 4,
-  },
-  badgeTagText: {
-    fontSize: 12,
-    color: '#d97706',
-  },
-  activityDateText: {
-    fontSize: 12,
-    fontWeight: '500',
-    color: '#6b7280',
-    marginBottom: 2,
-  },
-  deleteButton: {
-    padding: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  activityTime: { width: 80, marginRight: 12 },
+  activityTimeText: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
+  activityDuration: { fontSize: 12, color: '#6b7280', marginTop: 2 },
+  activityInfo: { flex: 1 },
+  activityName: { fontSize: 15, fontWeight: '500', color: '#1f2937' },
+  badgeTag: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 },
+  badgeTagText: { fontSize: 12, color: '#d97706' },
+  activityDateText: { fontSize: 12, fontWeight: '500', color: '#6b7280', marginBottom: 2 },
+  deleteButton: { padding: 8, justifyContent: 'center', alignItems: 'center' },
 });
