@@ -6,7 +6,7 @@
 
 export { DashboardScreen } from './DashboardScreen';
 export { UsersScreen } from './UsersScreen';
-export { BadgesScreen } from './BadgesScreen';
+export { ProgramsScreen } from './ProgramsScreen';
 export { ScheduleScreen } from './ScheduleScreen';
 export { ReportsScreen } from './ReportsScreen';
 export { SettingsScreen } from './SettingsScreen';

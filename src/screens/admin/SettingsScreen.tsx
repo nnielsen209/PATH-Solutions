@@ -1,12 +1,11 @@
 /**
  * SettingsScreen.tsx - Admin Settings
  *
- * Camp and app settings. Ready for future:
- * - Camp name, contact info, session defaults
- * - Notifications, permissions, theme
+ * Camp and app settings. Includes change password and sign out.
+ * Ready for future: camp name, contact info, notifications, theme.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -14,19 +13,65 @@ import {
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
+  TextInput,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthContext';
+import { TABLET_BREAKPOINT } from '../../types';
 
-const DESKTOP_BREAKPOINT = 768;
+const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 const ACCENT_COLOR = '#6b7280';
+const MIN_PASSWORD_LENGTH = 6;
 
 export const SettingsScreen = () => {
   const { width } = useWindowDimensions();
-  const { logout } = useAuth();
+  const { logout, updatePassword } = useAuth();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
+
+  const [passwordExpanded, setPasswordExpanded] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [isPasswordLoading, setIsPasswordLoading] = useState(false);
+
+  const handleChangePassword = async () => {
+    setPasswordError(null);
+    setPasswordSuccess(false);
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setPasswordError('Please fill in all password fields.');
+      return;
+    }
+    if (newPassword.length < MIN_PASSWORD_LENGTH) {
+      setPasswordError(`New password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordError('New password and confirmation do not match.');
+      return;
+    }
+    if (currentPassword === newPassword) {
+      setPasswordError('New password must be different from your current password.');
+      return;
+    }
+    setIsPasswordLoading(true);
+    const { error } = await updatePassword(currentPassword, newPassword);
+    setIsPasswordLoading(false);
+    if (error) {
+      setPasswordError(error.message || 'Failed to update password.');
+      return;
+    }
+    setPasswordSuccess(true);
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -73,6 +118,94 @@ export const SettingsScreen = () => {
               </Text>
             </View>
           </View>
+        </View>
+
+        <View style={[styles.passwordCard, isDesktop && styles.mainCardDesktop]}>
+          <TouchableOpacity
+            style={styles.cardHeader}
+            onPress={() => setPasswordExpanded((v) => !v)}
+            activeOpacity={0.7}
+          >
+            <View style={styles.cardTitleRow}>
+              <View style={[styles.cardIconWrap, { backgroundColor: '#0ea5e9' + '20' }]}>
+                <Ionicons name="key" size={24} color="#0ea5e9" />
+              </View>
+              <View style={styles.cardTitleBlock}>
+                <Text style={[styles.cardTitle, isDesktop && styles.cardTitleDesktop]}>
+                  Change password
+                </Text>
+                <Text style={styles.cardDescription}>
+                  Enter your current password and choose a new one
+                </Text>
+              </View>
+              <Ionicons
+                name={passwordExpanded ? 'chevron-up' : 'chevron-down'}
+                size={24}
+                color="#9ca3af"
+              />
+            </View>
+          </TouchableOpacity>
+          {passwordExpanded ? (
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              style={styles.passwordForm}
+            >
+              <TextInput
+                style={styles.input}
+                placeholder="Current password"
+                placeholderTextColor="#9ca3af"
+                value={currentPassword}
+                onChangeText={setCurrentPassword}
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!isPasswordLoading}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder={`New password (min ${MIN_PASSWORD_LENGTH} characters)`}
+                placeholderTextColor="#9ca3af"
+                value={newPassword}
+                onChangeText={setNewPassword}
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!isPasswordLoading}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm new password"
+                placeholderTextColor="#9ca3af"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!isPasswordLoading}
+              />
+              {passwordError ? (
+                <Text style={styles.errorText}>{passwordError}</Text>
+              ) : null}
+              {passwordSuccess ? (
+                <Text style={styles.successText}>Password updated successfully.</Text>
+              ) : null}
+              <TouchableOpacity
+                style={[styles.passwordButton, isPasswordLoading && styles.passwordButtonDisabled]}
+                onPress={handleChangePassword}
+                disabled={isPasswordLoading}
+                activeOpacity={0.8}
+              >
+                {isPasswordLoading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <>
+                    <Ionicons name="key-outline" size={20} color="#fff" />
+                    <Text style={styles.passwordButtonText}>Update password</Text>
+                  </>
+                )}
+              </TouchableOpacity>
+            </KeyboardAvoidingView>
+          ) : null}
         </View>
 
         <View style={[styles.signOutCard, isDesktop && styles.mainCardDesktop]}>
@@ -154,6 +287,59 @@ const styles = StyleSheet.create({
     color: '#9ca3af',
     marginTop: 6,
     textAlign: 'center',
+  },
+  passwordCard: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginTop: 16,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  passwordForm: {
+    padding: 16,
+    gap: 12,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 16,
+    color: '#1f2937',
+    backgroundColor: '#f9fafb',
+  },
+  errorText: {
+    fontSize: 14,
+    color: '#dc2626',
+    marginTop: 4,
+  },
+  successText: {
+    fontSize: 14,
+    color: '#059669',
+    marginTop: 4,
+  },
+  passwordButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#0ea5e9',
+    paddingVertical: 14,
+    borderRadius: 10,
+    marginTop: 8,
+  },
+  passwordButtonDisabled: {
+    opacity: 0.7,
+  },
+  passwordButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
   },
   signOutCard: {
     backgroundColor: '#fff',

@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { CounselorTabParamList } from '../types';
+import { CounselorTabParamList, TABLET_BREAKPOINT } from '../types';
 import { CounselorSidebar } from '../components';
 import {
   CounselorDashboardScreen,
@@ -21,7 +21,6 @@ import {
   ProfileScreen,
 } from '../screens/counselor';
 
-const TABLET_BREAKPOINT = 768;
 const Tab = createBottomTabNavigator<CounselorTabParamList>();
 
 /**
@@ -48,7 +47,7 @@ const MobileCounselorNavigator = () => {
               iconName = focused ? 'calendar' : 'calendar-outline';
               break;
             case 'Attendance':
-              iconName = focused ? 'people' : 'people-outline';
+              iconName = focused ? 'checkmark-done' : 'checkmark-done-outline';
               break;
             case 'Progress':
               iconName = focused ? 'ribbon' : 'ribbon-outline';
@@ -84,8 +83,13 @@ const MobileCounselorNavigator = () => {
   );
 };
 
+/** Props that desktop screens can receive for navigation. */
+type ScreenProps = {
+  onNavigate?: (routeName: string) => void;
+};
+
 /** Map of tab names to screen components for the desktop sidebar layout. */
-const screens: Record<keyof CounselorTabParamList, React.ComponentType> = {
+const screens: Record<keyof CounselorTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: CounselorDashboardScreen,
   Users: CounselorUsersScreen,
   MyActivities: MyActivitiesScreen,
@@ -110,7 +114,9 @@ const DesktopCounselorNavigator = () => {
         onNavigate={(routeName) => setCurrentRoute(routeName as keyof CounselorTabParamList)}
       />
       <View style={styles.content}>
-        <CurrentScreen />
+        <CurrentScreen
+          onNavigate={(routeName) => setCurrentRoute(routeName as keyof CounselorTabParamList)}
+        />
       </View>
     </View>
   );

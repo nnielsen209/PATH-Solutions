@@ -8,7 +8,7 @@
 
 import React, { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
 import { Session, User } from '@supabase/supabase-js';
-import { supabase, signIn, signUp, signOut, getSession } from '../services/supabase';
+import { supabase, signIn, signUp, signOut, getSession, updatePassword as supabaseUpdatePassword } from '../services/supabase';
 import { UserRole } from '../types';
 
 /** What the auth context exposes: user, session, role, loading flags, and login/register/logout. */
@@ -22,6 +22,8 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<{ error: Error | null }>;
   register: (email: string, password: string, metadata: object) => Promise<{ error: Error | null }>;
   logout: () => Promise<void>;
+  /** Change password: verifies current password, then sets new one. */
+  updatePassword: (currentPassword: string, newPassword: string) => Promise<{ error: Error | null }>;
 }
 
 interface AuthProviderProps {
@@ -169,6 +171,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const updatePassword = async (currentPassword: string, newPassword: string) => {
+    if (!user?.email) {
+      return { error: new Error('Not signed in') };
+    }
+    try {
+      const { error: signInError } = await signIn(user.email, currentPassword);
+      if (signInError) {
+        return { error: signInError as Error };
+      }
+      const { error: updateError } = await supabaseUpdatePassword(newPassword);
+      return { error: updateError as Error | null };
+    } catch (error) {
+      return { error: error as Error };
+    }
+  };
+
   const value: AuthContextType = {
     user,
     session,
@@ -178,6 +196,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     register,
     logout,
+    updatePassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

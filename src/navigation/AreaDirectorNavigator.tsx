@@ -2,7 +2,7 @@
  * AreaDirectorNavigator.tsx - Responsive Area Director Navigation
  *
  * Same layout idea as Admin: bottom tabs on small screens, sidebar on large.
- * Area directors get the same six screens (Dashboard, Users, Badges, Schedule,
+ * Area directors get the same six screens (Dashboard, Users, Programs, Schedule,
  * Reports, Settings) but use their own dashboard screen.
  */
 
@@ -10,18 +10,17 @@ import React, { useState } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { AreaDirectorTabParamList } from '../types';
+import { AreaDirectorTabParamList, TABLET_BREAKPOINT } from '../types';
 import { AreaDirectorSidebar } from '../components';
 import { AreaDirectorDashboardScreen } from '../screens/areaDirector';
 import {
   UsersScreen,
-  BadgesScreen,
+  ProgramsScreen,
   ScheduleScreen,
   ReportsScreen,
   SettingsScreen,
 } from '../screens/admin';
 
-const TABLET_BREAKPOINT = 768;
 const Tab = createBottomTabNavigator<AreaDirectorTabParamList>();
 
 /**
@@ -44,7 +43,7 @@ const MobileAreaDirectorNavigator = () => {
             case 'Users':
               iconName = focused ? 'people' : 'people-outline';
               break;
-            case 'Badges':
+            case 'Programs':
               iconName = focused ? 'ribbon' : 'ribbon-outline';
               break;
             case 'Schedule':
@@ -76,7 +75,7 @@ const MobileAreaDirectorNavigator = () => {
     >
       <Tab.Screen name="Dashboard" component={AreaDirectorDashboardScreen} />
       <Tab.Screen name="Users" component={UsersScreen} />
-      <Tab.Screen name="Badges" component={BadgesScreen} />
+      <Tab.Screen name="Programs" component={ProgramsScreen} />
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
       <Tab.Screen name="Reports" component={ReportsScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
@@ -84,11 +83,16 @@ const MobileAreaDirectorNavigator = () => {
   );
 };
 
+/** Props that desktop screens can receive for navigation. */
+type ScreenProps = {
+  onNavigate?: (routeName: string) => void;
+};
+
 /** Map of tab names to screen components for the desktop sidebar layout. */
-const screens: Record<keyof AreaDirectorTabParamList, React.ComponentType> = {
+const screens: Record<keyof AreaDirectorTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: AreaDirectorDashboardScreen,
   Users: UsersScreen,
-  Badges: BadgesScreen,
+  Programs: ProgramsScreen,
   Schedule: ScheduleScreen,
   Reports: ReportsScreen,
   Settings: SettingsScreen,
@@ -110,7 +114,9 @@ const DesktopAreaDirectorNavigator = () => {
         onNavigate={(routeName) => setCurrentRoute(routeName as keyof AreaDirectorTabParamList)}
       />
       <View style={styles.content}>
-        <CurrentScreen />
+        <CurrentScreen
+          onNavigate={(routeName) => setCurrentRoute(routeName as keyof AreaDirectorTabParamList)}
+        />
       </View>
     </View>
   );

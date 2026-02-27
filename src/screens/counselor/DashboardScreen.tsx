@@ -18,8 +18,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
+import { TABLET_BREAKPOINT } from '../../types';
 
-const DESKTOP_BREAKPOINT = 768;
+const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
+
+type CounselorDashboardScreenProps = {
+  onNavigate?: (routeName: string) => void;
+};
 
 type StatCardProps = {
   title: string;
@@ -58,7 +63,7 @@ const QuickAction = ({ title, icon, color, onPress, cardStyle }: QuickActionProp
   </TouchableOpacity>
 );
 
-export const CounselorDashboardScreen = () => {
+export const CounselorDashboardScreen = ({ onNavigate }: CounselorDashboardScreenProps) => {
   const { width } = useWindowDimensions();
   const { user, logout } = useAuth();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
@@ -124,10 +129,10 @@ export const CounselorDashboardScreen = () => {
 
           <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>Quick Actions</Text>
           <View style={[styles.quickActionsGrid, isDesktop && styles.quickActionsGridDesktop]}>
-            <QuickAction title="My Activities" icon="calendar" color="#2563eb" onPress={() => {}} cardStyle={quickActionCardStyle} />
-            <QuickAction title="Take Attendance" icon="person-add" color="#059669" onPress={() => {}} cardStyle={quickActionCardStyle} />
-            <QuickAction title="Review Progress" icon="ribbon" color="#d97706" onPress={() => {}} cardStyle={quickActionCardStyle} />
-            <QuickAction title="Profile" icon="person" color="#6b7280" onPress={() => {}} cardStyle={quickActionCardStyle} />
+            <QuickAction title="My Activities" icon="calendar" color="#2563eb" onPress={() => onNavigate?.('MyActivities')} cardStyle={quickActionCardStyle} />
+            <QuickAction title="Take Attendance" icon="person-add" color="#059669" onPress={() => onNavigate?.('Attendance')} cardStyle={quickActionCardStyle} />
+            <QuickAction title="Review Progress" icon="ribbon" color="#d97706" onPress={() => onNavigate?.('Progress')} cardStyle={quickActionCardStyle} />
+            <QuickAction title="Profile" icon="person" color="#6b7280" onPress={() => onNavigate?.('Profile')} cardStyle={quickActionCardStyle} />
           </View>
 
           <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>Recent Activity</Text>

@@ -1,9 +1,8 @@
 /**
- * DashboardScreen.tsx - Admin Dashboard Home
+ * DashboardScreen.tsx - Developer Dashboard Home
  *
- * First screen admins see after logging in. Shows a greeting, a few stat cards
- * (total users, counselors, active sessions), and quick action buttons for
- * common tasks. Also has a recent activity section (placeholder for now).
+ * First screen developers see after logging in. Has all admin functionality.
+ * Uses purple accent color to distinguish from admin view.
  */
 
 import React from 'react';
@@ -23,10 +22,6 @@ import { TABLET_BREAKPOINT } from '../../types';
 
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
-/**
- * StatCard - Small card showing a number and label with an icon.
- * Used for the overview stats (e.g. Total Users, Counselors).
- */
 type StatCardProps = {
   title: string;
   value: string | number;
@@ -47,10 +42,6 @@ const StatCard = ({ title, value, icon, color, cardStyle }: StatCardProps) => (
   </View>
 );
 
-/**
- * QuickAction - Tappable card that runs an action (e.g. Add User, New Session).
- * Shows an icon and label; onPress is called when the user taps.
- */
 type QuickActionProps = {
   title: string;
   icon: keyof typeof Ionicons.glyphMap;
@@ -68,18 +59,11 @@ const QuickAction = ({ title, icon, color, onPress, cardStyle }: QuickActionProp
   </TouchableOpacity>
 );
 
-/**
- * DashboardScreen Component
- *
- * Renders the admin dashboard: gradient header with greeting and logout,
- * then scrollable content with stats, quick actions, and recent activity.
- * Layout adjusts for desktop (wider padding, different card widths).
- */
-type DashboardScreenProps = {
+type DevDashboardScreenProps = {
   onNavigate?: (routeName: string) => void;
 };
 
-export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
+export const DevDashboardScreen = ({ onNavigate }: DevDashboardScreenProps) => {
   const { width } = useWindowDimensions();
   const { user, logout } = useAuth();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
@@ -88,7 +72,6 @@ export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
   const gap = 12;
   const mobileCardWidth = (width - contentPadding * 2 - gap) / 2;
   const desktopCardMaxWidth = 260;
-  // 3 stat cards: on desktop they share the row (larger max); on mobile 3rd spans full width
   const desktopStatCardMaxWidth = 400;
   const statCardStyle = isDesktop
     ? { flex: 1, minWidth: 0, maxWidth: desktopStatCardMaxWidth, marginHorizontal: gap / 2 }
@@ -109,9 +92,9 @@ export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      {/* Header */}
+      {/* Header - Purple gradient for dev */}
       <LinearGradient
-        colors={['#1e3a5f', '#2d5a7b']}
+        colors={['#5b21b6', '#7c3aed']}
         style={[styles.header, isDesktop && styles.headerDesktop]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -120,10 +103,11 @@ export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
           <View>
             <Text style={styles.greeting}>{getGreeting()}</Text>
             <Text style={[styles.userName, isDesktop && styles.userNameDesktop]}>
-              {user?.user_metadata?.first_name || 'Admin'}
+              {user?.user_metadata?.first_name || 'Developer'}
             </Text>
             <View style={styles.roleBadge}>
-              <Text style={styles.roleBadgeText}>Admin</Text>
+              <Ionicons name="code-slash" size={10} color="#fff" style={{ marginRight: 4 }} />
+              <Text style={styles.roleBadgeText}>Developer</Text>
             </View>
           </View>
           <TouchableOpacity style={styles.logoutButton} onPress={logout}>
@@ -145,7 +129,7 @@ export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
               title="Total Users"
               value="--"
               icon="people"
-              color="#2563eb"
+              color="#7c3aed"
               cardStyle={statCardStyle}
             />
             <StatCard
@@ -168,9 +152,9 @@ export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
           <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>Quick Actions</Text>
           <View style={[styles.quickActionsGrid, isDesktop && styles.quickActionsGridDesktop]}>
             <QuickAction
-              title="Add User"
+              title="Users"
               icon="person-add"
-              color="#2563eb"
+              color="#7c3aed"
               onPress={() => onNavigate?.('Users')}
               cardStyle={quickActionCardStyle}
             />
@@ -252,6 +236,8 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 8,
     marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   roleBadgeText: {
     fontSize: 12,
@@ -285,7 +271,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 12,
   },
-  // Desktop: larger section titles, constrained content width
   headerDesktop: {
     paddingHorizontal: 32,
     paddingVertical: 28,
@@ -300,7 +285,6 @@ const styles = StyleSheet.create({
     marginTop: 28,
     marginBottom: 16,
   },
-  // Stats Grid
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -341,7 +325,6 @@ const styles = StyleSheet.create({
     color: '#6b7280',
     marginTop: 2,
   },
-  // Quick Actions
   quickActionsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -376,7 +359,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#374151',
   },
-  // Activity Card
   activityCard: {
     backgroundColor: '#fff',
     borderRadius: 12,

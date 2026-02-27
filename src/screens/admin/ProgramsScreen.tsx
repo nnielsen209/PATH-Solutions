@@ -1,9 +1,9 @@
 /**
- * BadgesScreen.tsx - Admin Merit Badge Management
+ * ProgramsScreen.tsx - Admin Program Management
  *
- * Single page for admins to manage merit badges. Shows a header, a main card
- * with a count and "Add badge" button, and an empty state until we load
- * badges from Supabase.
+ * Single page for admins to manage programs. Shows a header, a main card
+ * with a count and "Add program" button, and an empty state until we load
+ * programs from Supabase.
  */
 
 import React from 'react';
@@ -17,34 +17,35 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { TABLET_BREAKPOINT } from '../../types';
 
-const DESKTOP_BREAKPOINT = 768;
+const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
-const BADGE_ACCENT_COLOR = '#059669';
+const PROGRAM_ACCENT_COLOR = '#059669';
 
 /**
- * BadgesScreen Component
+ * ProgramsScreen Component
  *
- * Renders the merit badges management page with a header and one main card.
+ * Renders the programs management page with a header and one main card.
  * The card shows a count and Add button; content is empty state for now.
  */
-export const BadgesScreen = () => {
+export const ProgramsScreen = () => {
   const { width } = useWindowDimensions();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
-  const badgeCount = 0;
+  const programCount = 0;
 
-  const handleAddBadge = () => {};
+  const handleAddProgram = () => {};
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={[styles.header, isDesktop && styles.headerDesktop]}>
         <View style={[styles.headerInner, isDesktop && styles.headerInnerDesktop]}>
           <Text style={[styles.title, isDesktop && styles.titleDesktop]}>
-            Merit Badges
+            Programs
           </Text>
           <Text style={styles.subtitle}>
-            Manage merit badges and their requirements
+            Manage programs and their requirements
           </Text>
         </View>
       </View>
@@ -61,47 +62,47 @@ export const BadgesScreen = () => {
         <View style={[styles.mainCard, isDesktop && styles.mainCardDesktop]}>
           <View style={styles.cardHeader}>
             <View style={styles.cardTitleRow}>
-              <View style={[styles.cardIconWrap, { backgroundColor: BADGE_ACCENT_COLOR + '20' }]}>
-                <Ionicons name="ribbon" size={24} color={BADGE_ACCENT_COLOR} />
+              <View style={[styles.cardIconWrap, { backgroundColor: PROGRAM_ACCENT_COLOR + '20' }]}>
+                <Ionicons name="ribbon" size={24} color={PROGRAM_ACCENT_COLOR} />
               </View>
               <View style={styles.cardTitleBlock}>
                 <Text style={[styles.cardTitle, isDesktop && styles.cardTitleDesktop]}>
-                  Merit badges
+                  Programs
                 </Text>
                 <Text style={styles.cardDescription}>
-                  Add and edit badges participants can work on at camp
+                  Add and edit programs participants can work on at camp
                 </Text>
               </View>
               <View style={styles.cardMeta}>
-                <View style={[styles.countBadge, { backgroundColor: BADGE_ACCENT_COLOR + '20' }]}>
-                  <Text style={[styles.countText, { color: BADGE_ACCENT_COLOR }]}>
-                    {badgeCount}
+                <View style={[styles.countBadge, { backgroundColor: PROGRAM_ACCENT_COLOR + '20' }]}>
+                  <Text style={[styles.countText, { color: PROGRAM_ACCENT_COLOR }]}>
+                    {programCount}
                   </Text>
                 </View>
                 <TouchableOpacity
-                  style={[styles.addButton, { borderColor: BADGE_ACCENT_COLOR }]}
-                  onPress={handleAddBadge}
+                  style={[styles.addButton, { borderColor: PROGRAM_ACCENT_COLOR }]}
+                  onPress={handleAddProgram}
                 >
-                  <Ionicons name="add-circle" size={18} color={BADGE_ACCENT_COLOR} />
-                  <Text style={[styles.addButtonText, { color: BADGE_ACCENT_COLOR }]}>
-                    Add badge
+                  <Ionicons name="add-circle" size={18} color={PROGRAM_ACCENT_COLOR} />
+                  <Text style={[styles.addButtonText, { color: PROGRAM_ACCENT_COLOR }]}>
+                    Add program
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
           <View style={styles.cardContent}>
-            {badgeCount === 0 ? (
+            {programCount === 0 ? (
               <View style={styles.emptyState}>
                 <Ionicons name="ribbon-outline" size={48} color="#d1d5db" />
-                <Text style={styles.emptyStateText}>No merit badges yet</Text>
+                <Text style={styles.emptyStateText}>No programs yet</Text>
                 <Text style={styles.emptyStateSubtext}>
-                  Add merit badges to let participants and counselors use them in the system
+                  Add programs to let participants and counselors use them in the system
                 </Text>
               </View>
             ) : (
               <View style={styles.placeholderList}>
-                <Text style={styles.placeholderListText}>Badge list will load here</Text>
+                <Text style={styles.placeholderListText}>Program list will load here</Text>
               </View>
             )}
           </View>

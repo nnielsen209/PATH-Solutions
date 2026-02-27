@@ -1,13 +1,17 @@
 /**
- * AreaDirectorSidebar.tsx - Left Navigation Sidebar for Area Director
+ * DevSidebar.tsx - Left Navigation Sidebar for Developer
  *
- * Used on tablet and desktop for area directors. Has the same six links as
- * the admin sidebar (Dashboard, Users, Programs, Schedule, Reports, Settings)
- * but the footer label says "Area Director" so it's clear which role is in use.
+ * Used on tablet and desktop so developers can switch between screens without
+ * a bottom tab bar. Same structure as Admin but with dev-specific branding.
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -18,7 +22,7 @@ type NavItem = {
   iconFocused: keyof typeof Ionicons.glyphMap;
 };
 
-type AreaDirectorSidebarProps = {
+type DevSidebarProps = {
   currentRoute: string;
   onNavigate: (routeName: string) => void;
 };
@@ -33,20 +37,22 @@ const navItems: NavItem[] = [
 ];
 
 /**
- * AreaDirectorSidebar Component
+ * DevSidebar Component
  *
- * Renders the left sidebar for area directors on large screens. Highlights
- * the current route and calls onNavigate when the user taps a different item.
+ * Renders the left sidebar for developers on large screens. Highlights the current
+ * route and calls onNavigate when the user taps a different item.
  */
-export const AreaDirectorSidebar = ({ currentRoute, onNavigate }: AreaDirectorSidebarProps) => {
+export const DevSidebar = ({ currentRoute, onNavigate }: DevSidebarProps) => {
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left']}>
+      {/* Logo/Brand */}
       <View style={styles.brand}>
         <View style={styles.logoContainer}>
-          <Ionicons name="compass" size={32} color="#fff" />
+          <Ionicons name="code-slash" size={32} color="#fff" />
         </View>
         <Text style={styles.brandText}>PATHSOLUTIONS</Text>
       </View>
+
       <View style={styles.nav}>
         {navItems.map((item) => {
           const isActive = currentRoute === item.name;
@@ -59,16 +65,22 @@ export const AreaDirectorSidebar = ({ currentRoute, onNavigate }: AreaDirectorSi
               <Ionicons
                 name={isActive ? item.iconFocused : item.icon}
                 size={22}
-                color={isActive ? '#2563eb' : '#6b7280'}
+                color={isActive ? '#7c3aed' : '#6b7280'}
               />
-              <Text style={[styles.navLabel, isActive && styles.navLabelActive]}>{item.label}</Text>
+              <Text style={[styles.navLabel, isActive && styles.navLabelActive]}>
+                {item.label}
+              </Text>
             </TouchableOpacity>
           );
         })}
       </View>
+
       <View style={styles.footer}>
         <View style={styles.divider} />
-        <Text style={styles.footerText}>Area Director</Text>
+        <View style={styles.devBadge}>
+          <Ionicons name="construct" size={12} color="#7c3aed" />
+          <Text style={styles.footerText}>Developer Mode</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -95,17 +107,62 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 12,
-    backgroundColor: '#1e3a5f',
+    backgroundColor: '#7c3aed',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  brandText: { fontSize: 16, fontWeight: 'bold', color: '#1f2937', marginLeft: 12 },
-  nav: { flex: 1, paddingHorizontal: 12 },
-  navItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, paddingHorizontal: 12, borderRadius: 8, marginBottom: 4 },
-  navItemActive: { backgroundColor: '#eff6ff' },
-  navLabel: { fontSize: 15, color: '#6b7280', marginLeft: 12, fontWeight: '500' },
-  navLabelActive: { color: '#2563eb', fontWeight: '600' },
-  footer: { paddingHorizontal: 16 },
-  divider: { height: 1, backgroundColor: '#e5e7eb', marginBottom: 16 },
-  footerText: { fontSize: 12, color: '#9ca3af', textAlign: 'center' },
+  brandText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1f2937',
+    marginLeft: 12,
+  },
+  nav: {
+    flex: 1,
+    paddingHorizontal: 12,
+  },
+  navItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    marginBottom: 4,
+  },
+  navItemActive: {
+    backgroundColor: '#f5f3ff',
+  },
+  navLabel: {
+    fontSize: 15,
+    color: '#6b7280',
+    marginLeft: 12,
+    fontWeight: '500',
+  },
+  navLabelActive: {
+    color: '#7c3aed',
+    fontWeight: '600',
+  },
+  footer: {
+    paddingHorizontal: 16,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#e5e7eb',
+    marginBottom: 16,
+  },
+  devBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f5f3ff',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+  },
+  footerText: {
+    fontSize: 12,
+    color: '#7c3aed',
+    fontWeight: '600',
+    marginLeft: 6,
+  },
 });

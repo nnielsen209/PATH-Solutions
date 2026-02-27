@@ -21,14 +21,12 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '../../types';
+import { AuthStackParamList, UserRole } from '../../types';
 import { supabase } from '../../services/supabase';
 
 type RegisterScreenProps = {
   navigation: NativeStackNavigationProp<AuthStackParamList, 'Register'>;
 };
-
-type UserRole = 'admin' | 'counselor' | 'area_director';
 
 interface RoleOption {
   value: UserRole;
@@ -41,7 +39,7 @@ interface RoleOption {
 const roleOptions: RoleOption[] = [
   { value: 'admin', label: 'Admin', description: 'Camp administrator with full access', icon: 'shield-checkmark' },
   { value: 'counselor', label: 'Counselor', description: 'Camp staff member', icon: 'people' },
-  { value: 'area_director', label: 'Area Director', description: 'Area director overseeing camp operations', icon: 'business' },
+  { value: 'areadirector', label: 'Area Director', description: 'Area director overseeing camp operations', icon: 'business' },
 ];
 
 /**
