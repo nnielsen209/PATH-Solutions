@@ -1,0 +1,84 @@
+{
+  "badge_name": "Fishing",
+  "badge_desc": "Fishing is one of Scouting’s essential skills and teaches Scouts to feed themselves, their troops, and their families. In their pursuit of the Fishing Merit Badge, Scouts will demonstrate how to use fishing equipment properly, tie various fishing knots, identify natural fishing baits and artificial lures, and explain safety practices to follow while fishing.",
+  "eagle_badge": false,
+  "dpmt_name": "AQUATICS",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain to your counselor the most likely hazards you may encounter while participating in fishing activities, and what you should do to anticipate, help prevent, mitigate, and respond to these hazards."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss the prevention of and treatment for the following health concerns that could occur while fishing: cuts and scratches, puncture wounds, insect bites, hypothermia, dehydration, heat exhaustion, heatstroke, and sunburn."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain how to remove a barbed hook that is lodged in someone's arm."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Name and explain five safety practices you should always follow while fishing."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Discuss the differences between two types of fishing outfits. Point out and identify the parts of several types of rods and reels. Explain how and when each would be used. Review with your counselor how to care for this equipment.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Demonstrate the proper use of two different types of fishing equipment.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Demonstrate how to tie the following knots: improved clinch knot, Palomar knot, uni knot, uni to uni knot, and arbor knot. Explain how and when each knot is used.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Name and identify five basic artificial lures and five natural baits and explain how to fish with them. Explain why baitfish are not to be released.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain the importance of practicing Leave No Trace Seven Principles and the Outdoor Code. Discuss the positive effects of Leave No Trace Seven Principle and the Outdoor Code on fishing resources."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss the meaning and importance of catch and release. Describe how to properly release a fish safely to the water."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Obtain and review the regulations affecting gamefishing where you live. Explain why they were adopted and what is accomplished by following them.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Explain what good outdoor sportsmanlike behavior is and how it relates to anglers. Tell how the Leave No Trace Seven Principles and the Outdoor Code relate to a fishing sports enthusiast, including the aspects of littering, trespassing, courteous behavior, and obeying fishing regulations.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "9",
+      "rqmt_desc": "Catch one fish and identify it.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "10",
+      "rqmt_desc": "If regulations and health concerns permit, clean and cook a fish you have caught. If you are unable to catch a fish for eating, acquire a fish, clean the fish you acquired, and cook the fish you acquired. Note: It is not required that you eat the fish.",
+      "requirements": []
+    }
+  ]
+}
