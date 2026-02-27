@@ -41,3 +41,9 @@ nul
 # generated native folders
 /ios
 /android
+
+# python and pycharm
+
+.idea/
+*/.idea/
+*/__pycache__/
