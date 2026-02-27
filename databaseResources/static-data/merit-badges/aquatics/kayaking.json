@@ -1,0 +1,171 @@
+{
+  "badge_name": "Kayaking",
+  "badge_desc": "Kayaking has become one of the fastest-growing paddlesports in the United States. An estimated nine million Americans enjoy this sport. The most popular style of kayaking is recreational kayaking, followed by touring/sea kayaking, and whitewater kayaking. This merit badge will introduce you to recreational kayaking and help prepare you for advanced paddlesports such as tour/sea and whitewater kayaking.",
+  "eagle_badge": false,
+  "dpmt_name": "AQUATICS",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain to your counselor the hazards you are most likely to encounter while participating in kayaking activities, including weather and water-related hazards, and what you should do to anticipate, help prevent, mitigate, and respond to these hazards."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Review prevention, symptoms, and first-aid treatment for the following injuries or illnesses that can occur while kayaking: blisters, cold-water shock and hypothermia, heat-related illnesses, dehydration, sunburn, sprains, and strains."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Review the Scouting America Safety Afloat policy. Explain to your counselor how this applies to kayaking."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Before doing requirements 3 through 8, successfully complete the Scouting America swimmer test. Note: See the Swimming merit badge pamphlet for details about the Scouting America swimmer test.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Review the characteristics of life jackets most appropriate for kayaking and understand why one must always be worn while paddling. Then demonstrate how to select and fit a life jacket for kayaking."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Review the importance of safety equipment such as a signal device, extra paddle, sponge, bilge pump, flotation bags, and throw bag."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Name and point out the major parts of a kayak."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Review the differences in the design between recreational, whitewater, and sea or touring kayaks. Include how length, width, stability, and rocker are involved in the design of each type."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the care, maintenance, and storage of a kayak."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Discuss the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Correct methods for the use of a kayak paddle"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Parts of a paddle"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "The care and maintenance of a paddle"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Using a properly equipped kayak with an open cockpit, a sit-on-top, or an inflatable kayak, do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Safely capsize and perform a wet exit."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Reenter the kayak with assistance from a buddy boat."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Demonstrate a kayak-over-kayak rescue."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Demonstrate the HELP position."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Capsize the kayak, swim it and the paddle to shore, and empty water from the kayak with assistance if needed."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "As a solo paddler, use a properly equipped kayak to demonstrate the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Forward stroke"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Backstroke"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Forward sweep"
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Reverse sweep"
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Draw stroke"
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Stern draw"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "As a solo paddler, use a properly equipped kayak to demonstrate the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Paddle a straight line for 15 to 20 boat lengths using appropriate strokes while maintaining trim and balance of the kayak."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Spin or pivot from a stationary position 180 degrees (half circle) to the right and left within two boat lengths."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Move abeam to the right 10 feet and to the left 10 feet."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Stop the boat in one boat length."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "While maintaining forward motion, turn the kayak 90 degrees to the right and left."
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Move the kayak backward three to four boat lengths using appropriate and effective reverse strokes."
+        },
+        {
+          "rqmt_idnf": "g",
+          "rqmt_desc": "Paddle the kayak in a buoyed figure 8 course around markers three to four boat lengths apart."
+        }
+      ]
+    }
+  ]
+}

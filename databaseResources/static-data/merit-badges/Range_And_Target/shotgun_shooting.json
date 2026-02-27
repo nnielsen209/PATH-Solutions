@@ -1,0 +1,178 @@
+{
+  "badge_name": "Shotgun Shooting",
+  "badge_desc": "Learning to shoot is like mastering any other skill — it takes study and practice. The Shotgun Shooting merit badge is an introduction to safely using basic skills to hit the target. Once you have mastered the fundamentals, you can begin to apply them to a variety of shotgun activities.",
+  "eagle_badge": false,
+  "dpmt_name": "Range And Target",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain what a projectile is, and why any device that shoots a projectile at high speed must be handled with care and respect, and used only in approved locations."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain the basic rules of safe gun handling that apply to all firearms."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Describe how you would react if a friend visiting your home asked to see your or your family's firearm."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Explain the need for, types, and use of eye protection and hearing protection."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Explain the main points of the laws for owning and using guns in your community and state."
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Explain how hunting is related to the wise use of renewable wildlife resources."
+        },
+        {
+          "rqmt_idnf": "g",
+          "rqmt_desc": "Successfully complete a state hunter education course, or obtain a copy of the hunting laws for your state, then do the following:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Explain the main points of hunting laws in your state, and any special laws on the use of guns and ammunition."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "List the kinds of wildlife that can be legally hunted in your state."
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "h",
+          "rqmt_desc": "Explain to your counselor the proper hygienic guidelines followed while shooting."
+        },
+        {
+          "rqmt_idnf": "i",
+          "rqmt_desc": "List and explain three shotgun sports. Identify places in your community where you could practice these sports, and explain how you can join or be a part of range and target activities."
+        },
+        {
+          "rqmt_idnf": "j",
+          "rqmt_desc": "Discuss with your counselor a list of sources you could contact for information on firearms and their use."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Working under the supervision of a certified National Rifle Association (NRA) Shotgun instructor and a certified range safety officer, at a nationally authorized camp property or at a commercial firearm range (as defined in the Scouting America National Range and Target Activities Manual), do ONE of the following options:",
+      "requirements": [
+        {
+          "rqmt_idnf": "Option A",
+          "rqmt_desc": "Shotgun Shooting (Modern Shotshell Type). Do ALL of the following:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Identify and explain the principal parts of a shotgun, action types, and how they function."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Identify and demonstrate the rules for safely storing and handling a shotgun."
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Identify the parts of a shotgun shell and their functions."
+            },
+            {
+              "rqmt_idnf": "4",
+              "rqmt_desc": "Identify the various gauges of shotguns. Explain which you would choose for a particular use and why."
+            },
+            {
+              "rqmt_idnf": "5",
+              "rqmt_desc": "Identify the causes of a shotgun's failure to fire, and explain what a misfire, hangfire, and squib fire are. Explain and demonstrate proper preventive measures, and the procedures to follow in response to each."
+            },
+            {
+              "rqmt_idnf": "6",
+              "rqmt_desc": "Demonstrate the knowledge, skills, and attitude necessary to safely shoot a shotgun on a range, including understanding and following range procedures and commands."
+            },
+            {
+              "rqmt_idnf": "7",
+              "rqmt_desc": "Explain the basic safety rules for cleaning a shotgun, and identify the materials needed."
+            },
+            {
+              "rqmt_idnf": "8",
+              "rqmt_desc": "Demonstrate how to clean a shotgun properly and safely."
+            },
+            {
+              "rqmt_idnf": "9",
+              "rqmt_desc": "Discuss what points you would consider in selecting a shotgun."
+            },
+            {
+              "rqmt_idnf": "10",
+              "rqmt_desc": "Shoot a moving target with a muzzleloading shotgun using the four fundamentals of firing a shot: position, mount, vision, and movement. Shooting score required: Hit at least 5 out of 15 targets in each of two 15-target groups. The two groups need not be shot in consecutive order. A minimum of 30 shots must be fired."
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "Option B",
+          "rqmt_desc": "Muzzleloading Shotgun Shooting. Do ALL of the following:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Discuss with your counselor a brief history of the development of the muzzleloading shotgun."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Identify principal parts of muzzleloading shotguns and discuss how they function."
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Identify and demonstrate the rules for safely storing and handling a muzzleloading shotgun."
+            },
+            {
+              "rqmt_idnf": "4",
+              "rqmt_desc": "Identify the various grades of black powder and explain their proper and safe use."
+            },
+            {
+              "rqmt_idnf": "5",
+              "rqmt_desc": "Discuss proper safety procedures pertaining to black powder storage."
+            },
+            {
+              "rqmt_idnf": "6",
+              "rqmt_desc": "Discuss proper components of a load."
+            },
+            {
+              "rqmt_idnf": "7",
+              "rqmt_desc": "Identify proper procedures and accessories used for safely loading a muzzleloading shotgun."
+            },
+            {
+              "rqmt_idnf": "8",
+              "rqmt_desc": "Identify the causes of a muzzleloading shotgun's failure to fire, and explain what a misfire, hangfire, and squib fire are. Explain and demonstrate proper preventive measures, and the procedures to follow in response to each."
+            },
+            {
+              "rqmt_idnf": "9",
+              "rqmt_desc": "Demonstrate the knowledge, skills, and attitude necessary to safely shoot a muzzleloading shotgun on a range, including understanding and following range procedures and commands."
+            },
+            {
+              "rqmt_idnf": "10",
+              "rqmt_desc": "Explain the basic safety rules for cleaning a muzzleloading shotgun, and identify the materials needed."
+            },
+            {
+              "rqmt_idnf": "11",
+              "rqmt_desc": "Demonstrate how to clean a muzzleloading shotgun properly and safely."
+            },
+            {
+              "rqmt_idnf": "12",
+              "rqmt_desc": "Discuss what points you would consider in selecting a muzzleloading shotgun."
+            },
+            {
+              "rqmt_idnf": "13",
+              "rqmt_desc": "Shoot a moving target with a muzzleloading shotgun using the four fundamentals of firing a shot: position, mount, vision, and movement. Shooting score required: Hit at least 5 out of 15 targets in each of two 15-target groups. The two groups need not be shot in consecutive order. A minimum of 30 shots must be fired."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Identify how you could apply the skills and knowledge of safe and responsible use of firearms you learned in this merit badge to pursue a career or personal hobby. Research the additional training and experience you would need, expenses you may incur, and the affiliation with organizations that could help you maximize the positive impact and enjoyment you gain from it. Discuss what you learned with your counselor, and share what short-term and long-term goals you might have if you pursued this."
+    }
+  ]
+}
