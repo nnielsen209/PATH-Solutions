@@ -12,7 +12,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, useAuth } from './src/context/AuthContext';
-import { AuthNavigator, AdminNavigator, CounselorNavigator, AreaDirectorNavigator, DevNavigator } from './src/navigation';
+import { AuthNavigator, AdminNavigator, CounselorNavigator, AreaDirectorNavigator, DevNavigator, LeaderNavigator } from './src/navigation';
 
 /**
  * Shown when the user is logged in but has no valid role (e.g. role missing or unsupported).
@@ -35,7 +35,7 @@ const RedirectToLogin = () => {
  * RootNavigator Component
  *
  * Decides what to show based on auth state: loading spinner, login/register,
- * or the dashboard for the user's role (admin, counselor, area_director).
+ * or the dashboard for the user's role (admin, counselor, area_director, leader).
  * If the user has no valid role, we sign them out and redirect to login.
  */
 const RootNavigator = () => {
@@ -75,6 +75,9 @@ const RootNavigator = () => {
   }
   if (userRole === 'AREA_DIRECTOR') {
     return <AreaDirectorNavigator />;
+  }
+  if (userRole === 'LEADER') {
+    return <LeaderNavigator />;
   }
 
   return <RedirectToLogin />;
