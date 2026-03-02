@@ -40,10 +40,10 @@ export const ScheduleScreen = () => {
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
 
-  //allow a few roles to edit 
+  //allow a few roles to edit
   const canEdit =
-    userRole === 'dev' ||
-    userRole === 'admin' 
+    userRole === 'DEV' ||
+    userRole === 'ADMIN' 
 
   const [showModal, setShowModal] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);

@@ -61,28 +61,28 @@ type RoleSectionConfig = {
 // User roles (excludes scout since scouts are in separate table)
 const ROLE_SECTIONS: RoleSectionConfig[] = [
   {
-    role: 'dev',
+    role: 'DEV',
     label: 'Developers',
     description: 'Developers with full access and role switching',
     icon: 'code-slash',
     color: '#7c3aed',
   },
   {
-    role: 'admin',
+    role: 'ADMIN',
     label: 'Admins',
     description: 'Camp administrators with full access',
     icon: 'shield-checkmark',
     color: '#dc2626',
   },
   {
-    role: 'areadirector',
+    role: 'AREA_DIRECTOR',
     label: 'Area Directors',
     description: 'Area directors overseeing camp operations',
     icon: 'business',
     color: '#2563eb',
   },
   {
-    role: 'counselor',
+    role: 'COUNSELOR',
     label: 'Counselors',
     description: 'Camp staff who teach merit badge classes',
     icon: 'people',

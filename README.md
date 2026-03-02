@@ -69,10 +69,10 @@ src/
 ### Version 1.0 - Current Working Features
 
 #### Authentication System
-- **Login & Registration** - Full email/password authentication via Supabase Auth
+- **Login & Registration** - Full email/password authentication via Supabase Auth (CURRENTLY DISABLED FOR EASE OF USE)
 - **Role-Based Routing** - Automatic navigation to role-specific dashboards after login
 - **Session Persistence** - Sessions stored securely (Expo Secure Store on mobile, localStorage on web)
-- **Password Reset** - Email-based password recovery functionality
+- **Password Reset** - Email-based password recovery functionality - WILL BE ADDED (CURRENTLY DISABLED FOR EASE OF USE)
 - **Password Change** - In-app password change with current password verification
 - **Logout** - Available from all dashboard headers
 
@@ -114,7 +114,7 @@ Five distinct user roles with tailored experiences:
 
 #### Modals & Forms
 - **Add Scout Modal** - Create scouts with first name, last name, and troop selection (dropdown with all troops fetched from database)
-- **Add Activity Modal** - Create activities with name, date picker (60-day range), time picker (7 AM - 5 PM, 30-min intervals), duration selector (30 min - 3 hours), and optional program/badge association
+- **Add Activity Modal** - Create activities with name, date picker (60-day range), time picker (7 AM - 5 PM, 30-min intervals), duration selector (30 min - 3 hours), and optional program/badge association WILL BE CHANGED TO PERIODS INSTEAD OF 7am - 5 pm excluding the need for duration selector
 
 #### Responsive Design
 - **Mobile (< 768px)** - Bottom tab navigation with icons and labels
@@ -146,8 +146,7 @@ Five distinct user roles with tailored experiences:
 
 ### Known Limitations / In Progress
 - **Programs Screen** - UI ready, list population not yet implemented
-- **Reports Screen** - Framework in place, report generation logic pending
-- **Attendance Marking** - Screen ready, attendance recording logic pending
-- **Progress Review** - Screen ready, badge progress workflow pending
+- **Reports Screen** - Framework in place, report generation logic in progress
+- **Progress Review** - Screen ready, badge progress workflow in progress
 - **Recent Activity** - Dashboard sections prepared but not yet connected to real-time data
-- **Camp Settings** - Placeholder for future camp configuration options
+

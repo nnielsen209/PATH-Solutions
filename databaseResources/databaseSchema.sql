@@ -177,20 +177,20 @@ BEGIN
 	-- Extract requested role from metadata
 	requested_role := NEW.raw_user_meta_data->>'role';
 	
-	-- Whitelist + controlled defaulting
+	-- Whitelist + controlled defaulting (uppercase to match enum)
 	CASE requested_role
-		WHEN 'admin' THEN final_role := 'admin';
-		WHEN 'counselor' THEN final_role := 'counselor';
-		WHEN 'dev' THEN final_role := 'dev';
-		WHEN 'scout' THEN final_role := 'scout';
-		WHEN 'leader' THEN final_role := 'leader';
-		WHEN 'areadirector' THEN final_role := 'areadirector';
-		WHEN NULL THEN final_role := 'scout';  -- No role provided
+		WHEN 'ADMIN' THEN final_role := 'ADMIN';
+		WHEN 'COUNSELOR' THEN final_role := 'COUNSELOR';
+		WHEN 'DEV' THEN final_role := 'DEV';
+		WHEN 'SCOUT' THEN final_role := 'SCOUT';
+		WHEN 'LEADER' THEN final_role := 'LEADER';
+		WHEN 'AREA_DIRECTOR' THEN final_role := 'AREA_DIRECTOR';
+		WHEN NULL THEN final_role := 'SCOUT';  -- No role provided
 		ELSE
 			-- Log suspicious or invalid role attempts
-			RAISE LOG 'Invalid role "%" requested for user %, defaulting to scout.',
+			RAISE LOG 'Invalid role "%" requested for user %, defaulting to SCOUT.',
 				requested_role, NEW.id;
-			final_role := 'scout';
+			final_role := 'SCOUT';
 	END CASE;
 	
 	-- Insert profile (if this fails, whole transaction fails — desired)

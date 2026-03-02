@@ -3,10 +3,10 @@
  *
  * First screen admins see after logging in. Shows a greeting, a few stat cards
  * (total users, counselors, active sessions), and quick action buttons for
- * common tasks. Also has a recent activity section (placeholder for now).
+ * common tasks. Fetches real counts from Supabase.
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
 import { TABLET_BREAKPOINT } from '../../types';
+import { supabase } from '../../services/supabase';
 
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
@@ -84,6 +85,32 @@ export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
   const { user, logout } = useAuth();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
 
+  const [totalUsers, setTotalUsers] = useState<number | null>(null);
+  const [counselorCount, setCounselorCount] = useState<number | null>(null);
+  const [activityCount, setActivityCount] = useState<number | null>(null);
+
+  /** Fetch dashboard stats from Supabase */
+  const fetchStats = useCallback(async () => {
+    try {
+      // Fetch all stats in parallel
+      const [usersResult, counselorsResult, activitiesResult] = await Promise.all([
+        supabase.from('users').select('user_id', { count: 'exact', head: true }),
+        supabase.from('users').select('user_id', { count: 'exact', head: true }).eq('user_role', 'COUNSELOR'),
+        supabase.from('activity').select('activity_id', { count: 'exact', head: true }),
+      ]);
+
+      if (!usersResult.error) setTotalUsers(usersResult.count ?? 0);
+      if (!counselorsResult.error) setCounselorCount(counselorsResult.count ?? 0);
+      if (!activitiesResult.error) setActivityCount(activitiesResult.count ?? 0);
+    } catch (err) {
+      console.error('Error fetching dashboard stats:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
+
   const contentPadding = isDesktop ? 32 : 20;
   const gap = 12;
   const mobileCardWidth = (width - contentPadding * 2 - gap) / 2;
@@ -143,21 +170,21 @@ export const DashboardScreen = ({ onNavigate }: DashboardScreenProps) => {
           <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
             <StatCard
               title="Total Users"
-              value="--"
+              value={totalUsers ?? '--'}
               icon="people"
               color="#2563eb"
               cardStyle={statCardStyle}
             />
             <StatCard
               title="Counselors"
-              value="--"
+              value={counselorCount ?? '--'}
               icon="school"
               color="#059669"
               cardStyle={statCardStyle}
             />
             <StatCard
-              title="Active Sessions"
-              value="--"
+              title="Activities"
+              value={activityCount ?? '--'}
               icon="calendar"
               color="#d97706"
               cardStyle={statCardStyleThird}

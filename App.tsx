@@ -64,16 +64,16 @@ const RootNavigator = () => {
     );
   }
 
-  if (userRole === 'dev') {
+  if (userRole === 'DEV') {
     return <DevNavigator />;
   }
-  if (userRole === 'admin') {
+  if (userRole === 'ADMIN') {
     return <AdminNavigator />;
   }
-  if (userRole === 'counselor') {
+  if (userRole === 'COUNSELOR') {
     return <CounselorNavigator />;
   }
-  if (userRole === 'areadirector') {
+  if (userRole === 'AREA_DIRECTOR') {
     return <AreaDirectorNavigator />;
   }
 
