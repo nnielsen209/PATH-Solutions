@@ -123,4 +123,6 @@ for merit_badge_list in departments_with_merit_badges_out.values():
         print(MeritBadge.eagle_badge)
         print(MeritBadge.dpmt_name)
         print_all_requirements(MeritBadge.requirements, "\t")
-# add_merit_badges_by_dpmt(departments_with_merit_badges_out, supabase)
+
+
+add_merit_badges_by_dpmt(departments_with_merit_badges_out, supabase)
