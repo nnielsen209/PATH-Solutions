@@ -91,28 +91,27 @@ export interface MeritBadge {
   name: string;
   description: string;
   imageUrl?: string;
-  category: BadgeCategory;
+  area: BadgeArea;
   requirements: Requirement[];
   prerequisites: Prerequisite[];
   isEagleRequired: boolean; // True if required for Eagle Scout rank
 }
 
 /**
- * BadgeCategory - Categories to organize merit badges
- * Based on official Scouting America categories
+ * BadgeArea - Categories to organize merit badges
+ * Based on camp organization
  */
-export type BadgeCategory =
-  | 'aquatics'
-  | 'citizenship'
-  | 'communication'
-  | 'emergency_preparedness'
-  | 'environment'
-  | 'fitness'
-  | 'nature'
-  | 'outdoor_skills'
-  | 'safety'
-  | 'sports'
-  | 'trades';
+export type BadgeArea =
+  | 'AQUATICS'
+  | 'COPE'
+  | 'EAGLE'
+  | 'HANDICRAFT'
+  | 'INNOVATION_SCOUTING'
+  | 'MIC_O_SAY'
+  | 'NATURE'
+  | 'RATA'
+  | 'SCOUTCRAFT'
+  | 'TRADES';
 
 /**
  * Requirement - A single requirement for a merit badge
