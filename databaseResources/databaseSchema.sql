@@ -217,6 +217,28 @@ WITH CHECK (
 	auth.uid() = user_id
 );
 
+CREATE TABLE IF NOT EXISTS public.attendance (
+	activity_id uuid NOT NULL,
+	scout_id uuid NOT NULL, 
+	monday boolean DEFAULT false,
+	tuesday boolean DEFAULT false,
+	wednesday boolean DEFAULT false,
+	thursday boolean DEFAULT false,
+	friday boolean DEFAULT false,
+	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+	CONSTRAINT attendance_pkey PRIMARY KEY (activity_id, scout_id);
+);
+
+CREATE TABLE IF NOT EXISTS public.period (
+	period_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	period_nmbr integer NOT NULL, 
+	period_time time NOT NULL, 
+	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+	CONSTRAINT period_pkey PRIMARY KEY (period_id)
+);
+	
+
+
 -- ============================================
 -- HANDLE NEW AUTH USER → INSERT INTO public.users
 -- ============================================
@@ -376,6 +398,16 @@ BEFORE UPDATE ON public.activity
 FOR EACH ROW 
 EXECUTE FUNCTION public.set_last_updated_date();
 
+CREATE TRIGGER trg_attendance_last_updated
+BEFORE UPDATE ON public.attendance
+FOR EACH ROW 
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_period_last_updated
+BEFORE UPDATE ON public.period
+FOR EACH ROW 
+EXECUTE FUNCTION public.set_last_updated_date();
+
 
 -- =====================================================================
 -- TRIGGERS FOR ENFORCING-BADGE-HEIRARCHY enforce_same_badge FUNCTION
@@ -506,6 +538,23 @@ ALTER TABLE IF EXISTS public.activity
 	MATCH SIMPLE
 	ON UPDATE NO ACTION
 	ON DELETE SET NULL;
+	
+	
+ALTER TABLE IF EXISTS public.attendance
+	ADD CONSTRAINT attendance_activity_id_fkey
+	FOREIGN KEY(activity_id)
+	REFERENCES public.activity (activity_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
+	
+ALTER TABLE IF EXISTS public.attendance
+	ADD CONSTRAINT attendance_scout_id_fkey
+	FOREIGN KEY(scout_id)
+	REFERENCES public.scout (scout_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
 
 
 -- ============================================
@@ -567,3 +616,10 @@ CREATE INDEX idx_scout_badge_rqmt_signed_by_id
 -- activity
 CREATE INDEX idx_activity_badge_id
 	ON public.activity(badge_id);
+	
+-- attendance
+CREATE INDEX idx_attendance_activity_id
+	ON public.attendance(activity_id)
+	
+CREATE INDEX idx_attendance_scout_id
+	ON public.attendance(scout_id)
