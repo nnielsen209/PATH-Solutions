@@ -20,7 +20,7 @@ export const TABLET_BREAKPOINT = 768;
  * - AREA_DIRECTOR: Area director overseeing operations
  * - SCOUT: Scout/participant
  */
-export type UserRole = 'DEV' | 'ADMIN' | 'COUNSELOR' | 'AREA_DIRECTOR' | 'SCOUT';
+export type UserRole = 'DEV' | 'ADMIN' | 'COUNSELOR' | 'AREA_DIRECTOR' | 'SCOUT' | `LEADER`;
 
 /**
  * Check if a role has admin-level access (DEV or ADMIN).
@@ -287,4 +287,13 @@ export type DevTabParamList = {
   Schedule: undefined;
   Reports: undefined;
   Settings: undefined;
+};
+
+// Leader tab navigation (view-only access)
+export type LeaderTabParamList = {
+  Dashboard: undefined;
+  Scouts: undefined;
+  Schedule: undefined;
+  Progress: undefined;
+  Profile: undefined;
 };

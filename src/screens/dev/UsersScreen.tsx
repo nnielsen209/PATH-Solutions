@@ -88,6 +88,13 @@ const ROLE_SECTIONS: RoleSectionConfig[] = [
     icon: 'people',
     color: '#059669',
   },
+  {
+    role: 'LEADER',
+    label: 'Leaders',
+    description: 'Troop leaders with view-only access',
+    icon: 'flag',
+    color: '#16a34a',
+  },
 ];
 
 /** Get config for a specific role */
@@ -543,7 +550,7 @@ export const DevUsersScreen = () => {
               <Text style={styles.statValue}>{users.length}</Text>
               <Text style={styles.statLabel}>Total Users</Text>
             </View>
-            {ROLE_SECTIONS.slice(0, 4).map((config) => (
+            {ROLE_SECTIONS.map((config) => (
               <View key={config.role} style={styles.statItem}>
                 <Text style={[styles.statValue, { color: config.color }]}>
                   {usersByRole[config.role]?.length || 0}

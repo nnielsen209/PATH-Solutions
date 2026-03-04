@@ -80,6 +80,13 @@ const ROLE_SECTIONS: RoleSectionConfig[] = [
     icon: 'people',
     color: '#059669',
   },
+  {
+    role: 'LEADER',
+    label: 'Leaders',
+    description: 'Troop leaders with view-only access',
+    icon: 'flag',
+    color: '#16a34a',
+  },
 ];
 
 /** Get config for a specific role */
