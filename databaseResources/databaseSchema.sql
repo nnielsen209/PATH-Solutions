@@ -13,7 +13,7 @@ DROP TYPE IF EXISTS troop_type;
 DROP TYPE IF EXISTS user_role;
 
 CREATE TYPE troop_type AS ENUM ('BTROOP', 'GTROOP', 'MTROOP');
-CREATE TYPE user_role AS ENUM ('ADMIN', 'COUNSELOR', 'SCOUT', 'LEADER', 'AREA_DIRECTOR', 'DEV');
+CREATE TYPE user_role AS ENUM ('DEV', 'ADMIN', 'AREA_DIRECTOR' 'COUNSELOR', 'LEADER', 'SCOUT');
 
 CREATE TABLE IF NOT EXISTS public.camp_dpmt (
 	dpmt_id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -161,6 +161,61 @@ ON public.users
 AS PERMISSIVE
 FOR SELECT
 USING (auth.uid() = user_id);
+
+-- Policy 2: Admins and Devs can read all users, Area Directors and Counselors can read all Area Directors, Counselors, Leaders, and Scouts
+CREATE POLICY "Admins and Devs can read all users, Area Directors and Counselors can read all Area Directors, Counselors, Leaders, and Scouts"
+ON public.users
+AS PERMISSIVE
+FOR SELECT
+USING ( 
+	EXISTS ( 
+		SELECT 1 
+		FROM public.users AS me 
+		WHERE me.user_id = auth.uid() 
+		AND ( 
+			-- Admins and Devs can read everything 
+			me.user_role IN ('ADMIN', 'DEV') 
+			
+			-- Area Directors and Counselors can read only non-admin/dev users 
+			OR ( 
+				me.user_role IN ('AREA_DIRECTOR', 'COUNSELOR') 
+				AND users.user_role NOT IN ('ADMIN', 'DEV') 
+			) 
+		) 
+	) 
+);
+
+-- Policy 3: Devs can update any user's role (for testing/development)
+CREATE POLICY "Devs can update user roles"
+ON public.users
+AS PERMISSIVE
+FOR UPDATE
+USING (
+	EXISTS (
+		SELECT 1 FROM public.users
+		WHERE user_id = auth.uid()
+		AND user_role = 'DEV'
+	)
+)
+WITH CHECK (
+	EXISTS (
+		SELECT 1 FROM public.users
+		WHERE user_id = auth.uid()
+		AND user_role = 'DEV'
+	)
+);
+
+-- Policy 4: Users can update their own profile (except role)
+CREATE POLICY "Users can update their own profile"
+ON public.users
+AS PERMISSIVE
+FOR UPDATE
+USING (
+	auth.uid() = user_id
+)
+WITH CHECK (
+	auth.uid() = user_id
+);
 
 -- ============================================
 -- HANDLE NEW AUTH USER → INSERT INTO public.users
