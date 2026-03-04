@@ -234,7 +234,8 @@ CREATE TABLE IF NOT EXISTS public.period (
 	period_nmbr integer NOT NULL, 
 	period_time time NOT NULL, 
 	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
-	CONSTRAINT period_pkey PRIMARY KEY (period_id)
+	CONSTRAINT period_pkey PRIMARY KEY (period_id),
+	CONSTRAINT period_number_key UNIQUE (period_nmbr);
 );
 	
 
