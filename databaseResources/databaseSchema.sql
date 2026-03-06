@@ -124,14 +124,34 @@ CREATE TABLE IF NOT EXISTS public.scout_badge_rqmt (
 
 CREATE TABLE IF NOT EXISTS public.activity (
 	activity_id uuid NOT NULL DEFAULT gen_random_uuid(),
-	activity_start_time time NOT NULL, 
-	activity_duration interval NOT NULL,
+	period_id uuid NOT NULL, 
 	activity_name varchar(150) NOT NULL,
-	activity_date timestamp with time zone NOT NULL, 
+	activity_loc varchar(255) NOT NULL,
 	badge_id uuid,
 	crtn_date timestamp with time zone NOT NULL DEFAULT now(),
 	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
 	CONSTRAINT activity_pkey PRIMARY KEY (activity_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.attendance (
+	activity_id uuid NOT NULL,
+	scout_id uuid NOT NULL, 
+	monday boolean DEFAULT false,
+	tuesday boolean DEFAULT false,
+	wednesday boolean DEFAULT false,
+	thursday boolean DEFAULT false,
+	friday boolean DEFAULT false,
+	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+	CONSTRAINT attendance_pkey PRIMARY KEY (activity_id, scout_id);
+);
+
+CREATE TABLE IF NOT EXISTS public.period (
+	period_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	period_nmbr integer NOT NULL, 
+	period_time time NOT NULL, 
+	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+	CONSTRAINT period_pkey PRIMARY KEY (period_id),
+	CONSTRAINT period_number_key UNIQUE (period_nmbr);
 );
 
 CREATE TABLE IF NOT EXISTS public.users (
@@ -215,29 +235,7 @@ USING (
 )
 WITH CHECK (
 	auth.uid() = user_id
-);
-
-CREATE TABLE IF NOT EXISTS public.attendance (
-	activity_id uuid NOT NULL,
-	scout_id uuid NOT NULL, 
-	monday boolean DEFAULT false,
-	tuesday boolean DEFAULT false,
-	wednesday boolean DEFAULT false,
-	thursday boolean DEFAULT false,
-	friday boolean DEFAULT false,
-	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
-	CONSTRAINT attendance_pkey PRIMARY KEY (activity_id, scout_id);
-);
-
-CREATE TABLE IF NOT EXISTS public.period (
-	period_id uuid NOT NULL DEFAULT gen_random_uuid(),
-	period_nmbr integer NOT NULL, 
-	period_time time NOT NULL, 
-	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
-	CONSTRAINT period_pkey PRIMARY KEY (period_id),
-	CONSTRAINT period_number_key UNIQUE (period_nmbr);
-);
-	
+);	
 
 
 -- ============================================
@@ -540,6 +538,14 @@ ALTER TABLE IF EXISTS public.activity
 	ON UPDATE NO ACTION
 	ON DELETE SET NULL;
 	
+ALTER TABLE IF EXISTS public.activity
+	ADD CONSTRAINT activity_period_id_fkey
+	FOREIGN KEY(period_id)
+	REFERENCES public.period (period_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE SET NULL;
+	
 	
 ALTER TABLE IF EXISTS public.attendance
 	ADD CONSTRAINT attendance_activity_id_fkey
@@ -617,6 +623,9 @@ CREATE INDEX idx_scout_badge_rqmt_signed_by_id
 -- activity
 CREATE INDEX idx_activity_badge_id
 	ON public.activity(badge_id);
+	
+CREATE INDEX idx_activity_period_id
+	ON public.activity(period_id);
 	
 -- attendance
 CREATE INDEX idx_attendance_activity_id
