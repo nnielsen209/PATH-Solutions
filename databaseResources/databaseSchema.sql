@@ -126,11 +126,16 @@ CREATE TABLE IF NOT EXISTS public.activity (
 	activity_id uuid NOT NULL DEFAULT gen_random_uuid(),
 	period_id uuid NOT NULL, 
 	activity_name varchar(150) NOT NULL,
-	activity_loc varchar(255) NOT NULL,
-	badge_id uuid,
 	crtn_date timestamp with time zone NOT NULL DEFAULT now(),
 	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
-	CONSTRAINT activity_pkey PRIMARY KEY (activity_id)
+	CONSTRAINT activity_pkey PRIMARY KEY (activity_id),
+	CONSTRAINT activity_period_id_key UNIQUE (activity_name, period_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.activity_badge (
+	activity_id uuid NOT NULL, 
+	badge_id uuid NOT NULL,
+	CONSTRAINT activity_badge_pkey PRIMARY KEY (activity_id, badge_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.attendance (
@@ -529,14 +534,16 @@ ALTER TABLE IF EXISTS public.users
 	MATCH SIMPLE
 	ON UPDATE NO ACTION
 	ON DELETE SET NULL;
-	
-ALTER TABLE IF EXISTS public.activity
-	ADD CONSTRAINT activity_badge_id_fkey
-	FOREIGN KEY(badge_id)
-	REFERENCES public.merit_badge (badge_id)
-	MATCH SIMPLE
-	ON UPDATE NO ACTION
-	ON DELETE SET NULL;
+
+
+-- Removed to support multi merit badge activities	
+--ALTER TABLE IF EXISTS public.activity
+--	ADD CONSTRAINT activity_badge_id_fkey
+--	FOREIGN KEY(badge_id)
+--	REFERENCES public.merit_badge (badge_id)
+--	MATCH SIMPLE
+--	ON UPDATE NO ACTION
+--	ON DELETE SET NULL;
 	
 ALTER TABLE IF EXISTS public.activity
 	ADD CONSTRAINT activity_period_id_fkey
@@ -562,6 +569,22 @@ ALTER TABLE IF EXISTS public.attendance
 	MATCH SIMPLE
 	ON UPDATE NO ACTION
 	ON DELETE CASCADE;
+	
+ALTER TABLE IF EXISTS public.activity_badge
+	ADD CONSTRAINT activity_badge_badge_id_fkey
+	FOREIGN KEY(badge_id)
+	REFERENCES public.merit_badge (badge_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS public.activity_badge
+	ADD CONSTRAINT activity_badge_activity_id_fkey
+	FOREIGN KEY(activity_id)
+	REFERENCES public.activity (activity_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE SET NULL;
 
 
 -- ============================================
@@ -633,3 +656,11 @@ CREATE INDEX idx_attendance_activity_id
 	
 CREATE INDEX idx_attendance_scout_id
 	ON public.attendance(scout_id)
+	
+	
+-- activity_badge
+CREATE INDEX idx_activity_badge_badge_id
+	ON public.activity_badge(badge_id);
+	
+CREATE INDEX idx_activity_badge_activity_id
+	ON public.activity_badge(activity_id);
