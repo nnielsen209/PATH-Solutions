@@ -13,7 +13,7 @@ DROP TYPE IF EXISTS troop_type;
 DROP TYPE IF EXISTS user_role;
 
 CREATE TYPE troop_type AS ENUM ('BTROOP', 'GTROOP', 'MTROOP');
-CREATE TYPE user_role AS ENUM ('ADMIN', 'COUNSELOR', 'SCOUT', 'LEADER', 'AREA_DIRECTOR', 'DEV');
+CREATE TYPE user_role AS ENUM ('DEV', 'ADMIN', 'AREA_DIRECTOR' 'COUNSELOR', 'LEADER', 'SCOUT');
 
 CREATE TABLE IF NOT EXISTS public.camp_dpmt (
 	dpmt_id uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -124,14 +124,39 @@ CREATE TABLE IF NOT EXISTS public.scout_badge_rqmt (
 
 CREATE TABLE IF NOT EXISTS public.activity (
 	activity_id uuid NOT NULL DEFAULT gen_random_uuid(),
-	activity_start_time time NOT NULL, 
-	activity_duration interval NOT NULL,
+	period_id uuid NOT NULL, 
 	activity_name varchar(150) NOT NULL,
-	activity_date timestamp with time zone NOT NULL, 
-	badge_id uuid,
 	crtn_date timestamp with time zone NOT NULL DEFAULT now(),
 	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
-	CONSTRAINT activity_pkey PRIMARY KEY (activity_id)
+	CONSTRAINT activity_pkey PRIMARY KEY (activity_id),
+	CONSTRAINT activity_period_id_key UNIQUE (activity_name, period_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.activity_badge (
+	activity_id uuid NOT NULL, 
+	badge_id uuid NOT NULL,
+	CONSTRAINT activity_badge_pkey PRIMARY KEY (activity_id, badge_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.attendance (
+	activity_id uuid NOT NULL,
+	scout_id uuid NOT NULL, 
+	monday boolean DEFAULT false,
+	tuesday boolean DEFAULT false,
+	wednesday boolean DEFAULT false,
+	thursday boolean DEFAULT false,
+	friday boolean DEFAULT false,
+	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+	CONSTRAINT attendance_pkey PRIMARY KEY (activity_id, scout_id);
+);
+
+CREATE TABLE IF NOT EXISTS public.period (
+	period_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	period_nmbr integer NOT NULL, 
+	period_time time NOT NULL, 
+	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
+	CONSTRAINT period_pkey PRIMARY KEY (period_id),
+	CONSTRAINT period_number_key UNIQUE (period_nmbr);
 );
 
 CREATE TABLE IF NOT EXISTS public.users (
@@ -162,6 +187,62 @@ AS PERMISSIVE
 FOR SELECT
 USING (auth.uid() = user_id);
 
+-- Policy 2: Admins and Devs can read all users, Area Directors and Counselors can read all Area Directors, Counselors, Leaders, and Scouts
+CREATE POLICY "Admins and Devs can read all users, Area Directors and Counselors can read all Area Directors, Counselors, Leaders, and Scouts"
+ON public.users
+AS PERMISSIVE
+FOR SELECT
+USING ( 
+	EXISTS ( 
+		SELECT 1 
+		FROM public.users AS me 
+		WHERE me.user_id = auth.uid() 
+		AND ( 
+			-- Admins and Devs can read everything 
+			me.user_role IN ('ADMIN', 'DEV') 
+			
+			-- Area Directors and Counselors can read only non-admin/dev users 
+			OR ( 
+				me.user_role IN ('AREA_DIRECTOR', 'COUNSELOR') 
+				AND users.user_role NOT IN ('ADMIN', 'DEV') 
+			) 
+		) 
+	) 
+);
+
+-- Policy 3: Devs can update any user's role (for testing/development)
+CREATE POLICY "Devs can update user roles"
+ON public.users
+AS PERMISSIVE
+FOR UPDATE
+USING (
+	EXISTS (
+		SELECT 1 FROM public.users
+		WHERE user_id = auth.uid()
+		AND user_role = 'DEV'
+	)
+)
+WITH CHECK (
+	EXISTS (
+		SELECT 1 FROM public.users
+		WHERE user_id = auth.uid()
+		AND user_role = 'DEV'
+	)
+);
+
+-- Policy 4: Users can update their own profile (except role)
+CREATE POLICY "Users can update their own profile"
+ON public.users
+AS PERMISSIVE
+FOR UPDATE
+USING (
+	auth.uid() = user_id
+)
+WITH CHECK (
+	auth.uid() = user_id
+);	
+
+
 -- ============================================
 -- HANDLE NEW AUTH USER → INSERT INTO public.users
 -- ============================================
@@ -177,20 +258,20 @@ BEGIN
 	-- Extract requested role from metadata
 	requested_role := NEW.raw_user_meta_data->>'role';
 	
-	-- Whitelist + controlled defaulting
+	-- Whitelist + controlled defaulting (uppercase to match enum)
 	CASE requested_role
-		WHEN 'admin' THEN final_role := 'admin';
-		WHEN 'counselor' THEN final_role := 'counselor';
-		WHEN 'dev' THEN final_role := 'dev';
-		WHEN 'scout' THEN final_role := 'scout';
-		WHEN 'leader' THEN final_role := 'leader';
-		WHEN 'areadirector' THEN final_role := 'areadirector';
-		WHEN NULL THEN final_role := 'scout';  -- No role provided
+		WHEN 'ADMIN' THEN final_role := 'ADMIN';
+		WHEN 'COUNSELOR' THEN final_role := 'COUNSELOR';
+		WHEN 'DEV' THEN final_role := 'DEV';
+		WHEN 'SCOUT' THEN final_role := 'SCOUT';
+		WHEN 'LEADER' THEN final_role := 'LEADER';
+		WHEN 'AREA_DIRECTOR' THEN final_role := 'AREA_DIRECTOR';
+		WHEN NULL THEN final_role := 'SCOUT';  -- No role provided
 		ELSE
 			-- Log suspicious or invalid role attempts
-			RAISE LOG 'Invalid role "%" requested for user %, defaulting to scout.',
+			RAISE LOG 'Invalid role "%" requested for user %, defaulting to SCOUT.',
 				requested_role, NEW.id;
-			final_role := 'scout';
+			final_role := 'SCOUT';
 	END CASE;
 	
 	-- Insert profile (if this fails, whole transaction fails — desired)
@@ -321,6 +402,16 @@ BEFORE UPDATE ON public.activity
 FOR EACH ROW 
 EXECUTE FUNCTION public.set_last_updated_date();
 
+CREATE TRIGGER trg_attendance_last_updated
+BEFORE UPDATE ON public.attendance
+FOR EACH ROW 
+EXECUTE FUNCTION public.set_last_updated_date();
+
+CREATE TRIGGER trg_period_last_updated
+BEFORE UPDATE ON public.period
+FOR EACH ROW 
+EXECUTE FUNCTION public.set_last_updated_date();
+
 
 -- =====================================================================
 -- TRIGGERS FOR ENFORCING-BADGE-HEIRARCHY enforce_same_badge FUNCTION
@@ -443,11 +534,54 @@ ALTER TABLE IF EXISTS public.users
 	MATCH SIMPLE
 	ON UPDATE NO ACTION
 	ON DELETE SET NULL;
+
+
+-- Removed to support multi merit badge activities	
+--ALTER TABLE IF EXISTS public.activity
+--	ADD CONSTRAINT activity_badge_id_fkey
+--	FOREIGN KEY(badge_id)
+--	REFERENCES public.merit_badge (badge_id)
+--	MATCH SIMPLE
+--	ON UPDATE NO ACTION
+--	ON DELETE SET NULL;
 	
 ALTER TABLE IF EXISTS public.activity
-	ADD CONSTRAINT activity_badge_id_fkey
+	ADD CONSTRAINT activity_period_id_fkey
+	FOREIGN KEY(period_id)
+	REFERENCES public.period (period_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE SET NULL;
+	
+	
+ALTER TABLE IF EXISTS public.attendance
+	ADD CONSTRAINT attendance_activity_id_fkey
+	FOREIGN KEY(activity_id)
+	REFERENCES public.activity (activity_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
+	
+ALTER TABLE IF EXISTS public.attendance
+	ADD CONSTRAINT attendance_scout_id_fkey
+	FOREIGN KEY(scout_id)
+	REFERENCES public.scout (scout_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
+	
+ALTER TABLE IF EXISTS public.activity_badge
+	ADD CONSTRAINT activity_badge_badge_id_fkey
 	FOREIGN KEY(badge_id)
 	REFERENCES public.merit_badge (badge_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS public.activity_badge
+	ADD CONSTRAINT activity_badge_activity_id_fkey
+	FOREIGN KEY(activity_id)
+	REFERENCES public.activity (activity_id)
 	MATCH SIMPLE
 	ON UPDATE NO ACTION
 	ON DELETE SET NULL;
@@ -512,3 +646,21 @@ CREATE INDEX idx_scout_badge_rqmt_signed_by_id
 -- activity
 CREATE INDEX idx_activity_badge_id
 	ON public.activity(badge_id);
+	
+CREATE INDEX idx_activity_period_id
+	ON public.activity(period_id);
+	
+-- attendance
+CREATE INDEX idx_attendance_activity_id
+	ON public.attendance(activity_id)
+	
+CREATE INDEX idx_attendance_scout_id
+	ON public.attendance(scout_id)
+	
+	
+-- activity_badge
+CREATE INDEX idx_activity_badge_badge_id
+	ON public.activity_badge(badge_id);
+	
+CREATE INDEX idx_activity_badge_activity_id
+	ON public.activity_badge(activity_id);

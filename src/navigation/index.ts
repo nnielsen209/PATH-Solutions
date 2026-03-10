@@ -11,3 +11,4 @@ export { AdminNavigator } from './AdminNavigator';
 export { CounselorNavigator } from './CounselorNavigator';
 export { AreaDirectorNavigator } from './AreaDirectorNavigator';
 export { DevNavigator } from './DevNavigator';
+export { LeaderNavigator } from './LeaderNavigator';

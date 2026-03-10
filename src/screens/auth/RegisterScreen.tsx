@@ -37,9 +37,9 @@ interface RoleOption {
 
 /** Role choices shown on the registration form with label, description, and icon. */
 const roleOptions: RoleOption[] = [
-  { value: 'admin', label: 'Admin', description: 'Camp administrator with full access', icon: 'shield-checkmark' },
-  { value: 'counselor', label: 'Counselor', description: 'Camp staff member', icon: 'people' },
-  { value: 'areadirector', label: 'Area Director', description: 'Area director overseeing camp operations', icon: 'business' },
+  { value: 'ADMIN', label: 'Admin', description: 'Camp administrator with full access', icon: 'shield-checkmark' },
+  { value: 'COUNSELOR', label: 'Counselor', description: 'Camp staff member', icon: 'people' },
+  { value: 'AREA_DIRECTOR', label: 'Area Director', description: 'Area director overseeing camp operations', icon: 'business' },
 ];
 
 /**

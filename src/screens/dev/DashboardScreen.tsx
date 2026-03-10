@@ -3,9 +3,10 @@
  *
  * First screen developers see after logging in. Has all admin functionality.
  * Uses purple accent color to distinguish from admin view.
+ * Fetches real counts from Supabase.
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -19,6 +20,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
 import { TABLET_BREAKPOINT } from '../../types';
+import { supabase } from '../../services/supabase';
 
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
@@ -67,6 +69,32 @@ export const DevDashboardScreen = ({ onNavigate }: DevDashboardScreenProps) => {
   const { width } = useWindowDimensions();
   const { user, logout } = useAuth();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
+
+  const [totalUsers, setTotalUsers] = useState<number | null>(null);
+  const [counselorCount, setCounselorCount] = useState<number | null>(null);
+  const [activityCount, setActivityCount] = useState<number | null>(null);
+
+  /** Fetch dashboard stats from Supabase */
+  const fetchStats = useCallback(async () => {
+    try {
+      // Fetch all stats in parallel
+      const [usersResult, counselorsResult, activitiesResult] = await Promise.all([
+        supabase.from('users').select('user_id', { count: 'exact', head: true }),
+        supabase.from('users').select('user_id', { count: 'exact', head: true }).eq('user_role', 'COUNSELOR'),
+        supabase.from('activity').select('activity_id', { count: 'exact', head: true }),
+      ]);
+
+      if (!usersResult.error) setTotalUsers(usersResult.count ?? 0);
+      if (!counselorsResult.error) setCounselorCount(counselorsResult.count ?? 0);
+      if (!activitiesResult.error) setActivityCount(activitiesResult.count ?? 0);
+    } catch (err) {
+      console.error('Error fetching dashboard stats:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
 
   const contentPadding = isDesktop ? 32 : 20;
   const gap = 12;
@@ -127,21 +155,21 @@ export const DevDashboardScreen = ({ onNavigate }: DevDashboardScreenProps) => {
           <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
             <StatCard
               title="Total Users"
-              value="--"
+              value={totalUsers ?? '--'}
               icon="people"
               color="#7c3aed"
               cardStyle={statCardStyle}
             />
             <StatCard
               title="Counselors"
-              value="--"
+              value={counselorCount ?? '--'}
               icon="school"
               color="#059669"
               cardStyle={statCardStyle}
             />
             <StatCard
-              title="Active Sessions"
-              value="--"
+              title="Activities"
+              value={activityCount ?? '--'}
               icon="calendar"
               color="#d97706"
               cardStyle={statCardStyleThird}
@@ -159,7 +187,7 @@ export const DevDashboardScreen = ({ onNavigate }: DevDashboardScreenProps) => {
               cardStyle={quickActionCardStyle}
             />
             <QuickAction
-              title="New Session"
+              title="Sessions"
               icon="add-circle"
               color="#059669"
               onPress={() => onNavigate?.('Schedule')}

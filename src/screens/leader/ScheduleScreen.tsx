@@ -1,7 +1,8 @@
 /**
- * ScheduleScreen.tsx - Admin Schedule Management
+ * ScheduleScreen.tsx - Leader Schedule View
  *
- * Manage camp sessions and activity schedules.
+ * View-only schedule of camp activities for leaders.
+ * Leaders can see the schedule but cannot add or modify activities.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -10,19 +11,16 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
   useWindowDimensions,
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { TABLET_BREAKPOINT } from '../../types';
-import { AddActivityModal } from '../../components';
 import { supabase } from '../../services/supabase';
-import { useAuth } from '../../context/AuthContext';
 
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
-const ACCENT_COLOR = '#d97706';
+const ACCENT_COLOR = '#16a34a'; // Green accent for Leaders
 
 type Activity = {
   activity_id: string;
@@ -34,21 +32,13 @@ type Activity = {
   merit_badge: { badge_name: string } | null;
 };
 
-export const ScheduleScreen = () => {
+export const LeaderScheduleScreen = () => {
   const { width } = useWindowDimensions();
-  const { userRole } = useAuth();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
 
-  //allow a few roles to edit
-  const canEdit =
-    userRole === 'DEV' ||
-    userRole === 'ADMIN' 
-
-  const [showModal, setShowModal] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
-  const [deleting, setDeleting] = useState<string | null>(null);
 
   const fetchActivities = useCallback(async () => {
     setLoading(true);
@@ -89,33 +79,9 @@ export const ScheduleScreen = () => {
     }
   }, []);
 
-  const handleDelete = async (activityId: string) => {
-    setDeleting(activityId);
-    try {
-      const { error } = await supabase
-        .from('activity')
-        .delete()
-        .eq('activity_id', activityId);
-      if (error) throw error;
-      fetchActivities();
-    } catch (err) {
-      console.error('Error deleting activity:', err);
-    } finally {
-      setDeleting(null);
-    }
-  };
-
   useEffect(() => {
     fetchActivities();
   }, [fetchActivities]);
-
-  const handleNewSession = () => {
-    setShowModal(true);
-  };
-
-  const handleModalSuccess = () => {
-    fetchActivities();
-  };
 
   const formatTime = (time: string) => {
     const [hours, minutes] = time.split(':');
@@ -148,7 +114,7 @@ export const ScheduleScreen = () => {
       <View style={[styles.header, isDesktop && styles.headerDesktop]}>
         <View style={[styles.headerInner, isDesktop && styles.headerInnerDesktop]}>
           <Text style={[styles.title, isDesktop && styles.titleDesktop]}>Schedule</Text>
-          <Text style={styles.subtitle}>Manage camp sessions and activity schedules</Text>
+          <Text style={styles.subtitle}>View camp activity schedules (read-only)</Text>
         </View>
       </View>
 
@@ -161,6 +127,12 @@ export const ScheduleScreen = () => {
         ]}
         showsVerticalScrollIndicator={false}
       >
+        {/* View-only notice */}
+        <View style={styles.viewOnlyBanner}>
+          <Ionicons name="eye-outline" size={18} color="#166534" />
+          <Text style={styles.viewOnlyText}>View-only access - Contact camp staff for schedule changes</Text>
+        </View>
+
         <View style={[styles.mainCard, isDesktop && styles.mainCardDesktop]}>
           <View style={styles.cardHeader}>
             <View style={styles.cardTitleRow}>
@@ -173,7 +145,7 @@ export const ScheduleScreen = () => {
                   Activities
                 </Text>
                 <Text style={styles.cardDescription}>
-                  Schedule merit badge classes and activities
+                  Scheduled merit badge classes and activities
                 </Text>
               </View>
 
@@ -183,18 +155,6 @@ export const ScheduleScreen = () => {
                     {activities.length}
                   </Text>
                 </View>
-
-                {canEdit && (
-                  <TouchableOpacity
-                    style={[styles.addButton, { borderColor: ACCENT_COLOR }]}
-                    onPress={handleNewSession}
-                  >
-                    <Ionicons name="add-circle" size={18} color={ACCENT_COLOR} />
-                    <Text style={[styles.addButtonText, { color: ACCENT_COLOR }]}>
-                      New activity
-                    </Text>
-                  </TouchableOpacity>
-                )}
               </View>
             </View>
           </View>
@@ -207,11 +167,9 @@ export const ScheduleScreen = () => {
             ) : activities.length === 0 ? (
               <View style={styles.emptyState}>
                 <Ionicons name="calendar-outline" size={48} color="#d1d5db" />
-                <Text style={styles.emptyStateText}>No activities yet</Text>
+                <Text style={styles.emptyStateText}>No activities scheduled</Text>
                 <Text style={styles.emptyStateSubtext}>
-                  {canEdit
-                    ? 'Create an activity to schedule merit badge classes'
-                    : 'Check back later — activities will appear here once created'}
+                  Check back later - activities will appear here once scheduled
                 </Text>
               </View>
             ) : (
@@ -235,27 +193,13 @@ export const ScheduleScreen = () => {
 
                       {activity.merit_badge?.badge_name ? (
                         <View style={styles.badgeTag}>
-                          <Ionicons name="ribbon" size={12} color="#d97706" />
+                          <Ionicons name="ribbon" size={12} color={ACCENT_COLOR} />
                           <Text style={styles.badgeTagText}>
                             {activity.merit_badge.badge_name}
                           </Text>
                         </View>
                       ) : null}
                     </View>
-
-                    {canEdit && (
-                      <TouchableOpacity
-                        style={styles.deleteButton}
-                        onPress={() => handleDelete(activity.activity_id)}
-                        disabled={deleting === activity.activity_id}
-                      >
-                        {deleting === activity.activity_id ? (
-                          <ActivityIndicator size="small" color="#dc2626" />
-                        ) : (
-                          <Ionicons name="trash-outline" size={18} color="#dc2626" />
-                        )}
-                      </TouchableOpacity>
-                    )}
                   </View>
                 ))}
               </View>
@@ -265,14 +209,6 @@ export const ScheduleScreen = () => {
 
         <View style={{ height: 24 }} />
       </ScrollView>
-
-      {canEdit && (
-        <AddActivityModal
-          visible={showModal}
-          onClose={() => setShowModal(false)}
-          onSuccess={handleModalSuccess}
-        />
-      )}
     </SafeAreaView>
   );
 };
@@ -295,6 +231,17 @@ const styles = StyleSheet.create({
   scroll: { flex: 1 },
   scrollContent: { paddingTop: 20 },
   scrollContentDesktop: { maxWidth: 1200, width: '100%', alignSelf: 'center' },
+  viewOnlyBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#dcfce7',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginBottom: 16,
+    gap: 8,
+  },
+  viewOnlyText: { fontSize: 13, color: '#166534', fontWeight: '500' },
   mainCard: {
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -335,16 +282,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   countText: { fontSize: 15, fontWeight: '600' },
-  addButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
-    borderWidth: 1.5,
-  },
-  addButtonText: { fontSize: 13, fontWeight: '600' },
   cardContent: { minHeight: 200, padding: 16 },
   loadingState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 48 },
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 32 },
@@ -362,7 +299,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     borderLeftWidth: 3,
-    borderLeftColor: '#d97706',
+    borderLeftColor: ACCENT_COLOR,
   },
   activityTime: { width: 80, marginRight: 12 },
   activityTimeText: { fontSize: 14, fontWeight: '600', color: '#1f2937' },
@@ -370,7 +307,6 @@ const styles = StyleSheet.create({
   activityInfo: { flex: 1 },
   activityName: { fontSize: 15, fontWeight: '500', color: '#1f2937' },
   badgeTag: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 },
-  badgeTagText: { fontSize: 12, color: '#d97706' },
+  badgeTagText: { fontSize: 12, color: ACCENT_COLOR },
   activityDateText: { fontSize: 12, fontWeight: '500', color: '#6b7280', marginBottom: 2 },
-  deleteButton: { padding: 8, justifyContent: 'center', alignItems: 'center' },
 });

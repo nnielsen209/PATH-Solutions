@@ -12,21 +12,22 @@
 export const TABLET_BREAKPOINT = 768;
 
 /**
- * UserRole - The five roles in the app. Used for login routing and permissions.
- * - dev: Developer with all admin permissions plus dev-specific features (persona switching)
- * - admin: Camp administrator with full access
- * - counselor: Camp staff member
- * - areadirector: Area director overseeing operations
- * - scout: Scout/participant
+ * UserRole - The roles in the app. Used for login routing and permissions.
+ * These match the database enum values (uppercase with underscores).
+ * - DEV: Developer with all admin permissions plus dev-specific features (persona switching)
+ * - ADMIN: Camp administrator with full access
+ * - COUNSELOR: Camp staff member
+ * - AREA_DIRECTOR: Area director overseeing operations
+ * - SCOUT: Scout/participant
  */
-export type UserRole = 'dev' | 'admin' | 'counselor' | 'areadirector' | 'scout';
+export type UserRole = 'DEV' | 'ADMIN' | 'COUNSELOR' | 'AREA_DIRECTOR' | 'SCOUT' | `LEADER`;
 
 /**
- * Check if a role has admin-level access (dev or admin).
- * Use this instead of `role === 'admin'` to support permission inheritance.
+ * Check if a role has admin-level access (DEV or ADMIN).
+ * Use this instead of `role === 'ADMIN'` to support permission inheritance.
  */
 export const hasAdminAccess = (role: UserRole | null): boolean => {
-  return role === 'admin' || role === 'dev';
+  return role === 'ADMIN' || role === 'DEV';
 };
 
 /**
@@ -48,7 +49,7 @@ export interface User {
  * Counselor - Camp staff member who teaches merit badge classes
  */
 export interface Counselor extends User {
-  userRole: 'counselor';
+  userRole: 'COUNSELOR';
   specializations: string[]; // Merit badge areas they can teach
   yearsExperience: number;
 }
@@ -57,7 +58,7 @@ export interface Counselor extends User {
  * Admin - Camp administrator with full system access
  */
 export interface Admin extends User {
-  userRole: 'admin';
+  userRole: 'ADMIN';
   permissions: AdminPermission[];
 }
 
@@ -65,7 +66,7 @@ export interface Admin extends User {
  * AreaDirector - Area director overseeing camp operations
  */
 export interface AreaDirector extends User {
-  userRole: 'areadirector';
+  userRole: 'AREA_DIRECTOR';
   areaName?: string;
 }
 
@@ -286,4 +287,13 @@ export type DevTabParamList = {
   Schedule: undefined;
   Reports: undefined;
   Settings: undefined;
+};
+
+// Leader tab navigation (view-only access)
+export type LeaderTabParamList = {
+  Dashboard: undefined;
+  Scouts: undefined;
+  Schedule: undefined;
+  Progress: undefined;
+  Profile: undefined;
 };

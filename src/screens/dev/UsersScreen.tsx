@@ -61,32 +61,39 @@ type RoleSectionConfig = {
 // User roles (excludes scout since scouts are in separate table)
 const ROLE_SECTIONS: RoleSectionConfig[] = [
   {
-    role: 'dev',
+    role: 'DEV',
     label: 'Developers',
     description: 'Developers with full access and role switching',
     icon: 'code-slash',
     color: '#7c3aed',
   },
   {
-    role: 'admin',
+    role: 'ADMIN',
     label: 'Admins',
     description: 'Camp administrators with full access',
     icon: 'shield-checkmark',
     color: '#dc2626',
   },
   {
-    role: 'areadirector',
+    role: 'AREA_DIRECTOR',
     label: 'Area Directors',
     description: 'Area directors overseeing camp operations',
     icon: 'business',
     color: '#2563eb',
   },
   {
-    role: 'counselor',
+    role: 'COUNSELOR',
     label: 'Counselors',
     description: 'Camp staff who teach merit badge classes',
     icon: 'people',
     color: '#059669',
+  },
+  {
+    role: 'LEADER',
+    label: 'Leaders',
+    description: 'Troop leaders with view-only access',
+    icon: 'flag',
+    color: '#16a34a',
   },
 ];
 
@@ -543,7 +550,7 @@ export const DevUsersScreen = () => {
               <Text style={styles.statValue}>{users.length}</Text>
               <Text style={styles.statLabel}>Total Users</Text>
             </View>
-            {ROLE_SECTIONS.slice(0, 4).map((config) => (
+            {ROLE_SECTIONS.map((config) => (
               <View key={config.role} style={styles.statItem}>
                 <Text style={[styles.statValue, { color: config.color }]}>
                   {usersByRole[config.role]?.length || 0}

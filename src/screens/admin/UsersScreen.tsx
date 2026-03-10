@@ -60,25 +60,32 @@ type RoleSectionConfig = {
 
 const ROLE_SECTIONS: RoleSectionConfig[] = [
   {
-    role: 'admin',
+    role: 'ADMIN',
     label: 'Admins',
     description: 'Camp administrators with full access',
     icon: 'shield-checkmark',
     color: '#7c3aed',
   },
   {
-    role: 'areadirector',
+    role: 'AREA_DIRECTOR',
     label: 'Area Directors',
     description: 'Area directors overseeing camp operations',
     icon: 'business',
     color: '#2563eb',
   },
   {
-    role: 'counselor',
+    role: 'COUNSELOR',
     label: 'Counselors',
     description: 'Camp staff who teach merit badge classes',
     icon: 'people',
     color: '#059669',
+  },
+  {
+    role: 'LEADER',
+    label: 'Leaders',
+    description: 'Troop leaders with view-only access',
+    icon: 'flag',
+    color: '#16a34a',
   },
 ];
 
@@ -330,9 +337,9 @@ export const UsersScreen = () => {
 
   /** Filter sections based on user role */
   const visibleSections = useMemo(() => {
-    if (userRole === 'areadirector') {
+    if (userRole === 'AREA_DIRECTOR') {
       // Area Directors see Counselors only (scouts handled separately)
-      return ROLE_SECTIONS.filter((s) => s.role === 'counselor');
+      return ROLE_SECTIONS.filter((s) => s.role === 'COUNSELOR');
     }
     // Admins see all sections
     return ROLE_SECTIONS;
@@ -347,7 +354,7 @@ export const UsersScreen = () => {
   }, [users]);
 
   // Admin and Area Director can add scouts
-  const canAddScout = userRole === 'admin' || userRole === 'areadirector';
+  const canAddScout = userRole === 'ADMIN' || userRole === 'AREA_DIRECTOR';
 
   const handleAddScoutSuccess = () => {
     setShowAddScoutModal(false);
@@ -355,7 +362,7 @@ export const UsersScreen = () => {
   };
 
   const subtitle =
-    userRole === 'areadirector'
+    userRole === 'AREA_DIRECTOR'
       ? 'View counselors and manage scouts'
       : 'Manage users and scouts';
 
