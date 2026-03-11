@@ -1,0 +1,185 @@
+{
+  "badge_name": "Lifesaving",
+  "badge_desc": "No Boy Scout will ignore a plea for help. However, the desire to help is of little use unless one knows how to give the proper aid. The main purpose of the Lifesaving merit badge is to prepare Scouts to assist those involved in water accidents, teaching them the basic knowledge of rescue techniques, the skills to perform them, and the judgment to know when and how to act so that they can be prepared for emergencies.",
+  "eagle_badge": true,
+  "dpmt_name": "AQUATICS",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Before doing requirements 3 through 15, review with your counselor the principles of Safe Swim Defense.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Before doing requirements 3 through 15:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Earn the Swimming merit badge."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Swim continuously for 400 yards using each of the following strokes in a strong manner, in good form with rhythmic breathing, for at least 50 continuous yards: front crawl, sidestroke, breaststroke, and elementary backstroke."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Explain the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Common drowning situations and how to avoid them, such as unfenced residential pools, drop offs, river currents, rip currents, and medical emergencies."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "How to identify persons in the water who need assistance."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "The order of methods in water rescue."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "How rescue techniques vary depending on the setting and the condition of the person needing assistance."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Situations for which in-water rescues should not be undertaken."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Demonstrate \"reaching\" rescues using various items such as arm, leg, towels, shirts, paddles, poles.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Demonstrate \"throwing\" rescues using various items such as a line, ring buoy, rescue bag, and free-floating support. Successfully place at least one such aid within reach of a practice victim 25 feet from shore.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "With your counselor's approval, view in-person or on video a rowing rescue performed using a rowboat, canoe, kayak, or stand up paddleboard. Discuss with your counselor how effectively and efficiently the rescue was performed.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "List various items that can be used as aids in a \"go\" rescue. Explain why buoyant aids are preferred.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Correctly demonstrate rescues of a conscious practice subject 30 feet from shore in deep water using two types of buoyant aids provided by your counselor. Use a proper entry and a strong approach stroke. Speak to the subject to determine his or her condition and to provide instructions and encouragement.",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Present one aid to a subject, release it, and swim at a safe distance as the subject moves to safety."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "In a separate rescue, present the other aid to a subject and use it to tow the subject to safety."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "9",
+      "rqmt_desc": "Discuss with your counselor when it is appropriate to remove heavy clothing before attempting a swimming rescue. Remove street clothes in 20 seconds or less, enter the water, and approach a conscious practice subject 30 feet from shore in deep water. Speak to the subject and use a nonbuoyant aid, such as a shirt or towel, to tow the subject to safety.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "10",
+      "rqmt_desc": "Discuss with your counselor the importance of avoiding contact with an active subject and demonstrate lead-and-wait techniques.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "11",
+      "rqmt_desc": "Perform the following nonequipment rescues for a conscious practice subject 30 feet from shore. Begin in the water from a position near the subject. Speak to the subject to determine his or her condition and to provide instructions and encouragement.",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Perform an armpit tow for a calm, responsive, tired swimmer resting with a back float."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Perform a cross-chest carry for an exhausted, responsive subject treading water."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "12",
+      "rqmt_desc": "In deep water, show how to escape from a victim's grasp on your wrist. Repeat for front and rear holds about the head and shoulders.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "13",
+      "rqmt_desc": "Perform the following rescues for an unconscious practice subject at or near the surface 30 feet from shore. Use a proper entry and strong approach stroke. Speak to the subject and splash water on the subject to determine his or her condition before making contact. Quickly remove the victim from the water, with assistance if needed, and position for CPR.",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Perform an equipment assist using a buoyant aid."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Perform a front approach and wrist tow."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Perform a rear approach and armpit tow."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "14",
+      "rqmt_desc": "Discuss with your counselor how to respond if a victim submerges before being reached by a rescuer, and do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Recover a 10-pound weight in 8 to 10 feet of water using a feetfirst surface dive."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Repeat using a headfirst surface dive."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "15",
+      "rqmt_desc": "Demonstrate management of a spinal injury to your counselor:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Discuss the causes, signs, and symptoms of a spinal injury."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Support a faceup subject in calm water of standing depth."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Turn a subject from a facedown to a faceup position in water of standing depth while maintaining support."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "16",
+      "rqmt_desc": "Demonstrate knowledge of resuscitation procedure:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Describe how to recognize the need for rescue breathing and CPR."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Demonstrate CPR knowledge and skills, including rescue breathing, on a mannequin under the guidance of a current CPR/AED instructor trained by a nationally certified provider."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "17",
+      "rqmt_desc": "With your counselor, discuss causes, prevention, and treatment of other injuries or illnesses that could occur while swimming or boating, including hypothermia, dehydration, heat-related illnesses, muscle cramps, sunburn, stings, and hyperventilation.",
+      "requirements": []
+    }
+  ]
+}
