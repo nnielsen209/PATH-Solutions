@@ -1,0 +1,68 @@
+{
+  "badge_name": "American Indian Culture",
+  "badge_desc": "Far different from the stereotypes or common images that are portrayed on film, on television, and in many books and stories, American Indians have many different cultures, languages, religions, styles of dress, and ways of life. To learn about these different groups is to take an exciting journey of discovery in which you will meet some of America’s most fascinating peoples.",
+  "eagle_badge": false,
+  "dpmt_name": "MIC-O-SAY",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Identify the different American Indian cultural areas. Explain what makes them each unique.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Research an American Indian tribe, group, or nation. Tell your counselor about traditional dwellings, way of life, tribal government, religious beliefs, family and clan relationships, language, clothing styles, arts and crafts, food cultivation, foraging and preparation, means of getting around, games, customs in warfare, and where and how they live today.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Learn 10 common terms in an American Indian language and their meanings."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Identify the meaning of 10 place names of American Indian origin in the United States."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Name five well-known American Indian leaders, either from the past or people of today. Give their tribes or nations. Describe what they did or do now that makes them notable."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Describe how life might have been different for the European settlers if there had been no Native Americans to meet them when they came to this continent."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Describe eight things adopted by others from American Indians."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Learn a game played by a group or tribe. Teach and lead it with a Scout group."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Visit a museum either in-person or virtually to see American Indian exhibitions and collections. Discuss with your counselor what you observed or learned from two exhibitions and identify 10 artifacts by tribe or nation, their shape, size, and use."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Attend a contemporary American Indian gathering. Discuss with your counselor proper etiquette for attending as well as what you learned and observed during your visit."
+        }
+      ]
+    }
+  ]
+}
