@@ -6,6 +6,7 @@
 
 export { DashboardScreen } from './DashboardScreen';
 export { UsersScreen } from './UsersScreen';
+export { CampersScreen } from './CampersScreen';
 export { ProgramsScreen } from './ProgramsScreen';
 export { ScheduleScreen } from './ScheduleScreen';
 export { ReportsScreen } from './ReportsScreen';

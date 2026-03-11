@@ -16,6 +16,7 @@ import { AdminSidebar } from '../components';
 import {
   DashboardScreen,
   UsersScreen,
+  CampersScreen,
   ProgramsScreen,
   ScheduleScreen,
   ReportsScreen,
@@ -44,6 +45,9 @@ const MobileAdminNavigator = () => {
               break;
             case 'Users':
               iconName = focused ? 'people' : 'people-outline';
+              break;
+            case 'Campers':
+              iconName = focused ? 'person' : 'person-outline';
               break;
             case 'Programs':
               iconName = focused ? 'ribbon' : 'ribbon-outline';
@@ -81,6 +85,7 @@ const MobileAdminNavigator = () => {
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
       <Tab.Screen name="Users" component={UsersScreen} />
+      <Tab.Screen name="Campers" component={CampersScreen} />
       <Tab.Screen name="Programs" component={ProgramsScreen} />
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
       <Tab.Screen name="Reports" component={ReportsScreen} />
@@ -101,6 +106,7 @@ type ScreenProps = {
 const screens: Record<keyof AdminTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: DashboardScreen,
   Users: UsersScreen,
+  Campers: CampersScreen,
   Programs: ProgramsScreen,
   Schedule: ScheduleScreen,
   Reports: ReportsScreen,

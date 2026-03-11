@@ -6,3 +6,4 @@
 
 export { DevDashboardScreen } from './DashboardScreen';
 export { DevUsersScreen } from './UsersScreen';
+export { DevCampersScreen } from './CampersScreen';

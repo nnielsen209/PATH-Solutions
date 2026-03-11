@@ -3,6 +3,7 @@
  *
  * Dev-only screen that fetches real user data from Supabase and allows
  * developers to change user roles for testing different personas.
+ * Campers/scouts are managed in the separate Campers screen.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -22,7 +23,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { UserRole, TABLET_BREAKPOINT } from '../../types';
 import { supabase } from '../../services/supabase';
-import { AddScoutModal } from '../../components';
 
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
@@ -34,19 +34,6 @@ interface DbUser {
   user_last_name: string;
   user_role: UserRole;
   crtn_date: string;
-}
-
-/** Scout record from Supabase */
-interface DbScout {
-  scout_id: string;
-  scout_first_name: string;
-  scout_last_name: string;
-  troop_id: string;
-  troop?: {
-    troop_nmbr: number;
-    troop_city: string;
-    troop_state: string;
-  };
 }
 
 /** Config for each role section */
@@ -285,95 +272,7 @@ const RoleSection = ({ config, users, isDesktop, onChangeRole }: RoleSectionComp
   );
 };
 
-/**
- * ScoutCard - Displays a single scout
- */
-type ScoutCardProps = {
-  scout: DbScout;
-  isDesktop: boolean;
-};
 
-const ScoutCard = ({ scout, isDesktop }: ScoutCardProps) => {
-  const troopInfo = scout.troop
-    ? `Troop ${scout.troop.troop_nmbr} - ${scout.troop.troop_city}, ${scout.troop.troop_state}`
-    : 'No troop assigned';
-
-  return (
-    <View style={[styles.userCard, isDesktop && styles.userCardDesktop]}>
-      <View style={[styles.userAvatar, { backgroundColor: '#d9770620' }]}>
-        <Text style={[styles.userInitials, { color: '#d97706' }]}>
-          {scout.scout_first_name[0]}{scout.scout_last_name[0]}
-        </Text>
-      </View>
-      <View style={styles.userInfo}>
-        <Text style={styles.userName}>
-          {scout.scout_first_name} {scout.scout_last_name}
-        </Text>
-        <Text style={styles.userEmail}>{troopInfo}</Text>
-      </View>
-    </View>
-  );
-};
-
-/**
- * ScoutsSection - Shows scouts from the scout table with Add button
- */
-type ScoutsSectionProps = {
-  scouts: DbScout[];
-  isDesktop: boolean;
-  onAddScout: () => void;
-};
-
-const ScoutsSection = ({ scouts, isDesktop, onAddScout }: ScoutsSectionProps) => {
-  return (
-    <View style={[styles.sectionCard, isDesktop && styles.sectionCardDesktop]}>
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionTitleRow}>
-          <View style={[styles.sectionIconWrap, { backgroundColor: '#d9770620' }]}>
-            <Ionicons name="person" size={24} color="#d97706" />
-          </View>
-          <View style={styles.sectionTitleBlock}>
-            <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>
-              Scouts
-            </Text>
-            <Text style={styles.sectionDescription}>Scouts from scout table</Text>
-          </View>
-          <View style={styles.scoutsMeta}>
-            <View style={[styles.countBadge, { backgroundColor: '#d9770620' }]}>
-              <Text style={[styles.countText, { color: '#d97706' }]}>{scouts.length}</Text>
-            </View>
-            <TouchableOpacity
-              style={[styles.addButton, { borderColor: '#d97706' }]}
-              onPress={onAddScout}
-            >
-              <Ionicons name="person-add" size={18} color="#d97706" />
-              <Text style={[styles.addButtonText, { color: '#d97706' }]}>Add</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <View style={styles.sectionContent}>
-        {scouts.length === 0 ? (
-          <View style={styles.emptyRole}>
-            <Ionicons name="person" size={40} color="#d1d5db" />
-            <Text style={styles.emptyRoleText}>No scouts yet</Text>
-            <Text style={styles.emptyRoleSubtext}>Click "Add" to add a scout</Text>
-          </View>
-        ) : (
-          <View style={styles.usersList}>
-            {scouts.map((scout) => (
-              <ScoutCard
-                key={scout.scout_id}
-                scout={scout}
-                isDesktop={isDesktop}
-              />
-            ))}
-          </View>
-        )}
-      </View>
-    </View>
-  );
-};
 
 /**
  * DevUsersScreen Component
@@ -387,45 +286,24 @@ export const DevUsersScreen = () => {
   const contentPadding = isDesktop ? 32 : 20;
 
   const [users, setUsers] = useState<DbUser[]>([]);
-  const [scouts, setScouts] = useState<DbScout[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedUser, setSelectedUser] = useState<DbUser | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [showAddScoutModal, setShowAddScoutModal] = useState(false);
 
-  /** Fetch all users and scouts from Supabase */
+  /** Fetch all users from Supabase */
   const fetchData = useCallback(async () => {
     try {
       setError(null);
 
-      const [usersResult, scoutsResult] = await Promise.all([
-        supabase
-          .from('users')
-          .select('user_id, user_email, user_first_name, user_last_name, user_role, crtn_date')
-          .order('user_first_name', { ascending: true }),
-        supabase
-          .from('scout')
-          .select(`
-            scout_id,
-            scout_first_name,
-            scout_last_name,
-            troop_id,
-            troop:troop_id (
-              troop_nmbr,
-              troop_city,
-              troop_state
-            )
-          `)
-          .order('scout_first_name', { ascending: true }),
-      ]);
+      const { data, error: fetchError } = await supabase
+        .from('users')
+        .select('user_id, user_email, user_first_name, user_last_name, user_role, crtn_date')
+        .order('user_first_name', { ascending: true });
 
-      if (usersResult.error) throw usersResult.error;
-      if (scoutsResult.error) throw scoutsResult.error;
-
-      setUsers(usersResult.data || []);
-      setScouts(scoutsResult.data || []);
+      if (fetchError) throw fetchError;
+      setUsers(data || []);
     } catch (err) {
       console.error('Error fetching data:', err);
       setError('Failed to load data');
@@ -437,11 +315,6 @@ export const DevUsersScreen = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const handleAddScoutSuccess = () => {
-    setShowAddScoutModal(false);
-    fetchData();
-  };
 
   /** Group users by role */
   const usersByRole = ROLE_SECTIONS.reduce((acc, config) => {
@@ -570,13 +443,6 @@ export const DevUsersScreen = () => {
             />
           ))}
 
-          {/* Scouts Section - from scout table */}
-          <ScoutsSection
-            scouts={scouts}
-            isDesktop={isDesktop}
-            onAddScout={() => setShowAddScoutModal(true)}
-          />
-
           <View style={{ height: 24 }} />
         </ScrollView>
       )}
@@ -587,12 +453,6 @@ export const DevUsersScreen = () => {
         onClose={closeModal}
         onSelectRole={handleSelectRole}
         isLoading={isUpdating}
-      />
-
-      <AddScoutModal
-        visible={showAddScoutModal}
-        onClose={() => setShowAddScoutModal(false)}
-        onSuccess={handleAddScoutSuccess}
       />
     </SafeAreaView>
   );
@@ -784,24 +644,6 @@ const styles = StyleSheet.create({
   },
   countText: {
     fontSize: 15,
-    fontWeight: '600',
-  },
-  scoutsMeta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  addButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
-    borderWidth: 1.5,
-  },
-  addButtonText: {
-    fontSize: 13,
     fontWeight: '600',
   },
   sectionContent: {

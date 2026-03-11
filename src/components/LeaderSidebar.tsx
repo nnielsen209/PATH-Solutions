@@ -27,7 +27,7 @@ type LeaderSidebarProps = {
 
 const navItems: NavItem[] = [
   { name: 'Dashboard', label: 'Dashboard', icon: 'grid-outline', iconFocused: 'grid' },
-  { name: 'Scouts', label: 'My Scouts', icon: 'people-outline', iconFocused: 'people' },
+  { name: 'Campers', label: 'My Campers', icon: 'people-outline', iconFocused: 'people' },
   { name: 'Schedule', label: 'Schedule', icon: 'calendar-outline', iconFocused: 'calendar' },
   { name: 'Progress', label: 'Progress', icon: 'ribbon-outline', iconFocused: 'ribbon' },
   { name: 'Profile', label: 'Profile', icon: 'person-outline', iconFocused: 'person' },

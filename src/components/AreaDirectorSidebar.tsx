@@ -26,6 +26,7 @@ type AreaDirectorSidebarProps = {
 const navItems: NavItem[] = [
   { name: 'Dashboard', label: 'Dashboard', icon: 'grid-outline', iconFocused: 'grid' },
   { name: 'Users', label: 'Users', icon: 'people-outline', iconFocused: 'people' },
+  { name: 'Campers', label: 'Campers', icon: 'person-outline', iconFocused: 'person' },
   { name: 'Programs', label: 'Programs', icon: 'ribbon-outline', iconFocused: 'ribbon' },
   { name: 'Schedule', label: 'Schedule', icon: 'calendar-outline', iconFocused: 'calendar' },
   { name: 'Reports', label: 'Reports', icon: 'bar-chart-outline', iconFocused: 'bar-chart' },

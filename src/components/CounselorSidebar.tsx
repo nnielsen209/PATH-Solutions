@@ -26,10 +26,11 @@ type CounselorSidebarProps = {
 const navItems: NavItem[] = [
   { name: 'Dashboard', label: 'Dashboard', icon: 'grid-outline', iconFocused: 'grid' },
   { name: 'Users', label: 'Users', icon: 'people-outline', iconFocused: 'people' },
+  { name: 'Campers', label: 'Campers', icon: 'person-outline', iconFocused: 'person' },
   { name: 'MyActivities', label: 'My Activities', icon: 'calendar-outline', iconFocused: 'calendar' },
-  { name: 'Attendance', label: 'Attendance', icon: 'people-outline', iconFocused: 'people' },
+  { name: 'Attendance', label: 'Attendance', icon: 'checkmark-done-outline', iconFocused: 'checkmark-done' },
   { name: 'Progress', label: 'Progress', icon: 'ribbon-outline', iconFocused: 'ribbon' },
-  { name: 'Profile', label: 'Profile', icon: 'person-outline', iconFocused: 'person' },
+  { name: 'Profile', label: 'Profile', icon: 'person-circle-outline', iconFocused: 'person-circle' },
 ];
 
 /**

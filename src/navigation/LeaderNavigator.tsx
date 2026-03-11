@@ -14,7 +14,7 @@ import { LeaderTabParamList, TABLET_BREAKPOINT } from '../types';
 import { LeaderSidebar } from '../components';
 import {
   LeaderDashboardScreen,
-  LeaderScoutsScreen,
+  LeaderCampersScreen,
   LeaderScheduleScreen,
   LeaderProgressScreen,
   LeaderProfileScreen,
@@ -41,7 +41,7 @@ const MobileLeaderNavigator = () => {
             case 'Dashboard':
               iconName = focused ? 'grid' : 'grid-outline';
               break;
-            case 'Scouts':
+            case 'Campers':
               iconName = focused ? 'people' : 'people-outline';
               break;
             case 'Schedule':
@@ -72,7 +72,7 @@ const MobileLeaderNavigator = () => {
       })}
     >
       <Tab.Screen name="Dashboard" component={LeaderDashboardScreen} />
-      <Tab.Screen name="Scouts" component={LeaderScoutsScreen} options={{ tabBarLabel: 'My Scouts' }} />
+      <Tab.Screen name="Campers" component={LeaderCampersScreen} options={{ tabBarLabel: 'My Campers' }} />
       <Tab.Screen name="Schedule" component={LeaderScheduleScreen} />
       <Tab.Screen name="Progress" component={LeaderProgressScreen} />
       <Tab.Screen name="Profile" component={LeaderProfileScreen} />
@@ -88,7 +88,7 @@ type ScreenProps = {
 /** Map of tab names to screen components for the desktop sidebar layout. */
 const screens: Record<keyof LeaderTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: LeaderDashboardScreen,
-  Scouts: LeaderScoutsScreen,
+  Campers: LeaderCampersScreen,
   Schedule: LeaderScheduleScreen,
   Progress: LeaderProgressScreen,
   Profile: LeaderProfileScreen,
