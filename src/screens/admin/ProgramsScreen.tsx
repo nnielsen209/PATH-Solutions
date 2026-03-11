@@ -24,12 +24,20 @@ const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
 const PROGRAM_ACCENT_COLOR = '#059669';
 
+// database department
+interface DbDepartment{
+  dpmt_id: string;
+  dpmt_name: string;
+  dpmt_head_id: string | null;
+}
+
 /** Database program (merit badge) record */
 interface DbProgram {
   badge_id: string;
   badge_name: string;
   badge_desc: string | null;
   eagle_badge: boolean;
+  dpmt_id: string;
 }
 
 /** Database requirement record */
@@ -51,39 +59,69 @@ export const ProgramsScreen = () => {
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
 
-  const [programs, setPrograms] = useState<DbProgram[]>([]);
+  const [areas, setAreas] = useState<DbDepartment[]>([]);
+  const [programs, setPrograms] = useState<Record<string, DbProgram[]>>({});
   const [requirements, setRequirements] = useState<Record<string, DbRequirement[]>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [expandedArea, setExpandedArea] = useState<string | null>(null);
   const [expandedProgram, setExpandedProgram] = useState<string | null>(null);
+  const [loadingPrograms, setLoadingPrograms] = useState<string | null>(null);
   const [loadingRequirements, setLoadingRequirements] = useState<string | null>(null);
 
   const programCount = programs.length;
+  const areaCount = areas.length;
 
-  /** Fetch all programs from Supabase */
-  const fetchPrograms = useCallback(async () => {
+  /** Fetch program areas from supabase skip dev and admin areas*/
+  const fetchAreas = useCallback(async() =>{
     setLoading(true);
     setError(null);
+    try{
+      const{ data, error: fetchError} = await supabase
+        .from('camp_dpmt')
+        .select('dpmt_id, dpmt_name, dpmt_head_id')
+        .neq('dpmt_name', 'DEV')
+        .neq('dpmt_name', 'ADMIN')
+        .order('dpmt_name', {ascending:true});
+
+        if(fetchError) throw fetchError;
+        setAreas(data || []);
+        } catch(err){
+          console.error('Error fetching areas: ', err);
+          setError('Failed to load areas');
+        } finally{
+          setLoading(false);
+        }
+  },[]);
+
+
+  /** Fetch all programs from a specific area from Supabase 
+  */
+  const fetchPrograms = async (areaId: string) => {
+    if(programs[areaId]) return; // already fetched
+    console.log("attempting program fetch");
+    setLoadingPrograms(areaId);
     try {
       const { data, error: fetchError } = await supabase
         .from('merit_badge')
-        .select('badge_id, badge_name, badge_desc, eagle_badge')
+        .select('badge_id, badge_name, badge_desc, eagle_badge, dpmt_id')
+        .eq('dpmt_id', areaId)
         .order('badge_name', { ascending: true });
 
       if (fetchError) throw fetchError;
-      setPrograms(data || []);
+      setPrograms((prev) => ({...prev, [areaId]: data || [] }));
     } catch (err) {
       console.error('Error fetching programs:', err);
       setError('Failed to load programs');
     } finally {
-      setLoading(false);
+      setLoadingPrograms(null);
     }
-  }, []);
+  };
 
   /** Fetch requirements for a specific program */
   const fetchRequirements = async (badgeId: string) => {
     if (requirements[badgeId]) return; // Already loaded
-
+    console.log("attempting req fetch")
     setLoadingRequirements(badgeId);
     try {
       const { data, error: fetchError } = await supabase
@@ -102,6 +140,15 @@ export const ProgramsScreen = () => {
   };
 
   /** Toggle program expansion and load requirements if needed */
+  const handleToggleArea = (areaId: string) => {
+    if (expandedArea === areaId) {
+      setExpandedArea(null);
+    } else {
+      setExpandedArea(areaId);
+      fetchPrograms(areaId);
+    }
+  };
+  /** Toggle program expansion and load requirements if needed */
   const handleToggleProgram = (badgeId: string) => {
     if (expandedProgram === badgeId) {
       setExpandedProgram(null);
@@ -112,8 +159,8 @@ export const ProgramsScreen = () => {
   };
 
   useEffect(() => {
-    fetchPrograms();
-  }, [fetchPrograms]);
+    fetchAreas();
+  }, [fetchAreas]);
 
   const handleAddProgram = () => {};
 
@@ -139,7 +186,7 @@ export const ProgramsScreen = () => {
         <View style={styles.errorContainer}>
           <Ionicons name="alert-circle" size={48} color="#dc2626" />
           <Text style={styles.errorText}>{error}</Text>
-          <TouchableOpacity style={styles.retryButton} onPress={fetchPrograms}>
+          <TouchableOpacity style={styles.retryButton} onPress={fetchAreas}>
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
@@ -170,7 +217,7 @@ export const ProgramsScreen = () => {
                 <View style={styles.cardMeta}>
                   <View style={[styles.countBadge, { backgroundColor: PROGRAM_ACCENT_COLOR + '20' }]}>
                     <Text style={[styles.countText, { color: PROGRAM_ACCENT_COLOR }]}>
-                      {programCount}
+                      {areaCount}
                     </Text>
                   </View>
                   <TouchableOpacity
@@ -186,49 +233,33 @@ export const ProgramsScreen = () => {
               </View>
             </View>
             <View style={styles.cardContent}>
-              {programCount === 0 ? (
+              {areaCount === 0 ? (
                 <View style={styles.emptyState}>
                   <Ionicons name="ribbon-outline" size={48} color="#d1d5db" />
-                  <Text style={styles.emptyStateText}>No programs yet</Text>
+                  <Text style={styles.emptyStateText}>No program areas created</Text>
                   <Text style={styles.emptyStateSubtext}>
-                    Add programs to let participants and counselors use them in the system
+                    Add program areas to sort programs into
                   </Text>
                 </View>
               ) : (
-                <View style={styles.programsList}>
-                  {programs.map((program) => {
-                    const isExpanded = expandedProgram === program.badge_id;
-                    const programReqs = requirements[program.badge_id] || [];
-                    const isLoadingReqs = loadingRequirements === program.badge_id;
-                    // Get top-level requirements (no parent)
-                    const topLevelReqs = programReqs.filter((r) => !r.parent_rqmt_id);
+                <View style={styles.areaList}>
+                  {areas.map((area) => {
+                    const isExpanded = expandedArea === area.dpmt_id;
+                    const areaPrograms = programs[area.dpmt_id] || [];
+                    const isLoadingPrograms = loadingPrograms === area.dpmt_id;
 
                     return (
-                      <View key={program.badge_id} style={styles.programItem}>
+                      <View key={area.dpmt_id} style={styles.areaItem}>
                         <TouchableOpacity
                           style={styles.programHeader}
-                          onPress={() => handleToggleProgram(program.badge_id)}
+                          onPress={() => handleToggleArea(area.dpmt_id)}
                         >
-                          <View style={styles.programInfo}>
-                            <View style={styles.programNameRow}>
-                              <Text style={styles.programName}>{program.badge_name}</Text>
-                              {program.eagle_badge && (
-                                <View style={styles.eagleBadge}>
-                                  <Ionicons name="star" size={10} color="#d97706" />
-                                  <Text style={styles.eagleBadgeText}>Eagle</Text>
-                                </View>
-                              )}
+                          <View style={styles.areaInfo}>
+                            <View style={styles.areaNameRow}>
+                              <Text style={styles.areaName}>{area.dpmt_name}</Text>
                             </View>
-                            {program.badge_desc && (
-                              <Text style={styles.programDesc} numberOfLines={isExpanded ? undefined : 2}>
-                                {program.badge_desc}
-                              </Text>
-                            )}
                           </View>
-                          <View style={styles.programMeta}>
-                            <Text style={styles.reqCount}>
-                              {programReqs.length > 0 ? `${topLevelReqs.length} reqs` : ''}
-                            </Text>
+                          <View style={styles.areaMeta}>
                             <Ionicons
                               name={isExpanded ? 'chevron-up' : 'chevron-down'}
                               size={20}
@@ -239,37 +270,96 @@ export const ProgramsScreen = () => {
 
                         {isExpanded && (
                           <View style={styles.requirementsSection}>
-                            {isLoadingReqs ? (
+                            {isLoadingPrograms ? (
                               <View style={styles.reqLoading}>
                                 <ActivityIndicator size="small" color={PROGRAM_ACCENT_COLOR} />
-                                <Text style={styles.reqLoadingText}>Loading requirements...</Text>
+                                <Text style={styles.reqLoadingText}>Loading programs...</Text>
                               </View>
-                            ) : topLevelReqs.length === 0 ? (
-                              <Text style={styles.noReqsText}>No requirements defined</Text>
+                            ) : areaPrograms.length === 0 ? (
+                              <Text style={styles.noReqsText}>No programs defined</Text>
                             ) : (
-                              topLevelReqs.map((req) => {
-                                const subReqs = programReqs.filter(
-                                  (r) => r.parent_rqmt_id === req.rqmt_id
-                                );
-                                return (
-                                  <View key={req.rqmt_id} style={styles.requirementItem}>
-                                    <View style={styles.reqMainRow}>
-                                      <Text style={styles.reqNumber}>{req.rqmt_idnf}</Text>
-                                      <Text style={styles.reqDesc}>{req.rqmt_desc}</Text>
-                                    </View>
-                                    {subReqs.length > 0 && (
-                                      <View style={styles.subRequirements}>
-                                        {subReqs.map((subReq) => (
-                                          <View key={subReq.rqmt_id} style={styles.subReqItem}>
-                                            <Text style={styles.subReqNumber}>{subReq.rqmt_idnf}</Text>
-                                            <Text style={styles.subReqDesc}>{subReq.rqmt_desc}</Text>
+                            //TODO: list out programs from the current area
+                              <View style={styles.programsList}>
+                                {areaPrograms.map((program) => {
+                                  const isSubExpanded = expandedProgram === program.badge_id;
+                                  const programReqs = requirements[program.badge_id] || [];
+                                  const isLoadingReqs = loadingRequirements === program.badge_id;
+                                  const topLevelReqs = programReqs.filter( r => !r.parent_rqmt_id);
+
+                                  return(
+                                    <View key={program.badge_id} style={styles.programItem}>
+                                      <TouchableOpacity
+                                        style={styles.programHeader}
+                                        onPress={() => handleToggleProgram(program.badge_id)}
+                                      >
+                                        <View style={styles.programInfo}>
+                                          <View style={styles.programNameRow}>
+                                            <Text style={styles.programName}>{program.badge_name}</Text>
+                                              {program.eagle_badge && (
+                                              <View style={styles.eagleBadge}>
+                                                <Ionicons name="star" size={10} color="d97706"/>
+                                                <Text style={styles.eagleBadgeText}></Text>
+                                              </View>
+                                            )}
                                           </View>
-                                        ))}
-                                      </View>
-                                    )}
-                                  </View>
-                                );
-                              })
+                                          {program.badge_desc && (
+                                            <Text style={styles.programDesc} numberOfLines={isSubExpanded ? undefined: 2}>
+                                              {program.badge_desc}
+                                            </Text>
+                                          )}
+                                        </View>
+                                        <View style={styles.programMeta}>
+                                          <Text style={styles.reqCount}>
+                                            {programReqs.length > 0 ? `${topLevelReqs.length} reqs`: ''}
+                                          </Text>
+                                          <Ionicons
+                                            name={isSubExpanded ? 'chevron-up': 'chevron-down'}
+                                            size={20}
+                                            color='6b7280'
+                                          />
+                                        </View>
+                                      </TouchableOpacity>
+
+                                      {isSubExpanded && (
+                                        <View style={styles.requirementsSection}>
+                                          {isLoadingReqs ? (
+                                           <View style={styles.reqLoading}>
+                                              <ActivityIndicator size="small" color={PROGRAM_ACCENT_COLOR} />
+                                              <Text style={styles.reqLoadingText}>Loading requirements...</Text>
+                                            </View>
+                                          ) : topLevelReqs.length === 0 ? (
+                                            <Text style={styles.noReqsText}>No requirements defined</Text>
+                                          ) : (
+                                            topLevelReqs.map((req) => {
+                                              const subReqs = programReqs.filter(
+                                              (r) => r.parent_rqmt_id === req.rqmt_id);
+
+                                              return(
+                                                <View key={req.rqmt_id} style={styles.requirementItem}>
+                                                  <View style={styles.reqMainRow}>
+                                                    <Text style={styles.reqNumber}>{req.rqmt_idnf}</Text>
+                                                    <Text style={styles.reqDesc}>{req.rqmt_desc}</Text>
+                                                  </View>
+                                                  {subReqs.length > 0 && (
+                                                    <View style={styles.subRequirements}>
+                                                    {subReqs.map((subReq) => (
+                                                      <View key={subReq.rqmt_id} style={styles.subReqItem}>
+                                                        <Text style={styles.subReqNumber}>{subReq.rqmt_idnf}</Text>
+                                                        <Text style={styles.subReqDesc}>{subReq.rqmt_desc}</Text>
+                                                      </View>
+                                                    ))}
+                                                    </View>
+                                                  )}
+                                                </View>
+                                              );
+                                            })
+                                          )}
+                                        </View>
+                                      )}
+                                    </View>
+                                  );
+                                })}
+                              </View>
                             )}
                           </View>
                         )}
@@ -464,6 +554,38 @@ const styles = StyleSheet.create({
     color: '#9ca3af',
     marginTop: 6,
     textAlign: 'center',
+  },
+  areaList:{
+    gap: 8,
+  },
+  areaItem: {
+    backgroundColor: '#f9fafb',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  areaHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    gap: 12,
+  },
+  areaInfo: {
+    flex: 1,
+  },
+  areaNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  areaName: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#1f2937',
+  },
+  areaMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   programsList: {
     gap: 8,
