@@ -1,0 +1,182 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>pathsolutions</title><meta name="description" content="Documentation for pathsolutions"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script><script async src="assets/hierarchy.js" id="tsd-hierarchy-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">pathsolutions</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>pathsolutions</h1></div><div class="tsd-panel tsd-typography"><h1 id="pathsolutions" class="tsd-anchor-link">PATHSOLUTIONS<a href="#pathsolutions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p>This project aims to develop a digital achievement tracking system for Camp Geiger to replace the manual paper-based process. The system will empower camp counselors with mobile tools for real-time attendance logging, merit badge requirement tracking, and partial completion recording, while providing camp administrators with web-based dashboards for reporting and operations management. The solution addresses challenges including: hundreds of daily participant check-ins, prerequisite validation (age, rank, prior skills like Swimming for Rowing), and schedule conflicts across compressed camp weeks. By streamlining tracking and reducing paperwork, the system enables staff to focus on mentoring, safety, and enhancing the overall participant experience while ensuring compliance with Scouting America standards.</p>
+<h2 id="tech-stack" class="tsd-anchor-link">Tech Stack<a href="#tech-stack" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><strong>Frontend:</strong> React Native + Expo (web, iOS, Android from one codebase)</li>
+<li><strong>Backend:</strong> Supabase (PostgreSQL, Auth, Storage, Realtime)</li>
+<li><strong>Language:</strong> TypeScript</li>
+</ul>
+<h2 id="getting-started" class="tsd-anchor-link">Getting Started<a href="#getting-started" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="prerequisites" class="tsd-anchor-link">Prerequisites<a href="#prerequisites" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li>Node.js 18+</li>
+<li>npm or yarn</li>
+</ul>
+<h3 id="installation" class="tsd-anchor-link">Installation<a href="#installation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ol>
+<li>
+<p>Clone the repository</p>
+</li>
+<li>
+<p>Install dependencies:</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">install</span>
+</code><button type="button">Copy</button></pre>
+
+</li>
+<li>
+<p>Set up environment variables:</p>
+<pre><code class="bash"><span class="hl-0">cp</span><span class="hl-1"> </span><span class="hl-2">.env.example</span><span class="hl-1"> </span><span class="hl-2">.env</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Then edit <code>.env</code> with your Supabase credentials from <a href="https://supabase.com">supabase.com</a></p>
+</li>
+<li>
+<p>Start the development server:</p>
+<pre><code class="bash"><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-2">start</span>
+</code><button type="button">Copy</button></pre>
+
+</li>
+</ol>
+<h3 id="running-the-app" class="tsd-anchor-link">Running the App<a href="#running-the-app" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><strong>Web:</strong> Press <code>w</code> in terminal or run <code>npm run web</code></li>
+<li><strong>iOS:</strong> Press <code>i</code> in terminal or run <code>npm run ios</code></li>
+<li><strong>Android:</strong> Press <code>a</code> in terminal or run <code>npm run android</code></li>
+</ul>
+<h2 id="project-structure" class="tsd-anchor-link">Project Structure<a href="#project-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code><span class="hl-3">src</span><span class="hl-1">/</span><br/><span class="hl-1">├── </span><span class="hl-3">components</span><span class="hl-1">/     # </span><span class="hl-3">Reusable</span><span class="hl-1"> </span><span class="hl-4">UI</span><span class="hl-1"> </span><span class="hl-3">components</span><br/><span class="hl-1">├── </span><span class="hl-3">context</span><span class="hl-1">/        # </span><span class="hl-3">React</span><span class="hl-1"> </span><span class="hl-3">context</span><span class="hl-1"> </span><span class="hl-0">providers</span><span class="hl-1"> (</span><span class="hl-3">Auth</span><span class="hl-1">, </span><span class="hl-3">etc</span><span class="hl-1">.)</span><br/><span class="hl-1">├── </span><span class="hl-3">hooks</span><span class="hl-1">/          # </span><span class="hl-3">Custom</span><span class="hl-1"> </span><span class="hl-3">React</span><span class="hl-1"> </span><span class="hl-3">hooks</span><br/><span class="hl-1">├── </span><span class="hl-3">services</span><span class="hl-1">/       # </span><span class="hl-4">API</span><span class="hl-1"> </span><span class="hl-0">services</span><span class="hl-1"> (</span><span class="hl-3">Supabase</span><span class="hl-1"> </span><span class="hl-3">client</span><span class="hl-1">)</span><br/><span class="hl-1">├── </span><span class="hl-3">types</span><span class="hl-1">/          # </span><span class="hl-3">TypeScript</span><span class="hl-1"> </span><span class="hl-5">type</span><span class="hl-1"> </span><span class="hl-6">definitions</span><br/><span class="hl-1">├── utils/          # Utility functions</span><br/><span class="hl-1">└── constants/      # App constants</span>
+</code><button>Copy</button></pre>
+
+<h2 id="user-roles" class="tsd-anchor-link">User Roles<a href="#user-roles" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Access</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td>Web dashboard - manage users, badges, schedules, reports</td>
+</tr>
+<tr>
+<td>Area Director</td>
+<td>Web dashboard/Mobile App - (manage users, badges, schedules, reports) In area</td>
+</tr>
+<tr>
+<td>Counselor</td>
+<td>Mobile app - attendance, badge progress tracking</td>
+</tr>
+<tr>
+<td>Dev</td>
+<td>Full admin access plus developer testing features</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="release-notes" class="tsd-anchor-link">Release Notes<a href="#release-notes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="version-10-current-working-features" class="tsd-anchor-link">Version 1.0 - Current Working Features<a href="#version-10-current-working-features" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<h4 id="authentication-system" class="tsd-anchor-link">Authentication System<a href="#authentication-system" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li><strong>Login &amp; Registration</strong> - Full email/password authentication via Supabase Auth (CURRENTLY DISABLED FOR EASE OF USE)</li>
+<li><strong>Role-Based Routing</strong> - Automatic navigation to role-specific dashboards after login</li>
+<li><strong>Session Persistence</strong> - Sessions stored securely (Expo Secure Store on mobile, localStorage on web)</li>
+<li><strong>Password Reset</strong> - Email-based password recovery functionality - WILL BE ADDED (CURRENTLY DISABLED FOR EASE OF USE)</li>
+<li><strong>Password Change</strong> - In-app password change with current password verification</li>
+<li><strong>Logout</strong> - Available from all dashboard headers</li>
+</ul>
+<h4 id="user-roles-permissions" class="tsd-anchor-link">User Roles &amp; Permissions<a href="#user-roles-permissions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<p>Five distinct user roles with tailored experiences:</p>
+<ul>
+<li><strong>Admin</strong> - Full system access with user management, scheduling, and reports</li>
+<li><strong>Area Director</strong> - Scoped admin access for their area (counselors and scouts only)</li>
+<li><strong>Counselor</strong> - Mobile-focused interface for attendance and progress tracking</li>
+<li><strong>Dev</strong> - Admin capabilities plus developer testing features (activity deletion)</li>
+<li><strong>Scout</strong> - Participant role (future expansion)</li>
+</ul>
+<h4 id="admin-dashboard" class="tsd-anchor-link">Admin Dashboard<a href="#admin-dashboard" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li><strong>Dashboard Home</strong> - Time-based greeting, stat cards (Total Users, Counselors, Active Sessions), quick action buttons</li>
+<li><strong>Users Screen</strong> - View all users grouped by role with color-coded badges, real-time data from Supabase</li>
+<li><strong>Scout Management</strong> - Add scouts via modal with troop selection, view scouts with troop information</li>
+<li><strong>Schedule Screen</strong> - View all activities with date/time/duration, create new activities via modal, delete activities (dev only)</li>
+<li><strong>Programs Screen</strong> - Structure in place for merit badge program management</li>
+<li><strong>Reports Screen</strong> - UI framework ready for report generation</li>
+<li><strong>Settings Screen</strong> - Change password functionality with validation</li>
+</ul>
+<h4 id="counselor-dashboard" class="tsd-anchor-link">Counselor Dashboard<a href="#counselor-dashboard" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li><strong>Dashboard Home</strong> - Personalized greeting, stat cards (My Activities, Today's Attendance, Progress to Review)</li>
+<li><strong>Quick Action Buttons</strong> - Navigate to key features</li>
+<li><strong>My Activities</strong> - Screen for viewing counselor-led activities</li>
+<li><strong>Attendance</strong> - Screen structure for taking attendance</li>
+<li><strong>Progress</strong> - Screen structure for badge progress review</li>
+<li><strong>Profile</strong> - Counselor profile information</li>
+</ul>
+<h4 id="area-director-dashboard" class="tsd-anchor-link">Area Director Dashboard<a href="#area-director-dashboard" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li>Same navigation as Admin with content filtered to their area</li>
+<li>Can view and manage counselors and scouts</li>
+<li>Access to scheduling and reports within their scope</li>
+</ul>
+<h4 id="developer-dashboard" class="tsd-anchor-link">Developer Dashboard<a href="#developer-dashboard" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li>Purple gradient header to distinguish from admin</li>
+<li>Full admin capabilities</li>
+<li>Activity deletion enabled for testing</li>
+<li>All quick actions available</li>
+</ul>
+<h4 id="modals-forms" class="tsd-anchor-link">Modals &amp; Forms<a href="#modals-forms" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li><strong>Add Scout Modal</strong> - Create scouts with first name, last name, and troop selection (dropdown with all troops fetched from database)</li>
+<li><strong>Add Activity Modal</strong> - Create activities with name, date picker (60-day range), time picker (7 AM - 5 PM, 30-min intervals), duration selector (30 min - 3 hours), and optional program/badge association WILL BE CHANGED TO PERIODS INSTEAD OF 7am - 5 pm excluding the need for duration selector</li>
+</ul>
+<h4 id="responsive-design" class="tsd-anchor-link">Responsive Design<a href="#responsive-design" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li><strong>Mobile (&lt; 768px)</strong> - Bottom tab navigation with icons and labels</li>
+<li><strong>Desktop (≥ 768px)</strong> - Sidebar navigation with selected route highlighting</li>
+<li>Safe area handling for notched devices</li>
+<li>Adaptive spacing and card-based layouts</li>
+</ul>
+<h4 id="database-integration" class="tsd-anchor-link">Database Integration<a href="#database-integration" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li>Real-time data fetching from Supabase PostgreSQL</li>
+<li><strong>Working Queries:</strong>
+<ul>
+<li>Fetch all users by role</li>
+<li>Fetch scouts with troop relations</li>
+<li>Fetch all troops</li>
+<li>Fetch all merit badges/programs</li>
+<li>Fetch activities with program associations</li>
+</ul>
+</li>
+<li><strong>Working Inserts:</strong>
+<ul>
+<li>Create new scouts</li>
+<li>Create new activities</li>
+</ul>
+</li>
+<li><strong>Working Deletes:</strong>
+<ul>
+<li>Delete activities (dev role only)</li>
+</ul>
+</li>
+</ul>
+<h4 id="uiux-features" class="tsd-anchor-link">UI/UX Features<a href="#uiux-features" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4>
+<ul>
+<li>Gradient headers with role-specific colors (Admin: blue, Dev: purple, Counselor: green)</li>
+<li>Loading states on all data operations</li>
+<li>Error messaging with retry buttons</li>
+<li>Profile avatars with user initials</li>
+<li>Activity list with formatted dates, times, and durations</li>
+<li>Empty state messaging when no data</li>
+</ul>
+<h3 id="known-limitations-in-progress" class="tsd-anchor-link">Known Limitations / In Progress<a href="#known-limitations-in-progress" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<ul>
+<li><strong>Programs Screen</strong> - UI ready, list population not yet implemented</li>
+<li><strong>Reports Screen</strong> - Framework in place, report generation logic in progress</li>
+<li><strong>Progress Review</strong> - Screen ready, badge progress workflow in progress</li>
+<li><strong>Recent Activity</strong> - Dashboard sections prepared but not yet connected to real-time data</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#pathsolutions"><span>PATHSOLUTIONS</span></a><ul><li><a href="#tech-stack"><span>Tech <wbr/>Stack</span></a></li><li><a href="#getting-started"><span>Getting <wbr/>Started</span></a></li><li><ul><li><a href="#prerequisites"><span>Prerequisites</span></a></li><li><a href="#installation"><span>Installation</span></a></li><li><a href="#running-the-app"><span>Running the <wbr/>App</span></a></li></ul></li><li><a href="#project-structure"><span>Project <wbr/>Structure</span></a></li><li><a href="#user-roles"><span>User <wbr/>Roles</span></a></li><li><a href="#release-notes"><span>Release <wbr/>Notes</span></a></li><li><ul><li><a href="#version-10-current-working-features"><span>Version 1.0 -<wbr/> <wbr/>Current <wbr/>Working <wbr/>Features</span></a></li><li><ul><li><a href="#authentication-system"><span>Authentication <wbr/>System</span></a></li><li><a href="#user-roles-permissions"><span>User <wbr/>Roles &amp; <wbr/>Permissions</span></a></li><li><a href="#admin-dashboard"><span>Admin <wbr/>Dashboard</span></a></li><li><a href="#counselor-dashboard"><span>Counselor <wbr/>Dashboard</span></a></li><li><a href="#area-director-dashboard"><span>Area <wbr/>Director <wbr/>Dashboard</span></a></li><li><a href="#developer-dashboard"><span>Developer <wbr/>Dashboard</span></a></li><li><a href="#modals-forms"><span>Modals &amp; <wbr/>Forms</span></a></li><li><a href="#responsive-design"><span>Responsive <wbr/>Design</span></a></li><li><a href="#database-integration"><span>Database <wbr/>Integration</span></a></li><li><a href="#uiux-features"><span>UI/<wbr/>UX <wbr/>Features</span></a></li></ul></li><li><a href="#known-limitations-in-progress"><span>Known <wbr/>Limitations / <wbr/>In <wbr/>Progress</span></a></li></ul></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">pathsolutions</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>

@@ -24,14 +24,18 @@ import { useAuth } from '../../context/AuthContext';
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 const ACCENT_COLOR = '#d97706';
 
+type Period = {
+  period_id: string;
+  period_nmbr: number;
+  period_time: string;
+};
+
 type Activity = {
   activity_id: string;
   activity_name: string;
-  activity_date: string;
-  activity_start_time: string;
-  activity_duration: string;
-  badge_id: string | null;
-  merit_badge: { badge_name: string } | null;
+  period_id: string;
+  activity_duration: number;
+  period: Period | null;
 };
 
 export const ScheduleScreen = () => {
@@ -59,26 +63,28 @@ export const ScheduleScreen = () => {
           `
           activity_id,
           activity_name,
-          activity_date,
-          activity_start_time,
+          period_id,
           activity_duration,
-          badge_id,
-          merit_badge(badge_name)
+          period(period_id, period_nmbr, period_time)
         `
         )
-        .order('activity_date', { ascending: true })
-        .order('activity_start_time', { ascending: true });
+        .order('activity_name', { ascending: true });
 
       if (error) throw error;
 
       const formatted: Activity[] = (data || []).map((item: any) => {
-        const mb =
-          Array.isArray(item.merit_badge) ? item.merit_badge[0] : item.merit_badge;
-
+        const p = Array.isArray(item.period) ? item.period[0] : item.period;
         return {
           ...item,
-          merit_badge: mb ? { badge_name: mb.badge_name } : null,
+          period: p ? { period_id: p.period_id, period_nmbr: p.period_nmbr, period_time: p.period_time } : null,
         };
+      });
+
+      // Sort by period number
+      formatted.sort((a, b) => {
+        const aPeriod = a.period?.period_nmbr ?? 999;
+        const bPeriod = b.period?.period_nmbr ?? 999;
+        return aPeriod - bPeriod;
       });
 
       setActivities(formatted);
@@ -125,22 +131,8 @@ export const ScheduleScreen = () => {
     return `${displayHour}:${minutes} ${ampm}`;
   };
 
-  const formatDuration = (duration: string) => {
-    const [hours, minutes] = duration.split(':');
-    const h = parseInt(hours, 10);
-    const m = parseInt(minutes, 10);
-    if (h === 0) return `${m} min`;
-    if (m === 0) return `${h} hr`;
-    return `${h}.${m === 30 ? '5' : m} hr`;
-  };
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr + 'T00:00:00');
-    return date.toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-    });
+  const formatDuration = (duration: number) => {
+    return duration === 1 ? '1 period' : `${duration} periods`;
   };
 
   return (
@@ -219,11 +211,11 @@ export const ScheduleScreen = () => {
                 {activities.map((activity) => (
                   <View key={activity.activity_id} style={styles.activityItem}>
                     <View style={styles.activityTime}>
-                      <Text style={styles.activityDateText}>
-                        {formatDate(activity.activity_date)}
+                      <Text style={styles.activityPeriodText}>
+                        Period {activity.period?.period_nmbr ?? '?'}
                       </Text>
                       <Text style={styles.activityTimeText}>
-                        {formatTime(activity.activity_start_time)}
+                        {activity.period ? formatTime(activity.period.period_time) : '--:--'}
                       </Text>
                       <Text style={styles.activityDuration}>
                         {formatDuration(activity.activity_duration)}
@@ -232,15 +224,6 @@ export const ScheduleScreen = () => {
 
                     <View style={styles.activityInfo}>
                       <Text style={styles.activityName}>{activity.activity_name}</Text>
-
-                      {activity.merit_badge?.badge_name ? (
-                        <View style={styles.badgeTag}>
-                          <Ionicons name="ribbon" size={12} color="#d97706" />
-                          <Text style={styles.badgeTagText}>
-                            {activity.merit_badge.badge_name}
-                          </Text>
-                        </View>
-                      ) : null}
                     </View>
 
                     {canEdit && (
@@ -369,8 +352,6 @@ const styles = StyleSheet.create({
   activityDuration: { fontSize: 12, color: '#6b7280', marginTop: 2 },
   activityInfo: { flex: 1 },
   activityName: { fontSize: 15, fontWeight: '500', color: '#1f2937' },
-  badgeTag: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 },
-  badgeTagText: { fontSize: 12, color: '#d97706' },
-  activityDateText: { fontSize: 12, fontWeight: '500', color: '#6b7280', marginBottom: 2 },
+  activityPeriodText: { fontSize: 12, fontWeight: '600', color: ACCENT_COLOR, marginBottom: 2 },
   deleteButton: { padding: 8, justifyContent: 'center', alignItems: 'center' },
 });

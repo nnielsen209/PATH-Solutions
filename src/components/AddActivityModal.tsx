@@ -14,14 +14,16 @@ import {
   TextInput,
   ScrollView,
   ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../services/supabase';
 import { styles } from '../styles/ActivityModalStyles';
 
-type MeritBadge = {
-  badge_id: string;
-  badge_name: string;
+type Period = {
+  period_id: string;
+  period_nmbr: number;
+  period_time: string;
 };
 
 type AddActivityModalProps = {
@@ -31,108 +33,54 @@ type AddActivityModalProps = {
 };
 
 const DURATION_OPTIONS = [
-  { label: '30 minutes', value: '00:30:00' },
-  { label: '1 hour', value: '01:00:00' },
-  { label: '1.5 hours', value: '01:30:00' },
-  { label: '2 hours', value: '02:00:00' },
-  { label: '2.5 hours', value: '02:30:00' },
-  { label: '3 hours', value: '03:00:00' },
-];
-
-const generateDateOptions = () => {
-  const options = [];
-  const today = new Date();
-  for (let i = 0; i < 60; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() + i);
-    const value = date.toISOString().split('T')[0];
-    const label = date.toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-    });
-    options.push({ label, value });
-  }
-  return options;
-};
-
-const DATE_OPTIONS = generateDateOptions();
-
-const TIME_OPTIONS = [
-  { label: '7:00 AM', value: '07:00:00' },
-  { label: '7:30 AM', value: '07:30:00' },
-  { label: '8:00 AM', value: '08:00:00' },
-  { label: '8:30 AM', value: '08:30:00' },
-  { label: '9:00 AM', value: '09:00:00' },
-  { label: '9:30 AM', value: '09:30:00' },
-  { label: '10:00 AM', value: '10:00:00' },
-  { label: '10:30 AM', value: '10:30:00' },
-  { label: '11:00 AM', value: '11:00:00' },
-  { label: '11:30 AM', value: '11:30:00' },
-  { label: '12:00 PM', value: '12:00:00' },
-  { label: '12:30 PM', value: '12:30:00' },
-  { label: '1:00 PM', value: '13:00:00' },
-  { label: '1:30 PM', value: '13:30:00' },
-  { label: '2:00 PM', value: '14:00:00' },
-  { label: '2:30 PM', value: '14:30:00' },
-  { label: '3:00 PM', value: '15:00:00' },
-  { label: '3:30 PM', value: '15:30:00' },
-  { label: '4:00 PM', value: '16:00:00' },
-  { label: '4:30 PM', value: '16:30:00' },
-  { label: '5:00 PM', value: '17:00:00' },
+  { label: '1 period', value: 1 },
+  { label: '2 periods', value: 2 },
+  { label: '3 periods', value: 3 },
 ];
 
 export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityModalProps) => {
   const [activityName, setActivityName] = useState('');
-  const [activityDate, setActivityDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [duration, setDuration] = useState('');
-  const [badgeId, setBadgeId] = useState<string | null>(null);
+  const [periodId, setPeriodId] = useState<string | null>(null);
+  const [duration, setDuration] = useState<number | null>(null);
 
-  const [badges, setBadges] = useState<MeritBadge[]>([]);
-  const [loadingBadges, setLoadingBadges] = useState(true);
+  const [periods, setPeriods] = useState<Period[]>([]);
+  const [loadingPeriods, setLoadingPeriods] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [showPeriodPicker, setShowPeriodPicker] = useState(false);
   const [showDurationPicker, setShowDurationPicker] = useState(false);
-  const [showBadgePicker, setShowBadgePicker] = useState(false);
 
   useEffect(() => {
     if (visible) {
-      fetchBadges();
+      fetchPeriods();
       resetForm();
     }
   }, [visible]);
 
   const resetForm = () => {
     setActivityName('');
-    setActivityDate('');
-    setStartTime('');
-    setDuration('');
-    setBadgeId(null);
+    setPeriodId(null);
+    setDuration(null);
     setError(null);
-    setShowDatePicker(false);
-    setShowTimePicker(false);
+    setShowPeriodPicker(false);
     setShowDurationPicker(false);
-    setShowBadgePicker(false);
   };
 
-  const fetchBadges = async () => {
-    setLoadingBadges(true);
+  const fetchPeriods = async () => {
+    setLoadingPeriods(true);
     try {
       const { data, error } = await supabase
-        .from('merit_badge')
-        .select('badge_id, badge_name')
-        .order('badge_name');
+        .from('period')
+        .select('period_id, period_nmbr, period_time')
+        .order('period_nmbr');
 
       if (error) throw error;
-      setBadges(data || []);
+      setPeriods(data || []);
     } catch (err) {
-      console.error('Error fetching badges:', err);
+      console.error('Error fetching periods:', err);
     } finally {
-      setLoadingBadges(false);
+      setLoadingPeriods(false);
     }
   };
 
@@ -141,12 +89,8 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
       setError('Please enter an activity name');
       return;
     }
-    if (!activityDate) {
-      setError('Please select a date');
-      return;
-    }
-    if (!startTime) {
-      setError('Please select a start time');
+    if (!periodId) {
+      setError('Please select a period');
       return;
     }
     if (!duration) {
@@ -162,10 +106,8 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
         .from('activity')
         .insert({
           activity_name: activityName.trim(),
-          activity_date: activityDate,
-          activity_start_time: startTime,
+          period_id: periodId,
           activity_duration: duration,
-          badge_id: badgeId || null,
         });
 
       if (insertError) throw insertError;
@@ -179,25 +121,23 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
     }
   };
 
-  const getDateLabel = () => {
-    const option = DATE_OPTIONS.find(d => d.value === activityDate);
-    return option ? option.label : 'Select date';
+  const formatTime = (time: string) => {
+    const [hours, minutes] = time.split(':');
+    const hour = parseInt(hours, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
   };
 
-  const getTimeLabel = () => {
-    const option = TIME_OPTIONS.find(t => t.value === startTime);
-    return option ? option.label : 'Select time';
+  const getPeriodLabel = () => {
+    if (!periodId) return 'Select period';
+    const period = periods.find(p => p.period_id === periodId);
+    return period ? `Period ${period.period_nmbr} (${formatTime(period.period_time)})` : 'Select period';
   };
 
   const getDurationLabel = () => {
     const option = DURATION_OPTIONS.find(d => d.value === duration);
     return option ? option.label : 'Select duration';
-  };
-
-  const getBadgeLabel = () => {
-    if (!badgeId) return 'None (optional)';
-    const badge = badges.find(b => b.badge_id === badgeId);
-    return badge ? badge.badge_name : 'Select program';
   };
 
   return (
@@ -239,68 +179,39 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
               />
             </View>
 
-            {/* Date */}
+            {/* Period */}
             <View style={styles.field}>
-              <Text style={styles.label}>Date *</Text>
+              <Text style={styles.label}>Period *</Text>
               <TouchableOpacity
                 style={styles.dropdown}
-                onPress={() => setShowDatePicker(!showDatePicker)}
-                disabled={submitting}
+                onPress={() => setShowPeriodPicker(!showPeriodPicker)}
+                disabled={submitting || loadingPeriods}
               >
-                <Text style={[styles.dropdownText, !activityDate && styles.dropdownPlaceholder]}>
-                  {getDateLabel()}
-                </Text>
-                <Ionicons name={showDatePicker ? "chevron-up" : "chevron-down"} size={20} color="#6b7280" />
+                {loadingPeriods ? (
+                  <ActivityIndicator size="small" color="#6b7280" />
+                ) : (
+                  <>
+                    <Text style={[styles.dropdownText, !periodId && styles.dropdownPlaceholder]}>
+                      {getPeriodLabel()}
+                    </Text>
+                    <Ionicons name={showPeriodPicker ? "chevron-up" : "chevron-down"} size={20} color="#6b7280" />
+                  </>
+                )}
               </TouchableOpacity>
-              {showDatePicker && (
+              {showPeriodPicker && !loadingPeriods && (
                 <View style={styles.pickerContainer}>
                   <ScrollView style={styles.pickerScroll} nestedScrollEnabled>
-                    {DATE_OPTIONS.map((option) => (
+                    {periods.map((period) => (
                       <TouchableOpacity
-                        key={option.value}
-                        style={[styles.pickerOption, activityDate === option.value && styles.pickerOptionSelected]}
+                        key={period.period_id}
+                        style={[styles.pickerOption, periodId === period.period_id && styles.pickerOptionSelected]}
                         onPress={() => {
-                          setActivityDate(option.value);
-                          setShowDatePicker(false);
+                          setPeriodId(period.period_id);
+                          setShowPeriodPicker(false);
                         }}
                       >
-                        <Text style={[styles.pickerOptionText, activityDate === option.value && styles.pickerOptionTextSelected]}>
-                          {option.label}
-                        </Text>
-                      </TouchableOpacity>
-                    ))}
-                  </ScrollView>
-                </View>
-              )}
-            </View>
-
-            {/* Start Time */}
-            <View style={styles.field}>
-              <Text style={styles.label}>Start Time *</Text>
-              <TouchableOpacity
-                style={styles.dropdown}
-                onPress={() => setShowTimePicker(!showTimePicker)}
-                disabled={submitting}
-              >
-                <Text style={[styles.dropdownText, !startTime && styles.dropdownPlaceholder]}>
-                  {getTimeLabel()}
-                </Text>
-                <Ionicons name={showTimePicker ? "chevron-up" : "chevron-down"} size={20} color="#6b7280" />
-              </TouchableOpacity>
-              {showTimePicker && (
-                <View style={styles.pickerContainer}>
-                  <ScrollView style={styles.pickerScroll} nestedScrollEnabled>
-                    {TIME_OPTIONS.map((option) => (
-                      <TouchableOpacity
-                        key={option.value}
-                        style={[styles.pickerOption, startTime === option.value && styles.pickerOptionSelected]}
-                        onPress={() => {
-                          setStartTime(option.value);
-                          setShowTimePicker(false);
-                        }}
-                      >
-                        <Text style={[styles.pickerOptionText, startTime === option.value && styles.pickerOptionTextSelected]}>
-                          {option.label}
+                        <Text style={[styles.pickerOptionText, periodId === period.period_id && styles.pickerOptionTextSelected]}>
+                          Period {period.period_nmbr} ({formatTime(period.period_time)})
                         </Text>
                       </TouchableOpacity>
                     ))}
@@ -338,58 +249,6 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
                       </Text>
                     </TouchableOpacity>
                   ))}
-                </View>
-              )}
-            </View>
-
-            {/* Program */}
-            <View style={styles.field}>
-              <Text style={styles.label}>Program</Text>
-              <TouchableOpacity
-                style={styles.dropdown}
-                onPress={() => setShowBadgePicker(!showBadgePicker)}
-                disabled={submitting || loadingBadges}
-              >
-                {loadingBadges ? (
-                  <ActivityIndicator size="small" color="#6b7280" />
-                ) : (
-                  <>
-                    <Text style={[styles.dropdownText, !badgeId && styles.dropdownPlaceholder]}>
-                      {getBadgeLabel()}
-                    </Text>
-                    <Ionicons name={showBadgePicker ? "chevron-up" : "chevron-down"} size={20} color="#6b7280" />
-                  </>
-                )}
-              </TouchableOpacity>
-              {showBadgePicker && !loadingBadges && (
-                <View style={styles.pickerContainer}>
-                  <ScrollView style={styles.pickerScroll} nestedScrollEnabled>
-                    <TouchableOpacity
-                      style={[styles.pickerOption, !badgeId && styles.pickerOptionSelected]}
-                      onPress={() => {
-                        setBadgeId(null);
-                        setShowBadgePicker(false);
-                      }}
-                    >
-                      <Text style={[styles.pickerOptionText, !badgeId && styles.pickerOptionTextSelected]}>
-                        None (optional)
-                      </Text>
-                    </TouchableOpacity>
-                    {badges.map((badge) => (
-                      <TouchableOpacity
-                        key={badge.badge_id}
-                        style={[styles.pickerOption, badgeId === badge.badge_id && styles.pickerOptionSelected]}
-                        onPress={() => {
-                          setBadgeId(badge.badge_id);
-                          setShowBadgePicker(false);
-                        }}
-                      >
-                        <Text style={[styles.pickerOptionText, badgeId === badge.badge_id && styles.pickerOptionTextSelected]}>
-                          {badge.badge_name}
-                        </Text>
-                      </TouchableOpacity>
-                    ))}
-                  </ScrollView>
                 </View>
               )}
             </View>
