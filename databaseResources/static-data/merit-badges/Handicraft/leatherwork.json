@@ -1,0 +1,85 @@
+{
+  "badge_name": "Leatherwork",
+  "badge_desc": "Scouts who complete the requirements to earn the Leatherwork merit badge will explore leather’s history and its endless uses. They will learn to make a useful leather item using the same types of raw materials that our ancestors used; be challenged to master skills like hand-stitching, lacing, and braiding; and learn how to preserve and protect leather items so they will last a lifetime and beyond.",
+  "eagle_badge": false,
+  "dpmt_name": "HANDICRAFT",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain to your counselor the hazards you are most likely to encounter while using leatherwork tools and materials, and what you should do to anticipate, help prevent, mitigate, or lessen these hazards."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Show that you know first aid for injuries or illnesses that could occur while working with leather, including minor cuts and scratches, puncture wounds, ingested poisoning, and reactions from exposure to chemicals such as dyes, cements, and finishes used in leatherworking."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Explain the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Where leather comes from."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Kinds of hides that are used to make leather."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Five types of leather."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Best uses for each type of leather."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Make one or more articles of leather that use at least five of the following steps:",
+      "requirements": [
+        { "rqmt_idnf": "a", "rqmt_desc": "Pattern layout and transfer." },
+        { "rqmt_idnf": "b", "rqmt_desc": "Cutting leather." },
+        { "rqmt_idnf": "c", "rqmt_desc": "Punching holes." },
+        { "rqmt_idnf": "d", "rqmt_desc": "Carving or stamping surface designs." },
+        { "rqmt_idnf": "e", "rqmt_desc": "Applying dye or stain and finish to the project." },
+        { "rqmt_idnf": "f", "rqmt_desc": "Assembly by lacing or stitching." },
+        { "rqmt_idnf": "g", "rqmt_desc": "Setting snaps and rivets." },
+        { "rqmt_idnf": "h", "rqmt_desc": "Dressing edges." }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Braid or plait an article out of leather, vinyl lace, or paracord.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Learn about the commercial tanning process. Report about it to your counselor."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Tan the skin of a small animal. Describe the safety precautions you will take and the tanning method that you used."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Recondition or show that you can take proper care of your shoes, a baseball glove, a saddle, furniture, or other articles of leather. Discuss with your counselor the advantages or disadvantages of leather vs. synthetic materials."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Visit a leather-related business. This could be a leathercraft supply company, a tannery, a leather goods or shoe factory, or a saddle shop. Report on your visit to your counselor."
+        }
+      ]
+    }
+  ]
+}
