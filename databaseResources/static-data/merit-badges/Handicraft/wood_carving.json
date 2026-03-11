@@ -1,0 +1,75 @@
+{
+  "badge_name": "Wood Carving",
+  "badge_desc": "As with any art, wood carving involves learning the basics of design, along with material selection and tools and techniques, as well as wood-carving safety. The requirements of the Wood Carving merit badge introduce Scouts to an enjoyable hobby that can become a lifetime activity.",
+  "eagle_badge": false,
+  "dpmt_name": "HANDICRAFT",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain to your counselor the hazards you are most likely to encounter while wood carving, and what you should do to anticipate, help prevent, mitigate, or lessen these hazards."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Show that you know first aid for injuries that could occur while wood carving, including minor cuts and scratches and splinters."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Earn the Totin' Chip recognition."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss with your counselor your understanding of the Safety Checklist for Carving."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain to your counselor, orally or in writing, the care and use of five types of tools that you may use in a carving project."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Tell your counselor how to care for and use several types of sharpening devices, then demonstrate that you know how to use these devices."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Using a piece of scrap wood or a project on which you are working, show your counselor that you know how to do the following:",
+      "requirements": [
+        { "rqmt_idnf": "a", "rqmt_desc": "Paring cut." },
+        { "rqmt_idnf": "b", "rqmt_desc": "Basic cut and push cut." },
+        { "rqmt_idnf": "c", "rqmt_desc": "\"V\" cut." },
+        { "rqmt_idnf": "d", "rqmt_desc": "Stop cut or score line." }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Tell why different woods are used for different projects. Explain why you chose the type of wood you did for your projects in requirements 6 and 7.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Plan your own or select a project from the Wood Carving merit badge pamphlet and complete a simple carving in the round.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Complete a simple low-relief OR a chip carving project.",
+      "requirements": []
+    }
+  ]
+}

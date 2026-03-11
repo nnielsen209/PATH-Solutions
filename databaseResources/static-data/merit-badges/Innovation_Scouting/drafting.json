@@ -1,0 +1,129 @@
+{
+  "badge_name": "Drafting",
+  "badge_desc": "Drafting is a highly refined form of drawing used to communicate ideas to engineers, architects, and craftspeople. In earning this badge, Scouts learn the importance of accuracy and simplicity in developing a drawing that shows precise details in a simple format.",
+  "eagle_badge": false,
+  "dpmt_name": "INNOVATION SCOUTING",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Format TWO sheets of drawing paper with proper borders and title blocks - one for your manual project (see requirement 2) and one for your lettering project (see requirement 5).",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Make a rough sketch for each of your project drawings to determine the correct size of paper to format."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Using either single-stroke vertical or slant Gothic lettering, fill in all important information in the title block sections of the formatted paper."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Using the formatted sheet of paper you prepared for your manual project, produce a pencil drawing as it would be used for manufacturing. Fill in all title block information. The manual drawing may be any one of the following drawing types:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Architectural: Make a scale drawing of an architectural project. The architectural drawing may be a floor plan; electrical, plumbing, or mechanical service plan; elevation plan; or landscaping plan. Use an architect's scale and show dimensions to communicate the actual size of features. Include any important sectional drawings, notes, and considerations necessary for construction. Properly print a bill of materials for at least three of the raw materials or components in the project."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Mechanical: Make a scale drawing of some mechanical device or interesting object. The mechanical drawing may be of the orthographic (third-angle) or isometric style. Use an engineer's scale and show dimensions to communicate the actual size of features. Include any important sectional drawings, notes, and manufacturing considerations. Properly print a bill of materials for at least three of the raw materials or components in the assembly."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Electrical: Draw a simple schematic of a radio or electronic circuit. Properly print a bill of materials including all of the major electrical components used in the circuit. Use standard drawing symbols to represent the electronic components."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Produce a computer-aided design (CAD) drawing as it would be used in manufacturing. Fill in all title block information. The CAD drawing may be any one of the following drawing types:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Architectural: Make a scale drawing of an architectural project. The architectural drawing may be a floor plan; electrical, plumbing, or mechanical service plan; elevation plan; or landscaping plan. Use an architect's scale and show dimensions to communicate the actual size of features. Include any important sectional drawings, notes, and considerations necessary for construction."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Mechanical: Make a scale drawing of some mechanical device or interesting object. The mechanical drawing may be of the orthographic (third-angle) or isometric style. Use an engineer's scale and show dimensions to communicate the actual size of features. Include any important sectional drawings, notes, and manufacturing considerations."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Electrical: Draw a simple schematic of a radio or electronic circuit. Properly print a bill of materials including all of the major electrical components used in the circuit. Use standard drawing symbols to represent the electronic components."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Present a copy of your drawings from Requirements 2 and 3, either in paper or digital format to your counselor. Your counselor will return a redlined version of your drawings indicating to add/remove/change a feature, material, BOM QTY, etc."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Make the correction from the redline, identify it on the drawings with a revision marker, and add a revision block."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Discuss with your counselor how fulfilling requirements 2, 3 and 4 differed from each other. Tell about the benefits derived from using CAD for requirements 3 and 4. Include in your discussion the software you used as well as other software options that are available.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Using single-stroke slant or vertical Gothic lettering (without the aid of a template or lettering guide), write a brief explanation of what you consider to be the most important benefit in using CAD in a particular industry (aerospace, electronics, manufacturing, architectural, or other). Use the experience gained in fulfilling requirements 2 through 5 to support your opinion. Use the formatted sheet of paper you prepared in requirement 1 for your lettering project.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Visit a facility or industry workplace where drafting is part of the business. Ask to see an example of the work that is done there, the different drafting facilities, and the tools used."
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Find out how much of the drafting done there is manual and how much is done using CAD. If CAD is used, find out what software is used and how and why it was chosen."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Ask about the drafting services provided. Ask who uses the designs produced in the drafting area and how those designs are used. Discuss how the professionals who perform drafting cooperate with other individuals in the drafting area and other areas of the business."
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Ask how important the role of drafting is to producing the end product or service that this business supplies. Find out how drafting contributes to the company's end product or service."
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Using resources you find on your own such as at the library and on the internet (with your parent or guardian's permission), learn more about the drafting trade and discuss the following with your counselor.",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "The drafting tools used in the past - why and how they were used. Explain which tools are still used today and how their use has changed with the advent of new tools. Discuss which tools are being made obsolete by newer tools in the industry."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Tell what media types were used in the past and how drawings were used, stored, and reproduced. Tell how the advent of CAD has changed the media used, and discuss how these changes affect the storage or reproduction of drawings."
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Discuss whether the types of media have changed such that there are new uses the drawings, or other outputs, produced by designers. Briefly discuss how new media types are used in the industry today."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Identify three career opportunities that would use skills and knowledge in Drafting. Pick one and research the training, education, certification requirements, experience, and expenses associated with entering the field. Research the prospects for employment, starting salary, advancement opportunities and career goals associated with this career. Discuss what you learned with your counselor and whether you might be interested in this career.",
+      "requirements": []
+    }
+  ]
+}
