@@ -13,8 +13,8 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  ActivityIndicator
   ActivityIndicator,
+
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../services/supabase';
