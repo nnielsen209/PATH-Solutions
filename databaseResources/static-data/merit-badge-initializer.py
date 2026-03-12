@@ -1,6 +1,7 @@
 import json as js
 import os
 import sys
+from warnings import catch_warnings
 
 import supabase as sb
 from dotenv import load_dotenv
@@ -34,7 +35,7 @@ def add_merit_badges_by_dpmt(departments_with_merit_badges: dict[str, [MeritBadg
                     .maybe_single()
                     .execute().data["dpmt_id"])
 
-        print(dpmt_id)
+        print(f"Department Name: {department}\nDepartment ID: {dpmt_id}\n")
 
         for merit_badge in departments_with_merit_badges[department]:
             try:
@@ -105,11 +106,15 @@ merit_badges = []
 departments_with_merit_badges_out = {}
 
 for department,file in merit_badge_files:
-    with open(file, "r") as open_file:
-        data = js.load(open_file)
-        merit_badge = MeritBadge.convert_merit_badge_from_json(data)
-        if merit_badge:
-            departments_with_merit_badges_out.setdefault(merit_badge.dpmt_name.upper(), []).append(merit_badge)
+    try:
+        with open(file, "r", encoding="utf-8") as open_file:
+            data = js.load(open_file)
+            merit_badge = MeritBadge.convert_merit_badge_from_json(data)
+            if merit_badge:
+                departments_with_merit_badges_out.setdefault(merit_badge.dpmt_name.upper(), []).append(merit_badge)
+    except Exception as e:
+        print(f"Directory: {department}, File: {file}, Exception: {e}", file=sys.stderr)
+        raise e
 
 
 print(departments_with_merit_badges_out)
