@@ -1,0 +1,255 @@
+{
+  "badge_name": "Emergency Preparedness",
+  "badge_desc": "Scouts are often called upon to help because they know first aid and they know about the discipline and planning needed to react to an emergency situation. Earning this merit badge helps a Scout to be prepared by learning the actions that can be helpful and needed before, during, and after an emergency.",
+  "eagle_badge": true,
+  "dpmt_name": "EAGLE",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Emergency Situations. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Discuss with your counselor the aspects of emergency preparedness and include in your discussion the kinds of questions that are important to ask yourself as you consider each of these: prevention, protection, mitigation, response, and recovery."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Using a chart, spreadsheet, or another method approved by your counselor, demonstrate your understanding of each aspect of emergency preparedness listed in requirement 1(a) (prevention, protection, mitigation, response, and recovery) for 10 emergency situations from the list below. Discuss your findings with your counselor.",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Home stovetop or oven fire"
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Home flammable liquid fire"
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Gas leak in or near a home or with outside cooking"
+            },
+            {
+              "rqmt_idnf": "4",
+              "rqmt_desc": "Food poisoning"
+            },
+            {
+              "rqmt_idnf": "5",
+              "rqmt_desc": "Automobile crash"
+            },
+            {
+              "rqmt_idnf": "6",
+              "rqmt_desc": "Vehicle stalled in the desert"
+            },
+            {
+              "rqmt_idnf": "7",
+              "rqmt_desc": "Vehicle trapped in a blizzard"
+            },
+            {
+              "rqmt_idnf": "8",
+              "rqmt_desc": "Backcountry injury"
+            },
+            {
+              "rqmt_idnf": "9",
+              "rqmt_desc": "Boating or water accident"
+            },
+            {
+              "rqmt_idnf": "10",
+              "rqmt_desc": "Toxic chemical spills and releases"
+            },
+            {
+              "rqmt_idnf": "11",
+              "rqmt_desc": "Nuclear power plant emergency"
+            },
+            {
+              "rqmt_idnf": "12",
+              "rqmt_desc": "Fire or explosion in a public place"
+            },
+            {
+              "rqmt_idnf": "13",
+              "rqmt_desc": "Violence in a public place"
+            },
+            {
+              "rqmt_idnf": "14",
+              "rqmt_desc": "Wildland fire"
+            },
+            {
+              "rqmt_idnf": "15",
+              "rqmt_desc": "Avalanche (snowslide or rockslide)"
+            },
+            {
+              "rqmt_idnf": "16",
+              "rqmt_desc": "Earthquake"
+            },
+            {
+              "rqmt_idnf": "17",
+              "rqmt_desc": "Tsunami"
+            },
+            {
+              "rqmt_idnf": "18",
+              "rqmt_desc": "Major flooding or a flash flood with water outage"
+            },
+            {
+              "rqmt_idnf": "19",
+              "rqmt_desc": "Hurricane with power outage"
+            },
+            {
+              "rqmt_idnf": "20",
+              "rqmt_desc": "Tornado"
+            },
+            {
+              "rqmt_idnf": "21",
+              "rqmt_desc": "Lightning storm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Planning for Family Emergencies. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "At a family meeting, discuss the situations on the chart you created for requirement 1(b) and make emergency plans for sheltering-in-place and for evacuation of your home. Discuss your family meeting and plans with your counselor."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Develop and practice a plan of escape for your family in case of fire in your home. Draw a floor plan with escape routes and a map with a safe meeting place. Discuss your family's home escape plan with your counselor."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Using a checklist in the Emergency Preparedness merit badge pamphlet or one approved by your counselor, prepare or inspect a family disaster kit for sheltering-in-place and for evacuation of your home. Review the needs and uses of the items in a kit with your counselor."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Preventing Accidents and Emergencies. Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Using a home safety checklist included in the Emergency Preparedness merit badge pamphlet or one approved by your counselor, inspect a home (or a similar building near where you live or at a camp) for safety hazards with the help of an adult. Present your completed checklist to and discuss your findings with your counselor."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Develop emergency prevention plans for five family activities outside the home, as approved by your counselor. (Examples are taking a picnic to a park, seeing a movie, attending a worship service, an outing at a beach, traveling to visit a relative, or attending a ball game or concert.) Each plan should include an analysis of possible hazards, proposals to prevent, protect from, mitigate, respond to, and recover from emergencies, and the reasons for the actions that you propose."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Dangerous Situations. Show how you could save a person from the following dangerous situations without putting yourself in danger:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Live household electric wire"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "A structure filled with carbon monoxide"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Clothes on fire"
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Drowning, using nonswimming rescues (including accidents on ice)"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Signaling for Help. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Show three ways of attracting and communicating with rescue aircraft or drones."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Show ways to attract the attention of searchers on the ground if you are lost in the wilderness."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Show ways to attract the attention of searchers on the water if you are stranded with a capsized or disabled motorboat or sailboat."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Moving an Injured Person. With another person, show two good ways to transport an injured person out of a remote area using improvised stretchers to conserve the energy of rescuers while ensuring the well-being and protection of the injured person.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "National Incident Management System (NIMS) and Incident Command System (ICS). Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Describe the National Incident Management System (NIMS) and the local Incident Command System (ICS)."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Find out how your community and its leaders work to manage and to train for disasters. Discuss this information with your counselor."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Discuss how a Scout troop can help in an emergency situation using ICS."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Emergency Service. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Discuss with your counselor the duties that a Scout troop should be prepared to do, the training they need, and the safety precautions they should take for the following emergency services:",
+          "requirements": [
+            { "rqmt_idnf": "1", "rqmt_desc": "Crowd and traffic control" },
+            { "rqmt_idnf": "2", "rqmt_desc": "Messenger service during an incident" },
+            { "rqmt_idnf": "3", "rqmt_desc": "Collection and distribution services" },
+            { "rqmt_idnf": "4", "rqmt_desc": "Group feeding, shelter, and sanitation" }
+          ]
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Prepare a written plan for mobilizing your troop when needed to do emergency service. If your troop already has a mobilization plan, present the plan to your counselor and tell your part in making the plan work."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Using a checklist in the Emergency Preparedness merit badge pamphlet or one approved by your counselor, prepare or inspect a personal emergency service pack for a mobilization call. Explain the needs and uses of the contents to your counselor."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Take part in an emergency service project, either a real one or a practice exercise, with a Scouting troop or a community agency or at Scout camp or at a school. Review what you learned and practiced with your counselor."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "9",
+      "rqmt_desc": "First Aid Merit Badge. Earn the First Aid merit badge.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "10",
+      "rqmt_desc": "Careers. Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Interview an emergency services coordinator or a civil servant about their work in disaster management. Learn about how they chose this career and about their duties. Discuss what you learned with your counselor and whether you might be interested in this career."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Identify three career opportunities that would use skills and knowledge in emergency services. Pick one and research the training, education, certification requirements, experience, and expenses associated with entering the field. Research the prospects for employment, starting salary, advancement opportunities, and career goals associated with this career. Discuss what you learned with your counselor and whether you might be interested in this career."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Identify how you might use the skills and knowledge in the field of emergency preparedness to pursue a personal hobby and/or healthy lifestyle. Research the additional training required, expenses, and affiliation with organizations that would help you maximize the enjoyment and benefit you might gain from it. Discuss what you learned with your counselor and share what short-term and long-term goals you might have if you pursued this."
+        }
+      ]
+    }
+
+  ]
+}
