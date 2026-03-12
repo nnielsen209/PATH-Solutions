@@ -66,7 +66,7 @@ src/
 
 ## Release Notes
 
-### Version 1.0 - Current Working Features
+### Version 1.0 - Code Milestone 1
 
 #### Authentication System
 - **Login & Registration** - Full email/password authentication via Supabase Auth (CURRENTLY DISABLED FOR EASE OF USE)
@@ -145,8 +145,56 @@ Five distinct user roles with tailored experiences:
 - Empty state messaging when no data
 
 ### Known Limitations / In Progress
-- **Programs Screen** - UI ready, list population not yet implemented
 - **Reports Screen** - Framework in place, report generation logic in progress
 - **Progress Review** - Screen ready, badge progress workflow in progress
 - **Recent Activity** - Dashboard sections prepared but not yet connected to real-time data
+
+---
+
+### Version 1.1 - Code Milestone 2
+
+#### CamperScreen Implementation
+- **Admin View** - Full camper management with add/edit capabilities
+- **Counselor View** - Read-only access to view assigned campers
+- **Leader View** - View campers within their troop scope
+- **Dev View** - Full permissions for testing
+- Displays camper avatars with initials, names, and troop information
+- Integrated with Supabase `scout` table with troop associations
+- Desktop-responsive design with proper breakpoints
+
+#### Programs Screen - Full Implementation
+- **Hierarchical Navigation** - Department → Program → Requirements expansion
+- **Lazy Loading** - Programs fetched when department expanded, requirements when program expanded
+- **Eagle Badge Identification** - Star indicator for Eagle-required badges
+- **Requirement Hierarchy** - Main requirements with sub-requirements (e.g., 1, 2a, 2b)
+- Program descriptions and requirement counts displayed
+- Filters out DEV and ADMIN departments from display
+
+#### Merit Badge Database Population
+All camp departments now fully populated with merit badges:
+- **Trades Department** - 14 badges (Automotive Maintenance, Chess, Crime Prevention, Cycling, Electricity, Electronics, Farm Mechanics, Fingerprinting, Golf, Painting, Plumbing, Radio, Welding, Woodworking)
+- **Nature Department** - 12 badges (Archaeology, Astronomy, Chemistry, Environmental Science, Fish and Wildlife Management, Forestry, Geology, Nature, Oceanography, Soil and Water Conservation, Sustainability, Weather)
+- **Eagle Department** - Eagle-required merit badges
+- **Scoutcraft Department** - Camping, Exploration, Orienteering, Search and Rescue, Signs/Signals/Codes, Wilderness Survival
+- **Handicraft Department** - Art, Leatherwork, Metalwork, Pottery
+- **Innovation Scouting Department** - Drafting merit badge
+
+#### Schedule System Updates
+- **Period-Based Scheduling** - Replaced time-based system with camp period slots
+- **Duration by Periods** - Activities span 1-3 periods instead of hourly durations
+- **Period Picker** - Dropdown selection from Supabase period data
+- **12-Hour Time Format** - Period times displayed with AM/PM
+
+#### Style Organization
+Dedicated style files created for maintainability:
+- `ActivityModalStyles.ts` - Modal overlay, container, form fields, dropdowns
+- `SettingsStyles.ts` - Settings layout, password change section, form styling
+- `UsersStyles.ts` - Role cards, user avatars, color coding by role
+- `ProgramsStyles.ts` - Hierarchical expansion, department/program/requirement cards
+
+#### Users Screen Enhancement
+- **Role-Based Sections** - Admins, Area Directors, Counselors, Leaders grouped separately
+- **Color-Coded Avatars** - Visual distinction by user role
+- **User Count Badges** - Shows count per role section
+- **Counselor-Specific View** - Counselors see only fellow counselors
 
