@@ -1,0 +1,117 @@
+{
+  "badge_name": "Chemistry",
+  "badge_desc": "Chemistry explores how substances react with each other, how they change, how certain forces connect molecules, and how molecules are made are all parts of chemistry. Stretch your imagination to envision molecules that cannot be seen—but can be proven to exist—and you become a chemist.",
+  "eagle_badge": false,
+  "dpmt_name": "NATURE",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Chemistry and Safety. Do the following and discuss with your counselor:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Obtain safety data sheets (SDS) for sucrose (sugar), isopropyl alcohol (rubbing alcohol), and a waterproofing spray. Compare their properties and potential hazard(s), including handling and disposal guidelines and toxicity information."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "What types of personal protective equipment (PPE) are recommended for each, and why? How does the recommended PPE change with toxicity and route of exposure?"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Review the pictograms in Section 2 of each SDS. What do they mean, and how do you see them used in your community?"
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Discuss the safe storage of chemicals. How does the safe storage of chemicals apply to your home, school, community, and the environment?"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Chemistry and First Aid. After successfully completing requirement 1, do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Discuss with your counselor why you think soap and alcohol are used to clean cuts and scrapes. Discuss how you could test your hypotheses with your counselor."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Coat your hands with a mixture of cooking oil and a nontoxic powder, such as sand or cocoa. Wash your hands with water and observe what happens. Coat your hands again, then wash with soap and water. Discuss the differences with your counselor."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Perform an experiment to demonstrate how rubbing alcohol affects microbial growth using baker's yeast. Discuss the results with your counselor."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Chemistry and Cooking. After successfully completing requirement 1, do EACH of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Perform a Maillard, or browning, reaction. Discuss with your counselor whether a physical or chemical change has occurred, and what happened to molecules in the food during the cooking process."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Prepare and use red cabbage indicator to measure the pH of five common household liquids, including water. Discuss your observations with your counselor."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Chemistry and Camping. After successfully completing requirement 1, do TWO of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Design and conduct an experiment to compare at least two different types of waterproofing. Discuss with your counselor which one you would prefer to use on your tent and which one you would prefer to use on your boots, and why."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Describe the four classes of fires, and the four classes of fire extinguishers. Discuss with your counselor how sand, baking soda, and the four classes of extinguishers work to put out fires."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Under your counselor's supervision and/or the supervision of a knowledgeable adult approved in advance by your counselor, conduct flame tests of at least five elements using a kitchen or propane torch."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Under your counselor's supervision and/or the supervision of a knowledgeable adult approved in advance by your counselor, synthesize nylon (may be from a kit)."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Describe how chemistry can be used to reduce the environmental impacts of single-use items, such as water bottles, bags, straws, or batteries.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Identify five fields of chemistry. Briefly describe each, tell how each applies to your life and how they interact.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Identify three government agencies that oversee or provide guidance on the use of chemicals for personal, pharmaceutical, commercial, or industrial use, and discuss the agencies' history and responsibilities with your counselor.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Visit a research laboratory, and discuss the research performed there with a chemist or chemical technician. Learn what education and training they received."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Visit a company or plant that makes chemical products or uses chemical processes. Learn about their products or processes, and talk with someone who works there. Learn what they do, and what education and training they received."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Identify three career opportunities that would use skills and knowledge in chemistry. Pick one and research the training, education, certification requirements, experience, and expenses associated with entering the field. Research the prospects for employment, starting salary, advancement opportunities and career goals associated with this career. Discuss what you learned with your counselor and whether you might be interested in this career."
+        }
+      ]
+    }
+  ]
+}

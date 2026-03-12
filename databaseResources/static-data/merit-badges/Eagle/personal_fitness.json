@@ -1,0 +1,188 @@
+{
+  "badge_name": "Personal Fitness",
+  "badge_desc": "Personal fitness is an individual effort and desire to be the best one can be. Regardless of their current levels of personal fitness, in the twelve weeks it will take Scouts to complete the athletic requirements for this merit badge, they will be in better shape, feel better about themselves, have more energy, and gain self-confidence in their overall abilities.",
+  "eagle_badge": true,
+  "dpmt_name": "EAGLE",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Defining Personal Fitness. Explain to your counselor what personal fitness means to you, including:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Describe a person who is physically fit."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Describe a person who is mentally, emotionally and socially fit."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Describe a person who is spiritually fit."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Explain why it is important to be fit in all of these ways."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Discuss how each aspect of personal fitness relates to the Scout Oath and Scout Law."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Monitoring Your Health. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Discuss with your counselor the importance of having a physical examination each year. Discuss why overall health, immunizations, medications, allergies, and medical history are covered during an examination. Tell your counselor when you last underwent a physical examination."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain why it is important to have a routine dental examination. Explain what preventive or corrective treatments your dentist can provide, and why daily oral care is an important part of staying well. Tell your counselor when you last underwent a dental examination."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Your Fitness Knowledge and Habits. Do the following with your counselor:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain the physical exercise you regularly do, whether your routine includes all four components of physical fitness (cardiorespiratory fitness, muscular strength and endurance, flexibility, and body composition), and how your current practices increase or decrease your likelihood of developing cardiovascular disease or other conditions in adulthood."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss what harmful substances you consciously avoid, and how these actions affect your risk factors now and in the future."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain what common diseases can be prevented or mitigated by vaccinations, and whether you are immunized according to the advice of your healthcare provider and the direction of your parent or guardian."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Discuss how good nutrition is related to the other components of personal fitness, and if you follow a nutritious, balanced diet."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Discuss what a healthy weight is for you, and what you do to maintain a healthy weight."
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Explain why getting adequate sleep is important, and whether you get enough hours of sleep each night."
+        },
+        {
+          "rqmt_idnf": "g",
+          "rqmt_desc": "Discuss whether you spend quality time with your family and friends in social and recreational activities, and how you contribute to creating and maintaining a good home life."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Measures of Physical Fitness. Determine with your counselor the assessments of physical fitness and nutrition you will do before, during, and after completing the 12-week program in requirement 7.",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Include a measure of cardiorespiratory (aerobic) fitness: Record the time required to complete a mile walk or run as fast as you can. If you are unable to walk or run as a result of a disability that is permanent or is expected to last for longer than two years, work with your counselor to define a test with a similar degree of aerobic challenge."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Include two measures of muscular strength and endurance: Record either the number of sit-ups done in 60 seconds OR how long a plank was held; AND, record the number of either push-ups OR pull-ups done in 60 seconds. If you are unable to complete one of these exercises safely and correctly, work with your counselor to replace it with a different exercise that measures strength and endurance."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Include at least one measure of flexibility, such as a back-saver sit-and-reach test or a back scratch test."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Pre-Assessment of Physical Fitness. Before beginning the 12-week program in requirement 7, do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Complete each of the assessments you defined in requirement 4, and record your results."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Identify your weakest and strongest area of physical fitness, and choose an area to target for improvement."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Keep a log of what you eat and drink for a period of three days."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Based on your diet log, identify at least two improvement goals related to diet and nutrition."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Plan the Program. Outline with your counselor a comprehensive 12-week physical fitness and nutrition program that you will complete based on your improvement goals and ability. The program must incorporate the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Warm-up: low-intensity movement or gentle muscle stretching before each more rigorous workout"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Cardiorespiratory (aerobic) element: an activity that raises your heart and respiratory rate for 15 to 30 minutes at least three times per week"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Muscular strength and endurance element: repetitive exercises that target different muscles - upper body, core, and/or legs - based on your improvement goals and potential"
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Flexibility element: movements that arch/lower/stretch/relax your back, rotate your trunk, or stretch your hamstrings"
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Cool-down: low-intensity movement or gentle stretching to prevent muscle cramps and enhance the benefits of exercise"
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "A plan for achieving your two improvement goals related to diet and nutrition"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Complete the Program. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Complete and keep a log, over 12 consecutive weeks, of the physical fitness and nutrition program you have outlined. (If your program is interrupted by illness or unavoidable conflicts for less than two weeks, you may resume where you left off, adding the missed days or weeks at the end)."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "During week 4 and week 8 of your program, repeat the assessments you did in requirement 5(a) before you began. Repeat the same tests for a final assessment within two weeks after completing the 12-week program. Show improvement over your pre-assessment results."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "For three days during week 8, and again during week 12, keep a log of what you eat and drink. Show improvement toward the diet and nutrition goals you set in requirement 5(d)."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Discuss your results, improvements, insights, and experiences with your counselor after completing the program and assessments."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Future Career or Lifestyle. Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explore three careers related to personal fitness. Research one career area by interviewing an expert in the field, visiting a site, or using other resources. Learn about training, education, expenses, job outlook, salary, and advancement. Discuss your findings and career interest with your counselor."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explore how an area of personal fitness could contribute to a hobby or healthy lifestyle. Research education, costs, and organizations related to this activity. Discuss your findings and goals with your counselor."
+        }
+      ]
+    }
+  ]
+}

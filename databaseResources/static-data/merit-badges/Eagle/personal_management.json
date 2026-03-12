@@ -1,0 +1,286 @@
+{
+  "badge_name": "Personal Management",
+  "badge_desc": "Personal management is about mapping a plan for your life that will involve setting short-range and long-range goals and investigating different ways to reach those goals. Education, training, and experience all help make your goals become a reality. To achieve your goals, you will choose the best path and make a commitment to it, while remaining flexible enough to deal with changes and new opportunities.",
+  "eagle_badge": true,
+  "dpmt_name": "EAGLE",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Choose an item that your family might want to purchase that is considered a major expense."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Write a plan that tells how your family would save money for the purchase identified in requirement 1(a).",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Discuss the plan with your counselor."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Discuss the plan with your family."
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Discuss how other family needs must be considered in this plan."
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Develop a written shopping strategy for the purchase identified in requirement 1(a).",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Determine the quality of the item or service (using consumer publications or rating systems.)"
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Comparison shop for the item. Find out where you can buy the item for the best price. (Provide prices from at least two different price sources.) Call around; study ads. Look for a sale or discount coupon. Consider alternatives. Can you buy the item used? Should you wait for a sale?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Prepare a budget reflecting your expected income (allowance, gifts, wages), expenses, and savings for a period of 13 consecutive weeks."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Compare expected income with expected expenses.",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "If expenses exceed budget income, determine steps to balance your budget."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "If income exceeds budget expenses, state how you would use the excess money (new goal, savings)."
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Track and record your actual income, expenses, and savings for 13 consecutive weeks (the same 13-week period for which you budgeted). (You may use the forms provided in the Personal Management merit badge pamphlet, devise your own, or use a computer-generated version). When complete, present the records showing the results to your counselor."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Compare your budget with your actual income and expenses to understand when your budget worked and when it did not work. With your counselor, discuss what you might do differently the next time."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Discuss with your counselor FIVE of the following concepts:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "The emotions you feel when you receive money."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Your understanding of how the amount of money you have with you affects your spending habits."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Your thoughts when you buy something new and your thoughts about the same item three months later. Explain the concept of buyer's remorse."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "How hunger affects you when shopping for food items (snacks, groceries)."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Your experience of an item you have purchased after seeing or hearing advertisements for it. Did the item work as well as advertised?"
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Your understanding of what happens when you put money into a savings account."
+        },
+        {
+          "rqmt_idnf": "g",
+          "rqmt_desc": "Charitable giving. Explain its purpose and your thoughts about it."
+        },
+        {
+          "rqmt_idnf": "h",
+          "rqmt_desc": "What you can do to better manage your money."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Explain the following to your counselor:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "The differences between saving and investing, including reasons for using one over the other."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "The concepts of return on investment and risk and how they are related."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "The concepts of simple interest and compound interest."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "The concept of diversification in investing."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Why it is important to save and invest for retirement."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Explain to your counselor what the following investments are and how each works:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Common stocks"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Mutual funds"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Life insurance"
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "A certificate of deposit (CD)"
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "A savings account"
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "A U.S. savings bond"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Explain to your counselor why people might purchase the following types of insurance and how they work:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Automobile"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Health"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Homeowner's/renter's"
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Whole life and term life"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Explain to your counselor the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "What a loan is, what interest is, and how the annual percentage rate (APR) measures the true cost of a loan"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "The different ways to borrow money"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "The differences between a charge card, debit card, and credit card, including the costs and pitfalls of using these financial tools, and why it is unwise to make only the minimum payment on your credit card"
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Credit reports and how personal responsibility can affect your credit report"
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Ways to reduce or eliminate debt."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Demonstrate to your counselor your understanding of time management by doing the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Write a \"to do\" list of tasks or activities, such as homework assignments, chores, and personal projects, that must be done in the coming week. List these in order of importance to you."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Make a seven-day calendar or schedule. Put in your set activities, such as school classes, sports practices or games, jobs or chores, and/or Scout or place of worship or club meetings, then plan when you will do all the tasks from your \"to do\" list between your set activities."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Follow the one-week schedule you planned. Keep a daily diary or journal during each of the seven days of this week's activities, writing down when you completed each of the tasks on your \"to do\" list compared to when you scheduled them."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "With your counselor, review your \"to do\" list, one-week schedule, and diary/journal to understand when your schedule worked and when it did not work. Discuss what you might do differently the next time."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "9",
+      "rqmt_desc": "Prepare a written project plan demonstrating the steps below, including the desired outcome. This is a project on paper, not a real-life project. Examples could include planning a camping trip, developing a community service project or a school or religious event, or creating an annual patrol plan with additional activities not already included in the troop annual plan. Discuss your completed project plan with your counselor.",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Define the project. What is your goal?"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Develop a timeline for your project that shows the steps you must take from beginning to completion."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Describe your project."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Develop a list of resources. Identify how these resources will help you achieve your goal."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Develop a budget for your project."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "10",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Choose a career you might want to enter after high school or college graduation. Discuss with your counselor the needed qualifications, education, skills, and experience."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain to your counselor what the associated costs might be to pursue this career, such as tuition, school or training supplies, and room and board. Explain how you could prepare for these costs and how you might make up for any shortfall."
+        }
+      ]
+    }
+  ]
+}

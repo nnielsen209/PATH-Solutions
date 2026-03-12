@@ -1,0 +1,92 @@
+{
+  "badge_name": "Communication",
+  "badge_desc": "This clear and concise definition comes from the U.S. Department of Education: “Communication focuses on how people use messages to generate meanings within and across various contexts, cultures, channels, and media. The field of communication promotes the effective and ethical practice of human communication.”",
+  "eagle_badge": true,
+  "dpmt_name": "EAGLE",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "For one day, keep a log in which you describe your communication activities. Keep track of the time and different ways you spend communicating, such as talking person-to-person, listening to teachers, listening to the radio or podcasts, watching television, using social media, reading books and other print media, and using any electronic communication device. Discuss with your counselor what your log reveals about the importance of communication in your life. Think of ways to improve your communication skills."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "For three days, keep a journal of your listening experiences. Identify one example of each of the following, and discuss with your counselor when you have listened to each: obtain information, be persuaded, appreciate or enjoy something, and understand someone's feelings."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "In a small-group setting, meet with other Scouts or with friends. Have them share personal stories about significant events in their lives that affected them in some way. Take note of how each Scout participates in the group discussion and how effectively each Scout communicates their story. Report what you have learned to your counselor about the differences you observed in effective communication."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "List as many ways as you can think of to communicate with others (face-to-face, by telephone, letter, email, text messages, social media, and so on). For each type of communication, discuss with your counselor an instance when that method might not be appropriate or effective."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Think of a creative way to describe yourself using, for example, a collage, short story or autobiography, drawing or series of photographs, or a song or skit. Using the aid you created, make a presentation to your counselor about yourself."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Choose a concept, product, or service in which you have great confidence. Build a sales plan based on its good points. Try to persuade the counselor to agree with, use, or buy your concept, product or service. After your sales talk, discuss with your counselor how persuasive you were."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Write a five-minute speech and give it at a meeting of a group.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Interview someone you know fairly well, like, or respect because of his or her position, talent, career, or life experiences. Listen actively to learn as much as you can about the person. Then prepare and deliver to your counselor an introduction of the person as though this person were to be a guest speaker, and include reasons why the audience would want to hear this person speak. Show how you would call to invite this person to speak.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Attend a public meeting (city council, school board, debate) approved by your counselor where several points of view are given on a single issue. Practice active listening skills and take careful notes of each point of view. Prepare an objective report that includes all points of view that were expressed, and share this with your counselor.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "With your counselor's approval, develop a plan to teach a skill or inform someone about something. Prepare teaching aids for your plan. Carry out your plan. With your counselor, determine whether the person has learned what you intended.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Write to the editor of a magazine or your local newspaper to express your opinion or share information on any subject you choose. Send your message by fax, email, or regular mail."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Create a webpage or blog of special interest to you (for instance, your troop or crew, a hobby, or a sport). Include at least three articles or entries and one photograph or illustration, and one link to some other webpage or blog that would be helpful to someone who visits the webpage or blog you have created."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Use desktop publishing to produce a newsletter, brochure, flyer, or other printed material for your troop or crew, class at school, or other group. Include at least one article and one photograph or illustration."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Plan a troop or crew court of honor, campfire program, or an interfaith worship service. Have the patrol leaders' council approve it, then write the script and prepare the program. Serve as master of ceremonies.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "9",
+      "rqmt_desc": "Find out about three career opportunities in communication. Pick one and find out the education, training, and experience required for this profession. Discuss this with your counselor, and explain why this profession might interest you.",
+      "requirements": []
+    }
+  ]
+}

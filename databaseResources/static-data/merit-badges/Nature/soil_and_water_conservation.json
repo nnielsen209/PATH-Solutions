@@ -1,0 +1,181 @@
+{
+  "badge_name": "Soil and Water Conservation",
+  "badge_desc": "Conservation isn’t just the responsibility of soil and plant scientists, hydrologists, wildlife managers, landowners, and the forest or mine owner alone. It is the duty of every person to learn more about the natural resources on which our lives depend so that we can help make sure that these resources are used intelligently and cared for properly.",
+  "eagle_badge": false,
+  "dpmt_name": "NATURE",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Tell what soil is. Tell how it is formed."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Describe three kinds of soil. Tell how they are different."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Name the three main plant nutrients in fertile soil. Tell how they can be put back when used up."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Define soil erosion."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Tell why soil erosion is important and how it affects you."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Name three kinds of soil erosion. Describe each."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Take pictures of or draw two kinds of soil erosion."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Tell what is meant by conservation practices."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Describe the effect of three kinds of erosion-control practices."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Take pictures of or draw three kinds of erosion-control practices."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain what a watershed is."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Outline the smallest watershed that you can find on a contour map."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Outline, as far as the map will allow, the next larger watershed that also has the smallest one in it."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Explain what a river basin is. Tell why all people living in a river basin should be concerned about land and water use in the basin."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Explain what an aquifer is and why it can be important to communities."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Make a drawing to show the hydrologic cycle."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Demonstrate at least two of the following actions of water in relation to soil: percolation, capillary action, precipitation, evaporation, and transpiration."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain how removal of vegetation will affect the way water runs off a watershed."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Tell how uses of forest, range, and farmland affect usable water supply."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Explain how industrial use affects water supply."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Tell what is meant by water pollution."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Describe common sources of water pollution and explain the effects of each."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the terms: primary water treatment, secondary waste treatment, and biochemical oxygen demand."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Make a drawing showing the principles of complete waste treatment."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Do TWO of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Make a trip to TWO of the following places. Write a report of more than 500 words about the soil and water and energy conservation practices you saw.",
+          "requirements": [
+            { "rqmt_idnf": "1", "rqmt_desc": "An agricultural experiment" },
+            { "rqmt_idnf": "2", "rqmt_desc": "A managed forest or woodlot, range, or pasture" },
+            { "rqmt_idnf": "3", "rqmt_desc": "A wildlife refuge or a fish or game management area" },
+            { "rqmt_idnf": "4", "rqmt_desc": "A conservation-managed farm or ranch" },
+            { "rqmt_idnf": "5", "rqmt_desc": "A managed watershed" },
+            { "rqmt_idnf": "6", "rqmt_desc": "A waste-treatment plant" },
+            { "rqmt_idnf": "7", "rqmt_desc": "A public drinking water treatment plant" },
+            { "rqmt_idnf": "8", "rqmt_desc": "An industry water use installation" },
+            { "rqmt_idnf": "9", "rqmt_desc": "A desalinization plant" }
+          ]
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Plant 100 trees, bushes, and/or vines for a good purpose."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Seed an area of at least one-fifth acre for some worthwhile conservation purposes, using suitable grasses or legumes alone or in a mixture."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Study a soil survey report. Describe the things in it. Using tracing paper and a pen, trace over any of the soil maps, and outline an area with three or more different kinds of soil. List each kind of soil by full name and map symbol."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Make a list of places in your neighborhood, camps, school ground, or park that have erosion, sedimentation, or pollution problems. Describe how these could be corrected through individual or group action."
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Carry out any other soil and water conservation project approved by your counselor."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "badge_name": "Automotive Maintenance",
+  "badge_desc": "Modern automobiles are important to many aspects of American life. Those who service automobiles must understand each principle, and how these principles interact to provide smooth, efficient performance. Owners of cars also benefit by understanding how their vehicles operate. This enables them to understand why certain periodic maintenance is required to keep their vehicles in tip-top shape.",
+  "eagle_badge": false,
+  "dpmt_name": "TRADES",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Safety and Registration. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain to your counselor the hazards you are most likely to encounter during automotive maintenance activities, and what you should do to anticipate, help prevent, mitigate, or lessen these hazards."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss with your counselor the safety equipment, tools, and clothing used while checking or repairing a motor vehicle. Use this equipment, tools, and/or clothing (when needed or called for) in meeting the requirements for this merit badge."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the different ways motor vehicles are powered."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Explain the safety considerations when performing maintenance on a vehicle equipped with a high-voltage electrical system."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Review the maintenance chart in the vehicle owner's manual. Explain the requirements and time limits."
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Explain the purpose, importance, and limitations of safety belts and passive restraints."
+        },
+        {
+          "rqmt_idnf": "g",
+          "rqmt_desc": "Find out the requirements for your state's emissions and safety inspections (as applicable), including how often a vehicle needs to be inspected."
+        },
+        {
+          "rqmt_idnf": "h",
+          "rqmt_desc": "Explain the importance of registering a vehicle and find out the annual registration fee for renewing your family car's registration."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "General Maintenance. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Demonstrate how to check the following:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Brake fluid"
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Engine oil"
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Coolant"
+            },
+            {
+              "rqmt_idnf": "4",
+              "rqmt_desc": "Power steering fluid"
+            },
+            {
+              "rqmt_idnf": "5",
+              "rqmt_desc": "Windshield washer fluid"
+            },
+            {
+              "rqmt_idnf": "6",
+              "rqmt_desc": "Transmission fluid"
+            },
+            {
+              "rqmt_idnf": "7",
+              "rqmt_desc": "Battery fluid (if possible) and condition of the battery terminals"
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Locate the fuse boxes; determine the type and size of fuses. Demonstrate the proper replacement of burned-out fuses."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Demonstrate how to check the condition and tension of belts and hoses."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Check the vehicle for proper operation of its lights, including the interior overhead lights, instrument lights, warning lights, and exterior bulbs."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Locate and check the air filter(s)."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Dashboard/Driver Information Center. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain the function of the fuel gauge, speedometer, tachometer, oil pressure, and engine temperature gauge. Point each one out on the instrument cluster."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain the symbols that light up on the dashboard and the difference between the yellow and red symbols. Explain each of the indicators on the dashboard, using the owner's manual if necessary."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the messages and alerts that may be displayed on the dashboard/ driver information center including maintenance-related reminders."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Tires. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain the difference between tire manufacturer's and vehicle manufacturer's specifications and show where to find them."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Demonstrate how to check tire pressure and properly inflate a tire. Check the spare tire and make sure it is ready for use."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain why wheel alignment is important to the life of a tire. Explain caster, camber, and toe-in adjustments on wheel alignment."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Explain the purpose of the lateral-wear bar indicator."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Explain how to dispose of old tires in accordance with local laws and regulations."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Engine. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain how an internal combustion engine operates. Tell the differences between gasoline and diesel engines. Explain how a gasoline-electric hybrid vehicle is powered."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss the purpose of engine oil. Explain the API service code, the SAE number, and the viscosity rating."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain where to find the recommended oil type and the amount of oil to be used in the vehicle engine."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Cooling System. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain the need for coolant in the cooling system, and the importance of selecting the correct coolant type for a given vehicle."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain how to flush and change the engine coolant in the vehicle, and how to properly dispose of the used coolant."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Fuel System. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain how the air and fuel systems work together and why it is necessary to have an air filter and fuel filter."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain how a fuel injection system works and how an onboard computer works with the fuel injection system."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Ignition and Electrical Systems. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Diagram and explain the parts of one of the following electrical systems:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Starting/charging system"
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Hybrid or electric vehicle inverter"
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Lighting system"
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain the engine's firing order."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the purpose of the spark gap."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Demonstrate how to safely connect jumper cables to your car battery."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Discuss with your counselor what factors can affect range on an electrified vehicle. Explain the procedure for recharging an electric or plug-in hybrid vehicle."
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Explain what other vehicle systems are dependent on a reliable electrical system."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "9",
+      "rqmt_desc": "Drive Train. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Diagram the drive train and explain the different parts."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain the difference between automatic and standard transmissions."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the types of automatic transmission fluid."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Explain the types of lubricants used in a standard transmission, and in the differential and transfer case."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Explain the difference between front-wheel, rear- wheel, and four-wheel drive."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "10",
+      "rqmt_desc": "Brake System. Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain the brake system (including antilock systems) and how it operates."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain the differences between disc and drum brake systems."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Demonstrate how to check the condition of a vehicle's brake system. After checking, make recommendations for repairs (if necessary)."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "11",
+      "rqmt_desc": "Do TWO of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Determine the value of three different vehicles you are interested in purchasing. One must be new and one must be used; the third vehicle can be new or used. For each vehicle, find out the requirements and cost of automobile insurance to include basic liability and options for collision, comprehensive, towing, and rental car. Using the three vehicles you chose and with your counselor's assistance, complete the operation/maintenance chart provided in the Automotive Maintenance merit badge pamphlet. Use this information to determine the operating cost per mile for each vehicle, and discuss what you learn with your counselor."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Choose a car cleaner and wax product for a vehicle you want to clean. Explain clear-coat paint and the precautions necessary for care. Clean the vehicle, both inside and out, and wax the exterior. Use a vinyl and rubber protectant (on vinyl tops, rubber door seals, sidewalls, etc.) and explain the importance of this protectant."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Locate the manufacturer's jack. Use the jack to demonstrate how to engage the jack correctly on the vehicle, then change a tire correctly."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Perform an oil filter and oil change on a vehicle. Explain how to properly dispose of the used oil and filter."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "12",
+      "rqmt_desc": "Find out about three career opportunities in the automotive industry. Pick one and find out the education, training, and experience required for this profession. Discuss this with your counselor, and explain why this profession might interest you.",
+      "requirements": []
+    }
+  ]
+}

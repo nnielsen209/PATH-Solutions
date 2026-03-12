@@ -1,0 +1,204 @@
+{
+  "badge_name": "Camping",
+  "badge_desc": "Camping is one of the best-known methods of the Scouting movement. When he founded the Scouting movement in the early 1900s, Robert Baden-Powell encouraged every Scout to learn the art of living out-of-doors. He believed a young person able to take care of himself while camping would have the confidence to meet life’s other challenges, too.",
+  "eagle_badge": true,
+  "dpmt_name": "SCOUTCRAFT",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain to your counselor the most likely hazards you may encounter while participating in camping activities and what you should do to anticipate, help prevent, mitigate, and respond to these hazards."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss with your counselor why it is important to be aware of weather conditions before and during your camping activities. Tell how you can prepare should the weather turn bad during your campouts."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Show that you know first aid for and how to prevent injuries or illnesses that could occur while camping, including hypothermia, frostbite, heat reactions, dehydration, altitude sickness, insect stings, tick bites, snakebite, blisters, and hyperventilation."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Learn the Leave No Trace Seven Principles and the Outdoor Code, and explain what they mean. Write a personal and group plan for implementing these principles on your next outing.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Make a written plan for an overnight trek and show how to get to your camping spot by using a topographical map and one of the following:",
+      "requirements": [
+        { "rqmt_idnf": "a", "rqmt_desc": "Compass." },
+        { "rqmt_idnf": "b", "rqmt_desc": "GPS receiver." },
+        { "rqmt_idnf": "c", "rqmt_desc": "Smartphone with a GPS app." }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Make a duty roster showing how your patrol is organized for an actual overnight campout. List assignments for each member."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Help a Scout patrol or a Webelos Scout unit in your area prepare for an actual campout, including creating the duty roster, menu planning, equipment needs, general planning, and setting up camp."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Prepare a list of clothing you would need for overnight campouts in both warm and cold weather. Explain the term 'layering.'"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss footwear for different kinds of weather and how the right footwear is important for protecting your feet."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the proper care and storage of camping equipment (clothing, footwear, bedding)."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "List the Scout Basic Essentials necessary for any campout, and explain why each item is needed."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Present yourself to your Scoutmaster with your pack for inspection. Be correctly clothed and equipped for an overnight campout."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Describe the features of four types of tents, when and where they could be used, and how to care for tents. Working with another Scout, pitch a tent."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss the importance of camp sanitation and tell why water treatment is essential. Then demonstrate two ways to treat water."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Describe the factors to be considered in deciding where to pitch your tent."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Tell the difference between internal- and external-frame packs. Discuss the advantages and disadvantages of each."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Discuss the types of sleeping bags and what kind would be suitable for different conditions. Explain the proper care of your sleeping bag and how to keep it dry. Make a comfortable ground bed."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Prepare for an overnight campout with your patrol by doing the following:",
+      "requirements": [
+        { "rqmt_idnf": "a",
+          "rqmt_desc": "Make a checklist of personal and patrol gear that will be needed."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Pack your own gear and your share of the patrol equipment and food for proper carrying. Show that your pack is right for quickly getting what is needed first, and that it has been assembled properly for comfort, weight, balance, size, and neatness."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain the safety procedures for:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Using a propane or butane/propane stove"
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Using a liquid fuel stove"
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Proper storage of extra fuel"
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss the advantages and disadvantages of different types of lightweight cooking stoves."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Prepare a camp menu. Explain how the menu would differ from a menu for a backpacking or float trip. Give recipes and make a food list for your patrol. Plan two breakfasts, three lunches, and two suppers. Discuss how to protect your food against bad weather, animals, and contamination."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "While camping in the outdoors, cook at least one breakfast, one lunch, and one dinner for your patrol from the meals you have planned. At least one meal must be a trail meal requiring the use of a lightweight stove."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "9",
+      "rqmt_desc": "Show experience in camping by doing the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Camp for at least 20 nights at designated Scouting activities or events. One long-term camping experience of up to six consecutive nights may be applied toward this requirement. Two nights may be counted toward the total for each additional long-term camping trip. Each night must be spent either under the sky, in a tent you have pitched yourself (if a tent is provided and already set up, you do not need to pitch your own), in a hammock that is safely strung outdoors, in a lean-to, or other three-sided shelter with an open front. Nights spent in indoor lock-in events, cabin camping, hotel stays, or other covered accommodations do not count toward the 20 nights."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "On any of these camping experiences, do TWO of the following under proper preparation and qualified supervision:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "Hike up a mountain, gaining at least 1,000 vertical feet."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "Backpack, snowshoe, or cross-country ski for at least 4 miles."
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "Take a bike trip of at least 15 miles or at least four hours."
+            },
+            {
+              "rqmt_idnf": "4",
+              "rqmt_desc": "Take a nonmotorized trip on the water of at least four hours or 5 miles."
+            },
+            {
+              "rqmt_idnf": "5",
+              "rqmt_desc": "Plan and carry out an overnight snow camping experience."
+            },
+            {
+              "rqmt_idnf": "6",
+              "rqmt_desc": "Rappel down a rappel route of 30 feet or more."
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "On any of these camping experiences, perform a conservation project approved by the landowner or land managing agency. This can be done alone or with others."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "10",
+      "rqmt_desc": "Discuss how the things you did to earn this badge have taught you about personal health and safety, survival, public health, conservation, and good citizenship. Tell how Scout spirit and the Scout Oath and Scout Law apply to camping and outdoor ethics.",
+      "requirements": []
+    }
+  ]
+}

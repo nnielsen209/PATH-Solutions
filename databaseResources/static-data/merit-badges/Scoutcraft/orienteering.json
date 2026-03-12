@@ -1,0 +1,123 @@
+{
+  "badge_name": "Orienteering",
+  "badge_desc": "Orienteering, the use of map and compass to find locations and plan a journey, has been a vital skill for humans for thousands of years. Orienteering is also a recognized sport at the Olympic Games, and thousands of people participate in the sport each year in local clubs and competitions.",
+  "eagle_badge": false,
+  "dpmt_name": "SCOUTCRAFT",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Show that you know first aid for the following types of injuries that could occur while orienteering: cuts, scratches, blisters, snakebite, insect stings, tick bites, heat and cold reactions (sunburn, heatstroke, heat exhaustion, hypothermia), dehydration. Explain to your counselor why you should be able to identify poisonous plants and poisonous animals that are found in your area.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Explain what orienteering is.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain how a compass works. Describe the features of an orienteering compass."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "In the field, show how to take a compass bearing and follow it."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain how a topographic map shows terrain features. Point out and name five terrain features on a map and in the field."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Point out and name 10 symbols on a topographic map."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the meaning of declination. Tell why you must consider declination when using map and compass together."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Show a topographic map with magnetic north-south lines."
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Show how to measure distances on a map using an orienteering compass."
+        },
+        {
+          "rqmt_idnf": "f",
+          "rqmt_desc": "Show how to orient a map using a compass."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Set up a 100-meter pace course. Determine your walking and running pace for 100 meters. Tell why it is important to pace-count.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Identify 20 international control description symbols. Tell the meaning of each symbol."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Show a control description sheet and explain the information provided."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain the following terms and tell when you would use them: attack point, collecting feature, catching feature, aiming off, contouring, reading ahead, handrail, relocation, and rough versus fine orienteering."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Take part in three orienteering events. One of these must be a cross-country course."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "After each event, write a report with (1) a copy of the master map and control description sheet, (2) a copy of the route you took on the course, (3) a discussion of how you could improve your time between control points, and (4) a list of your major weaknesses on this course. Describe what you could do to improve."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Set up a cross-country course that is at least 2,000 meters long with at least five control markers. Prepare the master map and control description sheet."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Set up a score orienteering course with at least 12 control points and a time limit of at least 60 minutes. Set point values for each control. Prepare the master map and control description sheet."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "9",
+      "rqmt_desc": "Act as an official during an orienteering event. This may be during the running of the course you set up for requirement 8.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "10",
+      "rqmt_desc": "Teach orienteering techniques to your patrol, troop or crew.",
+      "requirements": []
+    }
+  ]
+}
