@@ -251,6 +251,7 @@ export type AuthStackParamList = {
 export type AdminTabParamList = {
   Dashboard: undefined;
   Users: undefined;
+  Campers: undefined;
   Programs: undefined;
   Schedule: undefined;
   Reports: undefined;
@@ -261,6 +262,7 @@ export type AdminTabParamList = {
 export type CounselorTabParamList = {
   Dashboard: undefined;
   Users: undefined;
+  Campers: undefined;
   MyActivities: undefined;
   Attendance: undefined;
   Progress: undefined;
@@ -272,6 +274,7 @@ export type CounselorTabParamList = {
 export type AreaDirectorTabParamList = {
   Dashboard: undefined;
   Users: undefined;
+  Campers: undefined;
   Programs: undefined;
   Schedule: undefined;
   Reports: undefined;
@@ -282,6 +285,7 @@ export type AreaDirectorTabParamList = {
 export type DevTabParamList = {
   Dashboard: undefined;
   Users: undefined;
+  Campers: undefined;
   Programs: undefined;
   Schedule: undefined;
   Reports: undefined;
@@ -291,7 +295,7 @@ export type DevTabParamList = {
 // Leader tab navigation (view-only access)
 export type LeaderTabParamList = {
   Dashboard: undefined;
-  Scouts: undefined;
+  Campers: undefined;
   Schedule: undefined;
   Progress: undefined;
   Profile: undefined;

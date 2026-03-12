@@ -1,5 +1,5 @@
 export { LeaderDashboardScreen } from './DashboardScreen';
-export { LeaderScoutsScreen } from './ScoutsScreen';
+export { LeaderCampersScreen } from './CampersScreen';
 export { LeaderScheduleScreen } from './ScheduleScreen';
 export { LeaderProgressScreen } from './ProgressScreen';
 export { LeaderProfileScreen } from './ProfileScreen';

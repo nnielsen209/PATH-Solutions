@@ -1,9 +1,8 @@
 /**
- * ScoutsScreen.tsx - Leader Scouts View
+ * CampersScreen.tsx - Counselor Campers View
  *
- * Shows scouts from the leader's troop. Read-only view - leaders cannot
- * add or modify scouts. Once troop filtering is implemented in the database,
- * this will only show scouts from the leader's assigned troop.
+ * Fetches campers from the scout table for counselors to view.
+ * Read-only - counselors cannot add campers.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -22,7 +21,7 @@ import { TABLET_BREAKPOINT } from '../../types';
 import { supabase } from '../../services/supabase';
 
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
-const ACCENT_COLOR = '#16a34a'; // Green accent for Leaders
+const ACCENT_COLOR = '#d97706'; // Orange accent for campers
 
 /** Scout record from Supabase */
 interface DbScout {
@@ -38,64 +37,55 @@ interface DbScout {
 }
 
 /**
- * ScoutCard - Displays a single scout (view-only)
+ * CamperCard - Displays a single camper
  */
-type ScoutCardProps = {
-  scout: DbScout;
+type CamperCardProps = {
+  camper: DbScout;
   isDesktop: boolean;
 };
 
-const ScoutCard = ({ scout, isDesktop }: ScoutCardProps) => {
-  const troopInfo = scout.troop
-    ? `Troop ${scout.troop.troop_nmbr} - ${scout.troop.troop_city}, ${scout.troop.troop_state}`
+const CamperCard = ({ camper, isDesktop }: CamperCardProps) => {
+  const troopInfo = camper.troop
+    ? `Troop ${camper.troop.troop_nmbr} - ${camper.troop.troop_city}, ${camper.troop.troop_state}`
     : 'No troop assigned';
 
   return (
-    <View style={[styles.scoutCard, isDesktop && styles.scoutCardDesktop]}>
-      <View style={styles.scoutAvatar}>
-        <Text style={styles.scoutInitials}>
-          {scout.scout_first_name[0]}{scout.scout_last_name[0]}
+    <View style={[styles.camperCard, isDesktop && styles.camperCardDesktop]}>
+      <View style={styles.camperAvatar}>
+        <Text style={styles.camperInitials}>
+          {camper.scout_first_name[0]}{camper.scout_last_name[0]}
         </Text>
       </View>
-      <View style={styles.scoutInfo}>
-        <Text style={styles.scoutName}>
-          {scout.scout_first_name} {scout.scout_last_name}
+      <View style={styles.camperInfo}>
+        <Text style={styles.camperName}>
+          {camper.scout_first_name} {camper.scout_last_name}
         </Text>
-        <Text style={styles.scoutTroop}>{troopInfo}</Text>
-      </View>
-      <View style={styles.viewOnlyBadge}>
-        <Ionicons name="eye-outline" size={14} color="#6b7280" />
+        <Text style={styles.camperTroop}>{troopInfo}</Text>
       </View>
     </View>
   );
 };
 
 /**
- * LeaderScoutsScreen Component
+ * CounselorCampersScreen Component
  *
- * Shows scouts for the leader's troop. Read-only view.
- * TODO: Filter by leader's assigned troop once database association is set up.
+ * Shows campers from the scout table for counselors.
+ * Read-only view - no add functionality.
  */
-export const LeaderScoutsScreen = () => {
+export const CounselorCampersScreen = () => {
   const { width } = useWindowDimensions();
   const isDesktop = width >= DESKTOP_BREAKPOINT;
   const contentPadding = isDesktop ? 32 : 20;
 
-  const [scouts, setScouts] = useState<DbScout[]>([]);
+  const [campers, setCampers] = useState<DbScout[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  /** Fetch scouts from Supabase - TODO: filter by troop */
-  const fetchScouts = useCallback(async () => {
+  /** Fetch campers from Supabase */
+  const fetchCampers = useCallback(async () => {
     try {
       setError(null);
       setIsLoading(true);
-
-      // TODO: Once troop association is set up, filter scouts by the leader's troop:
-      // const { data: userData } = await supabase.auth.getUser();
-      // const leaderTroopId = userData?.user?.user_metadata?.troop_id;
-      // .eq('troop_id', leaderTroopId)
-
       const { data, error: fetchError } = await supabase
         .from('scout')
         .select(`
@@ -115,38 +105,38 @@ export const LeaderScoutsScreen = () => {
         throw fetchError;
       }
 
-      setScouts(data || []);
+      setCampers(data || []);
     } catch (err) {
-      console.error('Error fetching scouts:', err);
-      setError('Failed to load scouts');
+      console.error('Error fetching campers:', err);
+      setError('Failed to load campers');
     } finally {
       setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchScouts();
-  }, [fetchScouts]);
+    fetchCampers();
+  }, [fetchCampers]);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={[styles.header, isDesktop && styles.headerDesktop]}>
         <View style={[styles.headerInner, isDesktop && styles.headerInnerDesktop]}>
-          <Text style={[styles.title, isDesktop && styles.titleDesktop]}>My Scouts</Text>
-          <Text style={styles.subtitle}>Scouts in your troop (view-only)</Text>
+          <Text style={[styles.title, isDesktop && styles.titleDesktop]}>Campers</Text>
+          <Text style={styles.subtitle}>View all camp participants</Text>
         </View>
       </View>
 
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={ACCENT_COLOR} />
-          <Text style={styles.loadingText}>Loading scouts...</Text>
+          <Text style={styles.loadingText}>Loading campers...</Text>
         </View>
       ) : error ? (
         <View style={styles.errorContainer}>
           <Ionicons name="alert-circle" size={48} color="#dc2626" />
           <Text style={styles.errorText}>{error}</Text>
-          <TouchableOpacity style={styles.retryButton} onPress={fetchScouts}>
+          <TouchableOpacity style={styles.retryButton} onPress={fetchCampers}>
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
@@ -160,24 +150,18 @@ export const LeaderScoutsScreen = () => {
           ]}
           showsVerticalScrollIndicator={false}
         >
-          {/* View-only notice */}
-          <View style={styles.viewOnlyBanner}>
-            <Ionicons name="information-circle-outline" size={18} color="#166534" />
-            <Text style={styles.viewOnlyText}>You have view-only access to scout information</Text>
-          </View>
-
           {/* Stats Card */}
           <View style={styles.statsCard}>
             <View style={styles.statsIconWrap}>
               <Ionicons name="people" size={28} color={ACCENT_COLOR} />
             </View>
             <View style={styles.statsInfo}>
-              <Text style={styles.statsValue}>{scouts.length}</Text>
-              <Text style={styles.statsLabel}>Total Scouts</Text>
+              <Text style={styles.statsValue}>{campers.length}</Text>
+              <Text style={styles.statsLabel}>Total Campers</Text>
             </View>
           </View>
 
-          {/* Scouts List */}
+          {/* Campers List */}
           <View style={[styles.listCard, isDesktop && styles.listCardDesktop]}>
             <View style={styles.listHeader}>
               <View style={styles.listTitleRow}>
@@ -186,30 +170,30 @@ export const LeaderScoutsScreen = () => {
                 </View>
                 <View style={styles.listTitleBlock}>
                   <Text style={[styles.listTitle, isDesktop && styles.listTitleDesktop]}>
-                    Troop Scouts
+                    All Campers
                   </Text>
-                  <Text style={styles.listDescription}>Members of your troop</Text>
+                  <Text style={styles.listDescription}>Camp participants</Text>
                 </View>
                 <View style={styles.countBadge}>
-                  <Text style={styles.countText}>{scouts.length}</Text>
+                  <Text style={styles.countText}>{campers.length}</Text>
                 </View>
               </View>
             </View>
             <View style={styles.listContent}>
-              {scouts.length === 0 ? (
+              {campers.length === 0 ? (
                 <View style={styles.emptyState}>
                   <Ionicons name="person-outline" size={48} color="#d1d5db" />
-                  <Text style={styles.emptyStateText}>No scouts in your troop</Text>
+                  <Text style={styles.emptyStateText}>No campers yet</Text>
                   <Text style={styles.emptyStateSubtext}>
-                    Contact camp staff to add scouts to your troop
+                    Campers will appear here once added
                   </Text>
                 </View>
               ) : (
-                <View style={styles.scoutsList}>
-                  {scouts.map((scout) => (
-                    <ScoutCard
-                      key={scout.scout_id}
-                      scout={scout}
+                <View style={styles.campersList}>
+                  {campers.map((camper) => (
+                    <CamperCard
+                      key={camper.scout_id}
+                      camper={camper}
                       isDesktop={isDesktop}
                     />
                   ))}
@@ -305,17 +289,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
   },
-  viewOnlyBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#dcfce7',
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 8,
-    marginBottom: 16,
-    gap: 8,
-  },
-  viewOnlyText: { fontSize: 13, color: '#166534', fontWeight: '500' },
   statsCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -431,10 +404,10 @@ const styles = StyleSheet.create({
     marginTop: 4,
     textAlign: 'center',
   },
-  scoutsList: {
+  campersList: {
     gap: 8,
   },
-  scoutCard: {
+  camperCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f9fafb',
@@ -442,10 +415,10 @@ const styles = StyleSheet.create({
     padding: 12,
     gap: 12,
   },
-  scoutCardDesktop: {
+  camperCardDesktop: {
     padding: 14,
   },
-  scoutAvatar: {
+  camperAvatar: {
     width: 44,
     height: 44,
     borderRadius: 22,
@@ -453,25 +426,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  scoutInitials: {
+  camperInitials: {
     fontSize: 16,
     fontWeight: '600',
     color: ACCENT_COLOR,
   },
-  scoutInfo: {
+  camperInfo: {
     flex: 1,
   },
-  scoutName: {
+  camperName: {
     fontSize: 15,
     fontWeight: '600',
     color: '#1f2937',
   },
-  scoutTroop: {
+  camperTroop: {
     fontSize: 13,
     color: '#6b7280',
     marginTop: 2,
-  },
-  viewOnlyBadge: {
-    padding: 6,
   },
 });

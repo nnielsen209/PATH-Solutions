@@ -12,7 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { DevTabParamList, TABLET_BREAKPOINT } from '../types';
 import { DevSidebar } from '../components';
-import { DevDashboardScreen, DevUsersScreen } from '../screens/dev';
+import { DevDashboardScreen, DevUsersScreen, DevCampersScreen } from '../screens/dev';
 import {
   ProgramsScreen,
   ScheduleScreen,
@@ -42,6 +42,9 @@ const MobileDevNavigator = () => {
               break;
             case 'Users':
               iconName = focused ? 'people' : 'people-outline';
+              break;
+            case 'Campers':
+              iconName = focused ? 'person' : 'person-outline';
               break;
             case 'Programs':
               iconName = focused ? 'ribbon' : 'ribbon-outline';
@@ -79,6 +82,7 @@ const MobileDevNavigator = () => {
     >
       <Tab.Screen name="Dashboard" component={DevDashboardScreen} />
       <Tab.Screen name="Users" component={DevUsersScreen} />
+      <Tab.Screen name="Campers" component={DevCampersScreen} />
       <Tab.Screen name="Programs" component={ProgramsScreen} />
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
       <Tab.Screen name="Reports" component={ReportsScreen} />
@@ -99,6 +103,7 @@ type ScreenProps = {
 const screens: Record<keyof DevTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: DevDashboardScreen,
   Users: DevUsersScreen,
+  Campers: DevCampersScreen,
   Programs: ProgramsScreen,
   Schedule: ScheduleScreen,
   Reports: ReportsScreen,

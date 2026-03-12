@@ -15,6 +15,7 @@ import { CounselorSidebar } from '../components';
 import {
   CounselorDashboardScreen,
   CounselorUsersScreen,
+  CounselorCampersScreen,
   MyActivitiesScreen,
   AttendanceScreen,
   ProgressScreen,
@@ -42,6 +43,9 @@ const MobileCounselorNavigator = () => {
               break;
             case 'Users':
               iconName = focused ? 'people' : 'people-outline';
+              break;
+            case 'Campers':
+              iconName = focused ? 'person' : 'person-outline';
               break;
             case 'MyActivities':
               iconName = focused ? 'calendar' : 'calendar-outline';
@@ -75,6 +79,7 @@ const MobileCounselorNavigator = () => {
     >
       <Tab.Screen name="Dashboard" component={CounselorDashboardScreen} />
       <Tab.Screen name="Users" component={CounselorUsersScreen} />
+      <Tab.Screen name="Campers" component={CounselorCampersScreen} />
       <Tab.Screen name="MyActivities" component={MyActivitiesScreen} options={{ tabBarLabel: 'Activities' }} />
       <Tab.Screen name="Attendance" component={AttendanceScreen} />
       <Tab.Screen name="Progress" component={ProgressScreen} />
@@ -92,6 +97,7 @@ type ScreenProps = {
 const screens: Record<keyof CounselorTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: CounselorDashboardScreen,
   Users: CounselorUsersScreen,
+  Campers: CounselorCampersScreen,
   MyActivities: MyActivitiesScreen,
   Attendance: AttendanceScreen,
   Progress: ProgressScreen,
