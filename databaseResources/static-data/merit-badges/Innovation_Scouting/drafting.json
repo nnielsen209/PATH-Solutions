@@ -84,7 +84,7 @@
       "requirements": [
         {
           "rqmt_idnf": "a",
-          "rqmt_desc": "Visit a facility or industry workplace where drafting is part of the business. Ask to see an example of the work that is done there, the different drafting facilities, and the tools used."
+          "rqmt_desc": "Visit a facility or industry workplace where drafting is part of the business. Ask to see an example of the work that is done there, the different drafting facilities, and the tools used.",
           "requirements": [
             {
               "rqmt_idnf": "1",
