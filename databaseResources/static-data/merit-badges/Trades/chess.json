@@ -1,0 +1,157 @@
+{
+  "badge_name": "Chess",
+  "badge_desc": "Chess is among the oldest board games in the world, and it ranks among the most popular games ever created. Chess is played worldwide—even over the Internet. Players meet for fun and in competition, everywhere from kitchen tables and park benches to formal international tournaments.",
+  "eagle_badge": false,
+  "dpmt_name": "TRADES",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Discuss with your counselor the history of the game of chess."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Research a famous chess player and what accomplishments made him or her famous. Discuss with your counselor."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Discuss with your counselor the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Why chess is considered a game of planning and strategy."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "The benefits of playing chess, including developing critical thinking skills, concentration skills, and decision-making skills, and how these skills can help you in other areas of your life."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Sportsmanship and chess etiquette"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Demonstrate to your counselor that you know each of the following. Then, using Scouting EDGE to teach someone who does not know how to play chess:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "The name of each chess piece"
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "How to set up a chessboard"
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "How each chess piece moves and captures, including: four rules of castling, en passant captures, pawn promotion, check, ways to get out of check, and checkmate."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "The five ways a game can end in a draw"
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Demonstrate scorekeeping using the algebraic system of chess notation."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss the differences between the opening, the middle game, and the endgame."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain four opening principles. Demonstrate for your counselor the first five moves of the following openings: Ruy Lopez, French Defense, Queen's Gambit Declined, Sicilian Defense."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "On a chessboard, demonstrate Scholar's Mate, Fool's Mate, Légal Mate, Fried Liver Attack, and Noah's Ark Trap."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain four of the following elements of chess strategy: exploiting weaknesses, force, king safety, pawn structure, space, tempo, and clock management."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain any five of these chess tactics: clearance sacrifice, decoy, discovered attack, double check, double attack, fork, interposing, overloading, overprotecting, pin, skewer, remove the defender, zwischenzug, and zugzwang."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Set up a chessboard as follows and with White to move first, demonstrate how to force checkmate on the Black king:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "White on e1, the White rooks on a1 and h1, and the Black king on e5."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "White King on e1, White queen on d1, Black king on e5."
+            },
+            {
+              "rqmt_idnf": "3",
+              "rqmt_desc": "White king on e1, White rook on a1, Black king on e5."
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "With White king on d4, White pawn on e3, and Black king on e6:",
+          "requirements": [
+            {
+              "rqmt_idnf": "1",
+              "rqmt_desc": "With White to move, demonstrate how White can force Black to allow his pawn to reach the last rank and be promoted to a queen."
+            },
+            {
+              "rqmt_idnf": "2",
+              "rqmt_desc": "With Black to move, demonstrate how Black can force a draw."
+            }
+          ]
+        },
+        {
+          "rqmt_idnf": "e",
+          "rqmt_desc": "Set up and solve five direct-mate problems provided by your counselor."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Explain to your counselor how chess tournaments are run, including the Swiss system tournament format, the round robin tournament format, pairings for each round, time controls, touch move, scoring, and chess ratings.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Play at least three games of chess with other Scouts and/or your counselor. Replay the games from your score sheets and discuss with your counselor how you might have played each game differently."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Play in a scholastic (youth) chess tournament and use your score sheets from that tournament to replay your games with your counselor. Discuss with your counselor how you might have played each game differently."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Organize and run a chess tournament with at least four players, plus you. Have each competitor play at least two games."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "badge_name": "Fingerprinting",
+  "badge_desc": "In earning the Fingerprinting merit badge, Scouts will learn about and use an important technique that is used by law enforcement officers, along with other materials like matching dental records and DNA sampling, to help identify amnesia victims, missing persons, abducted children, and others.",
+  "eagle_badge": false,
+  "dpmt_name": "TRADES",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Give a short history of fingerprinting. Tell the difference between civil and criminal identification.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain the difference between the automated fingerprint identification systems (AFIS) now used by law enforcement agencies and the biometric fingerprint systems used to control access to computers and places like buildings and airports."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Discuss how our society uses identification systems based on tokens, passwords, and biometrics."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Name the surfaces of the body where friction or papillary ridges are found."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Name the two basic principles supporting the science of fingerprints and give a brief explanation of each principle."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain what it takes to positively identify a person using fingerprints."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Take a clear set of prints using ONE of the following methods:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Make both rolled and plain impressions. Make these on an 8-by-8-inch fingerprint identification card, available from your local police department or your counselor."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Using clear adhesive tape, a pencil, and plain paper, record your own fingerprints or those of another person."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Show your counselor you can identify the three basic types of fingerprint patterns and their subcategories. Using your own hand, identify the types of patterns you see.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Identify three career opportunities that would use skills and knowledge in the areas of biometrics and/or fingerprinting. Pick one and research the training, education, certification requirements, experience, and expenses associated with entering the field. Research the prospects for employment, starting salary, advancement opportunities, and career goals associated with this career. Discuss what you learned with your counselor and whether you might be interested in this career.",
+      "requirements": []
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "badge_name": "Painting",
+  "badge_desc": "This merit badge provides an opportunity for Scouts to learn more about painting, including both the artistic and practical aspects.",
+  "eagle_badge": false,
+  "dpmt_name": "TRADES",
+  "requirements": [
+    {
+      "rqmt_idnf": "1",
+      "rqmt_desc": "Explain the proper safety procedures to follow when preparing surfaces and applying coatings.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "2",
+      "rqmt_desc": "Do the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explain three ways that coatings can improve a surface."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explain the differences between oil-based paints, acrylic-based paints, and water-based paints."
+        },
+        {
+          "rqmt_idnf": "c",
+          "rqmt_desc": "Explain where you would apply enamel paint, flat paint, wood stain, and varnish, and explain the importance of sheen."
+        },
+        {
+          "rqmt_idnf": "d",
+          "rqmt_desc": "Tell why each is best for these uses."
+        }
+      ]
+    },
+    {
+      "rqmt_idnf": "3",
+      "rqmt_desc": "Prepare and paint two different surfaces using patching materials or caulking and the proper primers and topcoats. Suggested projects include an interior or exterior wall, a door, a piece of furniture, a concrete wall or floor, a porch rail, or a fence. Your counselor must preapprove the projects.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "4",
+      "rqmt_desc": "Prepare and paint an item using harmonizing colors that you have selected using the color wheel in the Painting merit badge pamphlet.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "5",
+      "rqmt_desc": "Show the right way to use, clean, maintain, and store painting equipment.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "6",
+      "rqmt_desc": "Explain the importance of ladder safety, personal hygiene, and the use of personal protective equipment when painting.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "7",
+      "rqmt_desc": "Explain some of the environmental and health issues concerning removing paint, applying paint, and discarding old paint.",
+      "requirements": []
+    },
+    {
+      "rqmt_idnf": "8",
+      "rqmt_desc": "Do ONE of the following:",
+      "requirements": [
+        {
+          "rqmt_idnf": "a",
+          "rqmt_desc": "Explore careers related to this merit badge. Research one career to learn about the training and education needed, costs, job prospects, salary, job duties, and career advancement. Your research methods may include—with your parent or guardian's permission—an internet or library search, an interview with a professional in the field, or a visit to a location where people in this career work. Discuss with your counselor both your findings and what about this profession might make it an interesting career."
+        },
+        {
+          "rqmt_idnf": "b",
+          "rqmt_desc": "Explore how you could use knowledge and skills from this merit badge to pursue a hobby or healthy lifestyle. Research any training needed, expenses, and organizations that promote or support it. Discuss with your counselor what short-term and long-term goals you might have if you pursued this."
+        }
+      ]
+    }
+  ]
+}
