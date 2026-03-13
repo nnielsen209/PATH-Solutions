@@ -42,7 +42,38 @@ interface DbRequirement {
   rqmt_desc: string;
   rqmt_idnf: string;
   parent_rqmt_id: string | null;
+  requirements?: DbRequirement[]; 
 }
+
+const buildRequirementTree = (
+  flatRequirments: DbRequirement[], 
+  parent_rqmt_id: string | null = null 
+): DbRequirement[] => {
+  return flatRequirments.filter((r) => r.parent_rqmt_id == parent_rqmt_id)
+  .map((r) => ({
+    ...r,
+    requirements: buildRequirementTree(flatRequirments, r.rqmt_id)
+  })).sort((a,b) => a.rqmt_idnf.localeCompare(b.rqmt_idnf));
+};
+
+const RequirementItem = ({ req }: { req: DbRequirement}) => {
+  return (
+    <View key={req.rqmt_id} style={styles.requirementItem}>
+      <View style={styles.reqMainRow}>
+        <Text style={styles.reqNumber}>{req.rqmt_idnf}</Text>
+        <Text style={styles.reqDesc}>{req.rqmt_desc}</Text>
+      </View>
+
+      {req.requirements && req.requirements.length > 0 && (
+        <View style={styles.subRequirements}>
+          {req.requirements.map((child) => (
+            <RequirementItem key={child.rqmt_id} req={child} />
+          ))}
+        </View>
+      )}
+    </View>
+  );
+};
 
 /**
  * ProgramsScreen Component
@@ -126,7 +157,10 @@ export const ProgramsScreen = () => {
         .order('rqmt_idnf', { ascending: true });
 
       if (fetchError) throw fetchError;
-      setRequirements((prev) => ({ ...prev, [badgeId]: data || [] }));
+
+      const requirementTree = buildRequirementTree(data || []); 
+
+      setRequirements((prev) => ({ ...prev, [badgeId]: requirementTree || [] }));
     } catch (err) {
       console.error('Error fetching requirements:', err);
     } finally {
@@ -325,29 +359,11 @@ export const ProgramsScreen = () => {
                                           ) : topLevelReqs.length === 0 ? (
                                             <Text style={styles.noReqsText}>No requirements defined</Text>
                                           ) : (
-                                            topLevelReqs.map((req) => {
-                                              const subReqs = programReqs.filter(
-                                              (r) => r.parent_rqmt_id === req.rqmt_id);
 
-                                              return(
-                                                <View key={req.rqmt_id} style={styles.requirementItem}>
-                                                  <View style={styles.reqMainRow}>
-                                                    <Text style={styles.reqNumber}>{req.rqmt_idnf}</Text>
-                                                    <Text style={styles.reqDesc}>{req.rqmt_desc}</Text>
-                                                  </View>
-                                                  {subReqs.length > 0 && (
-                                                    <View style={styles.subRequirements}>
-                                                    {subReqs.map((subReq) => (
-                                                      <View key={subReq.rqmt_id} style={styles.subReqItem}>
-                                                        <Text style={styles.subReqNumber}>{subReq.rqmt_idnf}</Text>
-                                                        <Text style={styles.subReqDesc}>{subReq.rqmt_desc}</Text>
-                                                      </View>
-                                                    ))}
-                                                    </View>
-                                                  )}
-                                                </View>
-                                              );
-                                            })
+
+                                            topLevelReqs.map( (req) => (
+                                              <RequirementItem key={req.rqmt_id} req={req}/>
+                                            ))
                                           )}
                                         </View>
                                       )}

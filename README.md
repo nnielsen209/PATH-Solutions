@@ -173,10 +173,10 @@ Five distinct user roles with tailored experiences:
 #### Merit Badge Database Population
 All camp departments now fully populated with merit badges:
 - **Trades Department** - 14 badges (Automotive Maintenance, Chess, Crime Prevention, Cycling, Electricity, Electronics, Farm Mechanics, Fingerprinting, Golf, Painting, Plumbing, Radio, Welding, Woodworking)
-- **Nature Department** - 12 badges (Archaeology, Astronomy, Chemistry, Environmental Science, Fish and Wildlife Management, Forestry, Geology, Nature, Oceanography, Soil and Water Conservation, Sustainability, Weather)
+- **Nature Department** - 12 badges (Archaeology, Astronomy, Chemistry, Environmental Science, Fish and Wildlife Management, Forestry, Geology, Nature, Oceanography, Soil and Water Conservation, Sustainability, Weather, Space Exploration)
 - **Eagle Department** - Eagle-required merit badges
 - **Scoutcraft Department** - Camping, Exploration, Orienteering, Search and Rescue, Signs/Signals/Codes, Wilderness Survival
-- **Handicraft Department** - Art, Leatherwork, Metalwork, Pottery
+- **Handicraft Department** - Art, Leatherwork, Metalwork, Pottery, Woodcarving
 - **Innovation Scouting Department** - Drafting merit badge
 
 #### Schedule System Updates
