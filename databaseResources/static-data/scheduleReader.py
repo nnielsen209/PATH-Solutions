@@ -135,11 +135,11 @@ def InitializeBadgesAndActivities(scheduleCSV):
 
 
         # insert the badges / update them if they already exist
-        resp = supabase.table("merit_badge").upsert(badgesToInit, on_conflict="badge_name").execute()
-        if resp.data is None:
-            print("error upserting the badges: ")
-        else:
-            print("badges upserted! :)")
+        # resp = supabase.table("merit_badge").upsert(badgesToInit, on_conflict="badge_name").execute()
+        # if resp.data is None:
+        #     print("error upserting the badges: ")
+        # else:
+        #     print("badges upserted! :)")
 
         # same operation for the activities
         resp = None #clear resp jusr in case
