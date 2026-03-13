@@ -53,7 +53,7 @@ const buildRequirementTree = (
   .map((r) => ({
     ...r,
     requirements: buildRequirementTree(flatRequirments, r.rqmt_id)
-  })).sort((a,b) => a.rqmt_idnf.localeCompare(b.rqmt_idnf));
+  })).sort((a,b) => a.rqmt_idnf.localeCompare(b.rqmt_idnf, undefined, { numeric: true, sensitivity: 'base' }));
 };
 
 const RequirementItem = ({ req }: { req: DbRequirement}) => {
