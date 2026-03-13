@@ -1,0 +1,3 @@
+wheel
+supabase
+python-dotenv
