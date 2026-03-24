@@ -1,12 +1,9 @@
 
-import requests
 from bs4 import BeautifulSoup
-from playwright.sync_api import sync_playwright
-import lxml
 import time, random
 
 
-
+# sereis of pages to simulate human site traffic
 landingSequence = [
     "https://www.scouting.org/",
     "https://www.scouting.org/programs/scouts-bsa/",
@@ -35,20 +32,53 @@ def Scrape(name, ctx):
 
         # grab the raw html and check if we hit cloudfare instead
         htmlRaw = page.content()
-        if "Just a moment..." in htmlRaw:
-            print("Error fetching meritbadge page: Cloudfare block")
-            print(htmlRaw[:1000])
-        else:
-            soup = BeautifulSoup(htmlRaw, "lxml")
-            print("hecker man time")
+        if "access denied" in htmlRaw:
+            # if a hard block throw error
+             print("Error fetching merit badge reqs: access denied")
+             return("Error fetching desc", True, "Error fetching requirements")
+        elif "Just a moment..." in htmlRaw:
+            #if it's just a challenge, wait and continue
+            print("cloudfare challenge")
+            time.sleep(10)
+
+        # grab the page content again now that we're past cloudfare and use beutiful soup to help parse
+        htmlRaw = page.content()
+        soup = BeautifulSoup(htmlRaw, "lxml")
+
+        # find the description
+        header = soup.find(lambda tag: tag.name=="h3" and "Merit Badge Overview" in tag.get_text()) # Locate the badeg overview section
+        if not header:
+             print("error on the header")
+        container = header.find_parent("div").find_parent("div").find_next_sibling("div") #from the overview title grab the next container which will hold the desc
+        if not container:
+             print("error on the container")
+        desc = container.get_text(" ", strip=True) # grab the desc
+
+
+        # check if eagle required
+        isEagleRequired = False # assume false
+        for element in soup.find_all(True):
+            if element == header:
+                break                     # if we hit badge overview stop
+
+            if element.string and "Eagle Required" in element.string:
+                isEagleRequired = True    # if we see the marker it's eagle required
+
+        # grab the entire requirements container for later
+        rawReqs = soup.select_one(".mb-requirement-container").get_text()
+
+        # write the retreived info useful for debug, leave commented otherwise
+        # with open("./scraperOutputDebug/"+name+".txt", "w", encoding="utf-8") as f: 
+        #     # write whole page into file 
+        #     # f.write(soup.prettify())
+        #     f.write(desc+"\n")
+        #     f.write(str(isEagleRequired)+"\n")
+        #     f.write(rawReqs)
         
-        return("TODO: finish scraper", True)
+
+
         
-
-
-
-    #     isEagle = bool(soup.find(string=lambda x: x and "&nbsp;Eagle Required" in x))
-    #     print(isEagle)
+        return(desc, isEagleRequired, rawReqs)
 
 
 # makes the name of the badge into the address of the related webpage
@@ -58,7 +88,3 @@ def GetAddress(name):
     name = name.replace(",", "")
     name = name.lower()
     return prefix + name + '/'
-    
-
-# Scrape("Signs, Signals, and Codes")
-# Scrape("Camping")

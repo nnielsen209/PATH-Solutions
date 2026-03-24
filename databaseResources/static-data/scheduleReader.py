@@ -19,7 +19,7 @@ else:
     print("Error connecting to Supabase :(")
 
 # this is here for dev and debug, input file should be controlled by app later
-inputFile = "MASTER_ACTIVITY_SCHEDULE_2026.csv"
+inputFile = "debugSchedule.csv"
 
 # useragents to rotate for the scraper
 user_agents = [
@@ -97,9 +97,12 @@ def InitializeBadgesAndActivities(scheduleCSV):
                     if row[2] != 'x':
                         badge["badge_name"] = name1
                         badge["departmentName"] = dept
-                        desc, isEagle = webScraper.Scrape(name1, context)
+                        desc, isEagle, rawReqs = webScraper.Scrape(name1, context)
+                        print(desc)
+                        print(isEagle)
                         badge["badge_desc"] = desc
                         badge["eagle_badge"] = isEagle
+                        badge["raw_reqs"] = rawReqs
                         badgesToInit.append(badge)
 
                         # add the secobd badge if there is one
@@ -107,13 +110,14 @@ def InitializeBadgesAndActivities(scheduleCSV):
                             badge = {}
                             badge["badge_name"] = name2
                             badge["departmentName"] = dept
-                            desc, isEagle = webScraper.Scrape(name2, context)
+                            desc, isEagle, rawReqs = webScraper.Scrape(name2, context)
                             badge["badge_desc"] = desc
                             badge["eagle_badge"] = isEagle
+                            badge["raw_reqs"] = rawReqs
                             badgesToInit.append(badge)
                 
-        # close the scraper's browser
-        browser.close()
+            # close the scraper's browser
+            browser.close()
         
         # both toInit lists filled but some values need to be turned into foriegn keys before they can be inserted
         # need to translate department names and period numbers into their respective IDs
@@ -131,6 +135,10 @@ def InitializeBadgesAndActivities(scheduleCSV):
             # translate department names then remove the extra data
             badge["dpmt_id"] = deptMap.get(badge["departmentName"])
             badge.pop("departmentName", None)
+            # send requirement text to parser and delete it
+            ParseReqs(badge["raw_reqs"])
+            badge.pop("raw_reqs", None)
+
 
 
         for act in activitiesToInit:
@@ -155,7 +163,9 @@ def InitializeBadgesAndActivities(scheduleCSV):
         # else:
         #     print("Activities upserted! :)")
 
-            
+def ParseReqs(raw):
+    print("TODO: Finish req parser")
+    print(raw)      
 
 
                
