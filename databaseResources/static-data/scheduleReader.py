@@ -98,8 +98,9 @@ def InitializeBadgesAndActivities(scheduleCSV):
                         badge["badge_name"] = name1
                         badge["departmentName"] = dept
                         desc, isEagle, rawReqs = webScraper.Scrape(name1, context)
-                        print(desc)
-                        print(isEagle)
+                        print(name1)
+                        # print(desc)
+                        # print(isEagle)
                         badge["badge_desc"] = desc
                         badge["eagle_badge"] = isEagle
                         badge["raw_reqs"] = rawReqs
@@ -111,6 +112,7 @@ def InitializeBadgesAndActivities(scheduleCSV):
                             badge["badge_name"] = name2
                             badge["departmentName"] = dept
                             desc, isEagle, rawReqs = webScraper.Scrape(name2, context)
+                            print(name2)
                             badge["badge_desc"] = desc
                             badge["eagle_badge"] = isEagle
                             badge["raw_reqs"] = rawReqs

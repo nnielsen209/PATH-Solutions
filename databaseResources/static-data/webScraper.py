@@ -45,13 +45,17 @@ def Scrape(name, ctx):
         htmlRaw = page.content()
         soup = BeautifulSoup(htmlRaw, "lxml")
 
+        with open("./scraperOutputDebug/htmls/"+name+".txt", "w", encoding="utf-8") as f: 
+            # write whole page into file 
+            f.write(soup.prettify())
+
         # find the description
-        header = soup.find(lambda tag: tag.name=="h3" and "Merit Badge Overview" in tag.get_text()) # Locate the badeg overview section
+        header = soup.find(lambda tag: tag.name=="h3" and "Merit Badge Overview" in tag.get_text()) # Locate the badge overview section
         if not header:
-             print("error on the header")
+             print("error on the header for basge: "+name)
         container = header.find_parent("div").find_parent("div").find_next_sibling("div") #from the overview title grab the next container which will hold the desc
         if not container:
-             print("error on the container")
+             print("error on the container for badge: "+name)
         desc = container.get_text(" ", strip=True) # grab the desc
 
 
