@@ -14,6 +14,7 @@ landingSequence = [
 
 # scrapes the scouting website for merit badge description, eagle status, and requirements
 def Scrape(name, ctx):
+        
 
         # set the context and open a new page
         context = ctx
@@ -29,6 +30,10 @@ def Scrape(name, ctx):
         # wait a random interval before accessing the destination page
         time.sleep(random.uniform(2, 5))
         page.goto(GetAddress(name))
+        page.mouse.wheel(0, random.randint(300,800))
+        # print("URL:", page.url)
+        # print("Title:", page.title())
+
 
         # grab the raw html and check if we hit cloudfare instead
         htmlRaw = page.content()
@@ -51,8 +56,10 @@ def Scrape(name, ctx):
 
         # find the description
         header = soup.find(lambda tag: tag.name=="h3" and "Merit Badge Overview" in tag.get_text()) # Locate the badge overview section
-        if not header:
-             print("error on the header for basge: "+name)
+        if not header:# after second failure throw error
+            print("error on the header for basge: "+name)
+
+
         container = header.find_parent("div").find_parent("div").find_next_sibling("div") #from the overview title grab the next container which will hold the desc
         if not container:
              print("error on the container for badge: "+name)
@@ -87,7 +94,13 @@ def Scrape(name, ctx):
 
 # makes the name of the badge into the address of the related webpage
 def GetAddress(name):
+
     prefix = "https://www.scouting.org/merit-badges/"
+    # this one badge breaks the convention for some reason so I'm just hard coding it idc anymore
+    if name == "Fish and Wildlife Management":
+         return prefix+"fish-wildlife-management"+'/'
+    
+    
     name = name.replace(" ", "-")
     name = name.replace(",", "")
     name = name.lower()
