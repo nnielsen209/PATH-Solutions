@@ -30,4 +30,3 @@ export async function fetchScheduleActivities(): Promise<ScheduleActivityRow[]> 
 
   return (data ?? []) as ScheduleActivityRow[];
 }
-}

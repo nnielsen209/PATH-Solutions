@@ -11,6 +11,7 @@ import {
   Text,
   StyleSheet,
   ScrollView,
+  TouchableOpacity,
   useWindowDimensions,
   ActivityIndicator,
 } from 'react-native';
@@ -18,6 +19,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { TABLET_BREAKPOINT } from '../../types';
 import { supabase } from '../../services/supabase';
+import { ScheduleGrid } from '../../components';
+
+type ViewMode = 'list' | 'grid';
 
 const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 const ACCENT_COLOR = '#16a34a'; // Green accent for Leaders
@@ -39,6 +43,7 @@ export const LeaderScheduleScreen = () => {
 
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
   const fetchActivities = useCallback(async () => {
     setLoading(true);
@@ -150,6 +155,22 @@ export const LeaderScheduleScreen = () => {
               </View>
 
               <View style={styles.cardMeta}>
+                {/* View toggle */}
+                <View style={styles.viewToggle}>
+                  <TouchableOpacity
+                    style={[styles.toggleButton, viewMode === 'list' && styles.toggleButtonActive]}
+                    onPress={() => setViewMode('list')}
+                  >
+                    <Ionicons name="list" size={18} color={viewMode === 'list' ? ACCENT_COLOR : '#9ca3af'} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.toggleButton, viewMode === 'grid' && styles.toggleButtonActive]}
+                    onPress={() => setViewMode('grid')}
+                  >
+                    <Ionicons name="grid" size={18} color={viewMode === 'grid' ? ACCENT_COLOR : '#9ca3af'} />
+                  </TouchableOpacity>
+                </View>
+
                 <View style={[styles.countBadge, { backgroundColor: ACCENT_COLOR + '20' }]}>
                   <Text style={[styles.countText, { color: ACCENT_COLOR }]}>
                     {activities.length}
@@ -160,7 +181,12 @@ export const LeaderScheduleScreen = () => {
           </View>
 
           <View style={styles.cardContent}>
-            {loading ? (
+            {viewMode === 'grid' ? (
+              <ScheduleGrid
+                canEdit={false}
+                deletingId={null}
+              />
+            ) : loading ? (
               <View style={styles.loadingState}>
                 <ActivityIndicator size="large" color={ACCENT_COLOR} />
               </View>
@@ -309,4 +335,23 @@ const styles = StyleSheet.create({
   badgeTag: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 },
   badgeTagText: { fontSize: 12, color: ACCENT_COLOR },
   activityDateText: { fontSize: 12, fontWeight: '500', color: '#6b7280', marginBottom: 2 },
+  viewToggle: {
+    flexDirection: 'row',
+    backgroundColor: '#f3f4f6',
+    borderRadius: 8,
+    padding: 2,
+  },
+  toggleButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
+  toggleButtonActive: {
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 1,
+  },
 });

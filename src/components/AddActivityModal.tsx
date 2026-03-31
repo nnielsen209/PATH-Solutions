@@ -26,6 +26,12 @@ type Period = {
   period_time: string;
 };
 
+type MeritBadge = {
+  badge_id: string;
+  badge_name: string;
+  dpmt_name: string | null;
+};
+
 type AddActivityModalProps = {
   visible: boolean;
   onClose: () => void;
@@ -42,18 +48,23 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
   const [activityName, setActivityName] = useState('');
   const [periodId, setPeriodId] = useState<string | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
+  const [badgeId, setBadgeId] = useState<string | null>(null);
 
   const [periods, setPeriods] = useState<Period[]>([]);
+  const [badges, setBadges] = useState<MeritBadge[]>([]);
   const [loadingPeriods, setLoadingPeriods] = useState(true);
+  const [loadingBadges, setLoadingBadges] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [showPeriodPicker, setShowPeriodPicker] = useState(false);
   const [showDurationPicker, setShowDurationPicker] = useState(false);
+  const [showBadgePicker, setShowBadgePicker] = useState(false);
 
   useEffect(() => {
     if (visible) {
       fetchPeriods();
+      fetchBadges();
       resetForm();
     }
   }, [visible]);
@@ -62,9 +73,11 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
     setActivityName('');
     setPeriodId(null);
     setDuration(null);
+    setBadgeId(null);
     setError(null);
     setShowPeriodPicker(false);
     setShowDurationPicker(false);
+    setShowBadgePicker(false);
   };
 
   const fetchPeriods = async () => {
@@ -81,6 +94,37 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
       console.error('Error fetching periods:', err);
     } finally {
       setLoadingPeriods(false);
+    }
+  };
+
+  const fetchBadges = async () => {
+    setLoadingBadges(true);
+    try {
+      const { data, error } = await supabase
+        .from('merit_badge')
+        .select(`
+          badge_id,
+          badge_name,
+          camp_dpmt:dpmt_id (dpmt_name)
+        `)
+        .order('badge_name');
+
+      if (error) throw error;
+
+      const formatted: MeritBadge[] = (data || []).map((item: any) => {
+        const dept = Array.isArray(item.camp_dpmt) ? item.camp_dpmt[0] : item.camp_dpmt;
+        return {
+          badge_id: item.badge_id,
+          badge_name: item.badge_name,
+          dpmt_name: dept?.dpmt_name || null,
+        };
+      });
+
+      setBadges(formatted);
+    } catch (err) {
+      console.error('Error fetching badges:', err);
+    } finally {
+      setLoadingBadges(false);
     }
   };
 
@@ -102,15 +146,33 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
     setError(null);
 
     try {
-      const { error: insertError } = await supabase
+      // Insert the activity and get its ID
+      const { data: activityData, error: insertError } = await supabase
         .from('activity')
         .insert({
           activity_name: activityName.trim(),
           period_id: periodId,
           activity_duration: duration,
-        });
+        })
+        .select('activity_id')
+        .single();
 
       if (insertError) throw insertError;
+
+      // If a badge was selected, link it via activity_badge junction table
+      if (badgeId && activityData?.activity_id) {
+        const { error: linkError } = await supabase
+          .from('activity_badge')
+          .insert({
+            activity_id: activityData.activity_id,
+            badge_id: badgeId,
+          });
+
+        if (linkError) {
+          console.error('Error linking badge:', linkError);
+          // Don't throw - activity was created, just badge link failed
+        }
+      }
 
       onSuccess();
       onClose();
@@ -138,6 +200,12 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
   const getDurationLabel = () => {
     const option = DURATION_OPTIONS.find(d => d.value === duration);
     return option ? option.label : 'Select duration';
+  };
+
+  const getBadgeLabel = () => {
+    if (!badgeId) return 'Select merit badge (optional)';
+    const badge = badges.find(b => b.badge_id === badgeId);
+    return badge ? badge.badge_name : 'Select merit badge (optional)';
   };
 
   return (
@@ -229,7 +297,7 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
                 disabled={submitting}
               >
                 <Text style={[styles.dropdownText, !duration && styles.dropdownPlaceholder]}>
-                  {getDurationLabel()}
+                  {duration ? `${duration} period${duration > 1 ? 's' : ''}` : 'Select duration'}
                 </Text>
                 <Ionicons name={showDurationPicker ? "chevron-up" : "chevron-down"} size={20} color="#6b7280" />
               </TouchableOpacity>
@@ -249,6 +317,60 @@ export const AddActivityModal = ({ visible, onClose, onSuccess }: AddActivityMod
                       </Text>
                     </TouchableOpacity>
                   ))}
+                </View>
+              )}
+            </View>
+
+            {/* Merit Badge */}
+            <View style={styles.field}>
+              <Text style={styles.label}>Merit Badge</Text>
+              <TouchableOpacity
+                style={styles.dropdown}
+                onPress={() => setShowBadgePicker(!showBadgePicker)}
+                disabled={submitting || loadingBadges}
+              >
+                {loadingBadges ? (
+                  <ActivityIndicator size="small" color="#6b7280" />
+                ) : (
+                  <>
+                    <Text style={[styles.dropdownText, !badgeId && styles.dropdownPlaceholder]}>
+                      {getBadgeLabel()}
+                    </Text>
+                    <Ionicons name={showBadgePicker ? "chevron-up" : "chevron-down"} size={20} color="#6b7280" />
+                  </>
+                )}
+              </TouchableOpacity>
+              {showBadgePicker && !loadingBadges && (
+                <View style={styles.pickerContainer}>
+                  <ScrollView style={styles.pickerScroll} nestedScrollEnabled>
+                    {/* Option to clear selection */}
+                    <TouchableOpacity
+                      style={[styles.pickerOption, !badgeId && styles.pickerOptionSelected]}
+                      onPress={() => {
+                        setBadgeId(null);
+                        setShowBadgePicker(false);
+                      }}
+                    >
+                      <Text style={[styles.pickerOptionText, !badgeId && styles.pickerOptionTextSelected]}>
+                        None (Unassigned)
+                      </Text>
+                    </TouchableOpacity>
+                    {badges.map((badge) => (
+                      <TouchableOpacity
+                        key={badge.badge_id}
+                        style={[styles.pickerOption, badgeId === badge.badge_id && styles.pickerOptionSelected]}
+                        onPress={() => {
+                          setBadgeId(badge.badge_id);
+                          setShowBadgePicker(false);
+                        }}
+                      >
+                        <Text style={[styles.pickerOptionText, badgeId === badge.badge_id && styles.pickerOptionTextSelected]}>
+                          {badge.badge_name}
+                          {badge.dpmt_name && ` (${badge.dpmt_name})`}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
                 </View>
               )}
             </View>
