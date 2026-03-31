@@ -3,6 +3,7 @@ import csv
 import webScraper
 from playwright.sync_api import sync_playwright
 import random
+import reqParser
 
 
 from supabase import create_client, Client
@@ -138,7 +139,7 @@ def InitializeBadgesAndActivities(scheduleCSV):
             badge["dpmt_id"] = deptMap.get(badge["departmentName"])
             badge.pop("departmentName", None)
             # send requirement text to parser and delete it
-            ParseReqs(badge["raw_reqs"])
+            reqParser.ParseReqs(badge["raw_reqs"])
             badge.pop("raw_reqs", None)
 
 
@@ -163,11 +164,7 @@ def InitializeBadgesAndActivities(scheduleCSV):
         # if resp.data is None:
         #     print("Error upserting the activities: ")
         # else:
-        #     print("Activities upserted! :)")
-
-def ParseReqs(raw):
-    print("TODO: Finish req parser")
-    print(raw)      
+        #     print("Activities upserted! :)")     
 
 
                

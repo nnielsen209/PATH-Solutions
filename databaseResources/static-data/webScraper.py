@@ -50,10 +50,6 @@ def Scrape(name, ctx):
         htmlRaw = page.content()
         soup = BeautifulSoup(htmlRaw, "lxml")
 
-        with open("./scraperOutputDebug/htmls/"+name+".txt", "w", encoding="utf-8") as f: 
-            # write whole page into file 
-            f.write(soup.prettify())
-
         # find the description
         header = soup.find(lambda tag: tag.name=="h3" and "Merit Badge Overview" in tag.get_text()) # Locate the badge overview section
         if not header:# after second failure throw error
@@ -76,15 +72,15 @@ def Scrape(name, ctx):
                 isEagleRequired = True    # if we see the marker it's eagle required
 
         # grab the entire requirements container for later
-        rawReqs = soup.select_one(".mb-requirement-container").get_text()
+        rawReqs = soup.select_one(".mb-requirement-container").get_text("\n")
 
         # write the retreived info useful for debug, leave commented otherwise
-        # with open("./scraperOutputDebug/"+name+".txt", "w", encoding="utf-8") as f: 
+        with open("./scraperOutputDebug/"+name+".txt", "w", encoding="utf-8") as f: 
         #     # write whole page into file 
         #     # f.write(soup.prettify())
         #     f.write(desc+"\n")
         #     f.write(str(isEagleRequired)+"\n")
-        #     f.write(rawReqs)
+            f.write(rawReqs)
         
 
 
