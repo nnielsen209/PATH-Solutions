@@ -138,8 +138,10 @@ def InitializeBadgesAndActivities(scheduleCSV):
             # translate department names then remove the extra data
             badge["dpmt_id"] = deptMap.get(badge["departmentName"])
             badge.pop("departmentName", None)
-            # send requirement text to parser and delete it
-            reqParser.ParseReqs(badge["raw_reqs"])
+
+
+            # get requirements from parser and delete it from the badge tuple
+            reqsToInit = reqParser.ParseReqs(badge["raw_reqs"], badge["badge_name"])
             badge.pop("raw_reqs", None)
 
 
