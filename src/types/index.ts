@@ -216,16 +216,26 @@ export interface Enrollment {
 }
 
 /**
- * Attendance - Daily attendance record for enrolled participants
+ * ActivityAttendance - Weekly attendance record for a camper in an activity
+ * Matches the attendance table schema with boolean flags for each weekday
  */
-export interface Attendance {
-  id: string;
-  enrollmentId: string;
-  date: string;
-  status: 'present' | 'absent' | 'excused' | 'late';
-  notes?: string;
-  markedBy: string;    // Counselor ID who took attendance
-  markedAt: string;
+export interface ActivityAttendance {
+  activity_id: string;
+  scout_id: string;
+  monday: boolean;
+  tuesday: boolean;
+  wednesday: boolean;
+  thursday: boolean;
+  friday: boolean;
+  last_uptd_date: string;
+}
+
+/**
+ * CamperAttendance - Attendance record with camper info for display
+ */
+export interface CamperAttendance extends ActivityAttendance {
+  scout_fname: string;
+  scout_lname: string;
 }
 
 /**

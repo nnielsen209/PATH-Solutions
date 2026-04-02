@@ -14,6 +14,7 @@ type ActivityCardProps = {
   canEdit: boolean;
   deleting: boolean;
   onDelete?: (activityId: string) => void;
+  onPress?: (activity: GridActivity) => void;
 };
 
 export const ActivityCard = ({
@@ -21,6 +22,7 @@ export const ActivityCard = ({
   canEdit,
   deleting,
   onDelete,
+  onPress,
 }: ActivityCardProps) => {
   const borderColor = getDepartmentColor(activity.department_name);
   const { spanPosition } = activity;
@@ -28,7 +30,9 @@ export const ActivityCard = ({
   // For continuation cells (middle/end), show activity name + continued
   if (spanPosition === 'middle' || spanPosition === 'end') {
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => onPress?.(activity)}
+        activeOpacity={0.7}
         style={[
           styles.activityCard,
           {
@@ -43,13 +47,17 @@ export const ActivityCard = ({
         <Text style={{ color: borderColor, fontSize: 10, fontStyle: 'italic' }}>
           (continued)
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 
   // Full card for 'start' or 'single'
   return (
-    <View style={[styles.activityCard, { borderLeftColor: borderColor }]}>
+    <TouchableOpacity
+      onPress={() => onPress?.(activity)}
+      activeOpacity={0.7}
+      style={[styles.activityCard, { borderLeftColor: borderColor }]}
+    >
       <View style={styles.activityCardContent}>
         <View style={styles.activityTextWrap}>
           <Text style={styles.activityName} numberOfLines={2}>
@@ -72,7 +80,10 @@ export const ActivityCard = ({
         {canEdit && onDelete && (
           <TouchableOpacity
             style={styles.deleteButton}
-            onPress={() => onDelete(activity.activity_id)}
+            onPress={(e) => {
+              e.stopPropagation?.();
+              onDelete(activity.activity_id);
+            }}
             disabled={deleting}
           >
             {deleting ? (
@@ -83,6 +94,6 @@ export const ActivityCard = ({
           </TouchableOpacity>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };

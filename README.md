@@ -198,3 +198,64 @@ Dedicated style files created for maintainability:
 - **User Count Badges** - Shows count per role section
 - **Counselor-Specific View** - Counselors see only fellow counselors
 
+---
+
+### Version 1.2 - Code Milestone 3
+
+#### Schedule Grid View
+- **Department × Period Grid** - Activities displayed in grid format with departments as rows and periods as columns
+- **Department Color Coding** - Each department has a distinct color (Aquatics: blue, Nature: green, Scoutcraft: orange, etc.)
+- **Multi-Period Activities** - Activities spanning multiple periods show "continued" indicators in subsequent cells
+- **Synchronized Scrolling** - Horizontal scroll syncs across header and all department rows
+- **View Toggle** - Switch between grid view and list view on Schedule screen
+- **Unassigned Section** - Activities without department assignments displayed separately
+
+#### Activity Cards
+- **Clickable Cards** - Tap any activity to open attendance modal
+- **Department Borders** - Left border color matches department
+- **Badge Display** - Shows associated merit badge name if linked
+- **Duration Badge** - Visual indicator for multi-period activities
+- **Delete Button** - Admin/Dev can delete activities directly from grid
+
+#### Attendance Modal
+- **Full Camper List** - Displays all scouts from the scout table
+- **Weekday Checkboxes** - Mon-Fri attendance tracking per camper
+- **Attendance Tally** - Shows X/5 completion count per camper
+- **Role-Based Editing** - Counselors can toggle attendance; other roles view-only
+- **Optimistic Updates** - Immediate UI feedback with database sync
+- **Sorted Display** - Campers sorted alphabetically by last name, then first name
+
+#### Leader Management
+- **Add Leader Modal** - Create new troop leaders with:
+  - First name, last name
+  - Troop selection dropdown
+  - Phone number (optional)
+  - Email address (optional)
+- **Leader Role** - Added LEADER to UserRole type system
+- **Leader Tab Navigation** - Dedicated navigation for leader users
+
+#### Leader Schedule Screen
+- **View-Only Access** - Leaders can view schedule but cannot modify
+- **Grid View Support** - Same grid layout as admin schedule
+- **View-Only Banner** - Clear indicator that changes require staff contact
+
+#### Campers Screen Updates
+- **Troop Grouping** - Campers and leaders grouped by troop number
+- **Leader Display** - Shows troop leaders with shield badge indicator
+- **Contact Info** - Leader email/phone displayed when available
+- **Add Buttons** - Separate "Add Leader" and "Add Camper" buttons for admins
+
+#### New Components & Hooks
+- `ScheduleGrid/` - Component folder with grid, cell, and card components
+- `AttendanceModal.tsx` - Attendance tracking modal
+- `AddLeaderModal.tsx` - Leader creation modal
+- `useScheduleGridData.ts` - Custom hook for fetching and organizing grid data
+- `departmentColors.ts` - Department color constant mappings
+- `ScheduleGridStyles.ts` - Dedicated styles for grid components
+
+#### Type System Updates
+- **CamperAttendance** - Type for attendance records with weekday booleans
+- **ActivityAttendance** - Base attendance type matching database schema
+- **LeaderTabParamList** - Navigation types for leader role
+- **LEADER Role** - Added to UserRole union type
+

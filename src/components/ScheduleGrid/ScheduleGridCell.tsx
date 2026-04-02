@@ -18,6 +18,7 @@ type ScheduleGridCellProps = {
   canEdit: boolean;
   deletingId: string | null;
   onDelete?: (activityId: string) => void;
+  onActivityPress?: (activity: GridActivity) => void;
 };
 
 export const ScheduleGridCell = ({
@@ -26,6 +27,7 @@ export const ScheduleGridCell = ({
   canEdit,
   deletingId,
   onDelete,
+  onActivityPress,
 }: ScheduleGridCellProps) => {
   const cellWidth = isDesktop ? CELL_WIDTH_DESKTOP : CELL_WIDTH_MOBILE;
 
@@ -43,6 +45,7 @@ export const ScheduleGridCell = ({
             canEdit={canEdit}
             deleting={deletingId === activity.activity_id}
             onDelete={onDelete}
+            onPress={onActivityPress}
           />
         ))
       )}

@@ -12,4 +12,5 @@ export { DevSidebar } from './DevSidebar';
 export { LeaderSidebar } from './LeaderSidebar';
 export { AddActivityModal } from './AddActivityModal';
 export { AddScoutModal } from './AddScoutModal';
+export { AddLeaderModal } from './AddLeaderModal';
 export { ScheduleGrid } from './ScheduleGrid';

@@ -6,7 +6,7 @@
  * - Columns = time periods
  */
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -22,6 +22,7 @@ import { useScheduleGridData, GridActivity } from '../../hooks/useScheduleGridDa
 import { getDepartmentColor } from '../../constants/departmentColors';
 import { ScheduleGridCell } from './ScheduleGridCell';
 import { ActivityCard } from './ActivityCard';
+import { AttendanceModal } from '../AttendanceModal';
 import {
   styles,
   CELL_WIDTH_MOBILE,
@@ -46,6 +47,10 @@ export const ScheduleGrid = ({
   const isDesktop = width >= TABLET_BREAKPOINT;
   const { data, loading, error } = useScheduleGridData();
 
+  // State for attendance modal
+  const [selectedActivity, setSelectedActivity] = useState<GridActivity | null>(null);
+  const [attendanceModalVisible, setAttendanceModalVisible] = useState(false);
+
   // Refs for synchronized horizontal scrolling
   const headerScrollRef = useRef<ScrollView>(null);
   const rowScrollRefs = useRef<(ScrollView | null)[]>([]);
@@ -60,6 +65,17 @@ export const ScheduleGrid = ({
     rowScrollRefs.current.forEach((ref) => {
       ref?.scrollTo({ x: offsetX, animated: false });
     });
+  };
+
+  // Handle activity card press to open attendance modal
+  const handleActivityPress = (activity: GridActivity) => {
+    setSelectedActivity(activity);
+    setAttendanceModalVisible(true);
+  };
+
+  const handleCloseAttendance = () => {
+    setAttendanceModalVisible(false);
+    setSelectedActivity(null);
   };
 
   const formatTime = (time: string) => {
@@ -183,6 +199,7 @@ export const ScheduleGrid = ({
                       canEdit={canEdit}
                       deletingId={deletingId}
                       onDelete={onDelete}
+                      onActivityPress={handleActivityPress}
                     />
                   );
                 })}
@@ -205,12 +222,21 @@ export const ScheduleGrid = ({
                   canEdit={canEdit}
                   deleting={deletingId === activity.activity_id}
                   onDelete={onDelete}
+                  onPress={handleActivityPress}
                 />
               ))}
             </View>
           </View>
         )}
       </ScrollView>
+
+      {/* Attendance Modal */}
+      <AttendanceModal
+        visible={attendanceModalVisible}
+        onClose={handleCloseAttendance}
+        activityId={selectedActivity?.activity_id || ''}
+        activityName={selectedActivity?.activity_name || ''}
+      />
     </View>
   );
 };
