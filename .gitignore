@@ -49,5 +49,5 @@ nul
 __pycache__/
 
 #Dev and debug files not useful for others
-./databaseResources/static-data/temp/
-./databaseResources/static-data/scraperOutputDebug/
+databaseResources/static-data/temp/
+databaseResources/static-data/scraperOutputDebug/
