@@ -7,141 +7,215 @@ def ParseReqs(raw, name):
     cleaned = re.sub(r'\n', ' ', raw)                           #collapse into one line
     cleaned = re.sub(r'—', ' — ', cleaned)                      #fix formatting issue around em dashes
     cleaned = re.sub(r'  +', ' ', cleaned)                      #remove excess spaces
-    # cleaned = re.sub(r'(?=\(\d+\))', '\n', cleaned)             #insert new line on each subreq
-    # cleaned = re.sub(r'(?=\([a-z]\))', '\n', cleaned)
-    # cleaned = re.sub(r'(?=Option [A-Z] —)', '\n', cleaned)
-    # cleaned = re.sub(r'(?=\d+\.)', '\n', cleaned)
+    cleaned = re.sub(r'(?= \(\d+\))', '\n', cleaned)             #insert new line on each subreq
+    cleaned = re.sub(r'(?= \([a-z]\))', '\n', cleaned)
+    cleaned = re.sub(r'(?= Option [A-Z] —)', '\n', cleaned)
+    cleaned = re.sub(r'(?= \b\d+\.)', '\n', cleaned)
+    split = re.split(r'\n', cleaned)
 
-    with open("./temp/"+name+"Cleaned.txt", "w", encoding="utf-8") as outputFile:
-        outputFile.write(cleaned)
+    # with open("./temp/"+name+"Cleaned.txt", "w", encoding="utf-8") as outputFile:
+    #     outputFile.write(cleaned)
 
-    parsed = []
-    parsed, _ = parseRecursive(parsed, cleaned, 1)
+    newParsed = []
+    newParsed = newParse(split)
 
-    with open("./temp/"+name+"Parsed.txt", "w", encoding="utf-8") as outputFile:
-        printRecursive(parsed, outputFile)
+    rePacked = packChildren(newParsed)
 
-    return parsed
+    # with open("./temp/"+name+"Parsed.txt", "w", encoding="utf-8") as outputFile:
+    #     printTree(rePacked, outputFile)   
+        
+    return rePacked
+
+def newParse(list):
+
+    requirements = []
+    parentStack = []
+
+    prevNode = None
+    prevReq = None
+    for curr in list:
+
+        req = {}
+
+        curr = curr.split("Resource: ")[0]      #trim excess info
+        curr = curr.split("Resources: ")[0]     #      |
+        curr = curr.split("Safety Note: ")[0]   #      V
+
+        # split the identifier and get it's type
+        idnfType = getIdnfType(curr)
+        # if no identifier, not a requirement, skip the line
+        if not idnfType: continue
+
+        # find the relationship between the current requirement and thr previous one and act accordingly
+        relation = FindRelation(prevReq, curr)
+
+        if not relation: 
+            print("error in relation determination: "+curr)
+            # print(prevReq)
+
+        if getIdnfType(curr) == "NumDec":
+            req["Parent"] = None
+            parentStack = []
+
+        elif relation == "header lines" or relation == "Sibling":
+            if parentStack: req["Parent"] = parentStack[-1]
+            else: req["Parent"] = None
+
+        elif relation == "Parent":
+            req["Parent"] = prevNode
+            parentStack.append(prevNode)
+        
+        elif relation == "Uncle":
+            if parentStack:
+                parentStack.pop()
+                if not parentStack: 
+                    req["Parent"] = None
+                else: 
+                    req["Parent"] = parentStack[-1]
+                
+            else:
+                req["Parent"] = None
 
 
+        idnf, text = SplitIdnf(curr)
+        req["rqmt_idnf"] = idnf
+        req["rqmt_desc"] = text
+        req["Combined"] = curr
 
-def parseRecursive(list, mixedText, depth):
+        requirements.append(req)
+        prevNode = req
+        prevReq = curr
 
-    text = "error in requirement parsing"   #default value should always get overwritten
-    split = []
+    return requirements
 
-    nextDelimAt, nextDelimType = FindNextDelim(mixedText)
+def SplitIdnf(line):
+    if re.findall(r'\(\d+\)', line):
+        split = re.split(r'(\(\d+\))',line)
 
-    #top level always uses "1." notation
-    if depth == 1:
-            split = re.split(r'(\d+\.)', mixedText)
+    elif re.findall(r'\([a-z]\)', line):
+        split = re.split(r'(\([a-z]\))', line)
 
-    #check for Multi option, otherwise "(a)" notation
-    elif depth == 2:
-        if re.search(r'(Option [A-Z] —)', mixedText):
-            split = re.split(r'(Option [A-Z] —)', mixedText)
+    elif re.findall(r'Option [A-Z] —', line):
+        split = re.split(r'(Option [A-Z] —)', line)
 
-        else:
-            if re.findall(r'\([a-z]\)', mixedText): 
-                split = re.split(r'(\([a-z]\))', mixedText)
+    elif re.findall(r'\d+\.',line):
+        split = re.split(r'(\d+\.)',line)
+    else:
+        return None, line, None
+    
+    return split[1], split[2]
 
-    #for level 3 and lower evens are always (a) and odds are always (1)
-    elif depth%2 == 0:
-        if re.findall(r'\([a-z]\)', mixedText):
-            split = re.split(r'(\([a-z]\))', mixedText)
+def getIdnfType(line):
+
+    if re.findall(r'(?=^\(\d+\))', line):
+        type = "NumParen"
+
+    elif re.findall(r'(?=^\([a-z]\))', line):
+        type = "AlphaParen"
+
+    elif re.findall(r'(?=^Option [A-Z] —)', line):
+        type = "Option"
+
+    elif re.findall(r'(?=^\d+\. )',line):
+        type = "NumDec"
 
     else:
-        if re.findall(r'\(\d+\)', mixedText):
-            split = re.split(r'(\(\d+\))', mixedText)
-
-
-    # base case: no children
-    if not split:
-        return [], mixedText
+        return None
     
-    text = split[0] # This should be just the text of the parent requirement (or the header on pass 1)
+    return type
 
-    #we loop through every other item since split is in form: [idnf, text, idnf, text,..]
-    # reattach grandchildren mistaken as siblings to their parents
+# There is certainly a more elegant solution, but I am so far past the point of caring for this problem anymore
+def FindRelation(prevLine, curLine):
 
-    for i in split:
-        print(i[:12])
+    if not prevLine or getIdnfType(prevLine)== None:
+        return "header lines"
 
-    siblings = []
-    grandchildren = []
-    for i in range(1, len(split)-1, 2):
-        if split[i] in siblings:
-            # print("duplicate: "+split[i]+"    desc: "+split[i+1][:20]+"  "+repr(depth))
-            # print("preceding desc: "+split[i-1][:20])
-            split[i-1] = split[i-1]+split[i]+split[i+1]
-            # print(split[i-1])
+    # From NumDec types
+    if (getIdnfType(prevLine) == "NumDec") and (getIdnfType(curLine) == "NumDec"):
+        return "Sibling"
+    if (getIdnfType(prevLine) == "NumDec") and (getIdnfType(curLine) == "Option"):
+        return "Parent"
+    if (getIdnfType(prevLine) == "NumDec") and (getIdnfType(curLine) == "NumParen"):
+        return None
+    if (getIdnfType(prevLine) == "NumDec") and (getIdnfType(curLine) == "AlphaParen"):
+        return "Parent"
+    
+    # From Option types
+    if (getIdnfType(prevLine) == "Option") and (getIdnfType(curLine) == "NumDec"):
+        return None
+    if (getIdnfType(prevLine) == "Option") and (getIdnfType(curLine) == "Option"):
+        return None
+    if (getIdnfType(prevLine) == "Option") and (getIdnfType(curLine) == "NumParen"):
+        return "Parent"
+    if (getIdnfType(prevLine) == "Option") and (getIdnfType(curLine) == "AlphaParen"):
+        return None
+    
+    # From NumParen Types
+    if (getIdnfType(prevLine) == "NumParen") and (getIdnfType(curLine) == "NumDec"):
+        return "Uncle"
+    if (getIdnfType(prevLine) == "NumParen") and (getIdnfType(curLine) == "Option"):
+        return "Uncle"
+    if (getIdnfType(prevLine) == "NumParen") and (getIdnfType(curLine) == "NumParen"):
+        return "Sibling"
+    if (getIdnfType(prevLine) == "NumParen") and (getIdnfType(curLine) == "AlphaParen"):
+        return DisambiguateRelation(prevLine)
+    
+    # From AlphaParen Types
+    if (getIdnfType(prevLine) == "AlphaParen") and (getIdnfType(curLine) == "NumDec"):
+        return "Uncle"
+    if (getIdnfType(prevLine) == "AlphaParen") and (getIdnfType(curLine) == "Option"):
+        return "Uncle"
+    if (getIdnfType(prevLine) == "AlphaParen") and (getIdnfType(curLine) == "NumParen"):
+        return DisambiguateRelation(prevLine)
+    if (getIdnfType(prevLine) == "AlphaParen") and (getIdnfType(curLine) == "AlphaParen"):
+        return "Sibling"
+    
 
-            # print(split[i+1][:50])
-            grandchildren.append(split[i])
-            grandchildren.append(split[i+1])
+def DisambiguateRelation(prevLine):
+
+    if re.findall(r'do \w+ of the following:', prevLine, flags=re.IGNORECASE):
+        return "Parent"
+    
+    elif re.findall(r'do the following:', prevLine, flags=re.IGNORECASE):
+        return "Parent"
+    
+    elif re.findall(r'\w+ of the following', prevLine, flags=re.IGNORECASE):
+        return "Parent"
+    
+    else: 
+        # print("disambiguate: NEPHEW relation found - "+prevLine)
+        return "Uncle"
+
+
+def packChildren(list):
+
+    rootReqs = []
+
+    for req in list:
+        req["Children"] = []
+
+    for req in list:
+        parent = req.get("Parent")
+
+        if parent:
+            parent["Children"].append(req)
         else:
-            siblings.append(split[i])
+            rootReqs.append(req)
     
-    for child in grandchildren:
-        if child in split:
-            split.pop(split.index(child))
+    return rootReqs
 
-
-    # print(siblings)
-    # turn split requirements into lists and recursively get their sub reqs
-    for i in range(1, len(split)-1, 2):
-        req = []                                            #clear our working lists
-        req.append(split[i])                                #i will be our identifier
-        # print(split[i+1][:50])
-        print("parent: "+split[i]+"  "+repr(depth))
-        children, child_text = parseRecursive([], split[i+1], depth+1)        #recursive call to find children
-        child_text = child_text.split("Resource: ")[0]      #trim excess info
-        child_text = child_text.split("Resources: ")[0]     #      |
-        child_text = child_text.split("Safety Note: ")[0]   #      V
-        # print(split[i]+" "+child_text.strip()+"   "+repr(depth))
-        req.append(child_text.strip())                      #child requirement's text
-        req.append(children)                                #list of all sub requirements
-        list.append(req)                                    #add requirement to our output list
-    return list, text
-
-def FindNextDelim(text):
-
-    nextDelimAt = None
-    nextDelimType = None
-
-    delimTypes = [
-        r'\(\d+\)',
-        r'\([a-z]\)',
-        r'(Option [A-Z] —)',
-        r'\d+\.'
-    ]
-
-    for delim in delimTypes:
-
-        delimLocs = list(re.finditer(delim, text))
-        
-        if delimLocs:
-            if nextDelimAt and delimLocs[0].start() < nextDelimAt:
-                nextDelimAt = delimLocs[0]
-                nextDelimType = delim
-
-    return nextDelimAt, nextDelimType
-
-    
-def printRecursive(list, file):
-    for item in list:
-        file.write(item[0])
-        file.write(" "+item[1])
+def printTree(tree, file, level= 0):
+    for node in tree:
+        file.write("\t" * level+ node["rqmt_idnf"])
+        file.write(node["rqmt_desc"]+"\n")
+        printTree(node["Children"], file, level+1)
         file.write("\n")
-        if item[2]:
-            # file.write("begin "+item[0]+" children\n")
-            printRecursive(item[2], file)
-            file.write("\n")
-            # file.write("end "+item[0]+" children\n\n")
 
 
-with open("./scraperOutputDebug/Archery.txt", "r", encoding="utf-8") as inputFile:
-    rawReqs = inputFile.read()
+# debug utility
+# name = "Soil and Water Conservation"
+# with open("./scraperOutputDebug/"+name+".txt", "r", encoding="utf-8") as inputFile:
+#     rawReqs = inputFile.read()
 
-reqs = ParseReqs(rawReqs, "Archery")
+# reqs = ParseReqs(rawReqs, name)
 

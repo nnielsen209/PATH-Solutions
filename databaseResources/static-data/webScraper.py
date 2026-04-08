@@ -75,12 +75,12 @@ def Scrape(name, ctx):
         rawReqs = soup.select_one(".mb-requirement-container").get_text("\n")
 
         # write the retreived info useful for debug, leave commented otherwise
-        with open("./scraperOutputDebug/"+name+".txt", "w", encoding="utf-8") as f: 
-        #     # write whole page into file 
-        #     # f.write(soup.prettify())
-        #     f.write(desc+"\n")
-        #     f.write(str(isEagleRequired)+"\n")
-            f.write(rawReqs)
+        # with open("./scraperOutputDebug/"+name+".txt", "w", encoding="utf-8") as f: 
+            # write whole page into file 
+            # f.write(soup.prettify())
+            # f.write(desc+"\n")
+            # f.write(str(isEagleRequired)+"\n")
+            # f.write(rawReqs)
         
 
 
