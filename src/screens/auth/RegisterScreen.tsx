@@ -21,26 +21,12 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList, UserRole } from '../../types';
+import { AuthStackParamList } from '../../types';
 import { supabase } from '../../services/supabase';
 
 type RegisterScreenProps = {
   navigation: NativeStackNavigationProp<AuthStackParamList, 'Register'>;
 };
-
-interface RoleOption {
-  value: UserRole;
-  label: string;
-  description: string;
-  icon: keyof typeof Ionicons.glyphMap;
-}
-
-/** Role choices shown on the registration form with label, description, and icon. */
-const roleOptions: RoleOption[] = [
-  { value: 'ADMIN', label: 'Admin', description: 'Camp administrator with full access', icon: 'shield-checkmark' },
-  { value: 'COUNSELOR', label: 'Counselor', description: 'Camp staff member', icon: 'people' },
-  { value: 'AREA_DIRECTOR', label: 'Area Director', description: 'Area director overseeing camp operations', icon: 'business' },
-];
 
 /**
  * RegisterScreen Component
@@ -54,7 +40,6 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
 
   // UI state
   const [isLoading, setIsLoading] = useState(false);
@@ -68,8 +53,8 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
     // ========== Validation ==========
 
     // Check that all required fields are filled
-    if (!email || !password || !firstName || !lastName || !selectedRole) {
-      setError('Please fill in all fields and select a role');
+    if (!email || !password || !firstName || !lastName) {
+      setError('Please fill in all fields');
       return;
     }
 
@@ -92,8 +77,9 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
 
     try {
       // Call Supabase Auth to create the user account
-      // The metadata (first_name, last_name, role) is stored in auth.users
+      // The metadata (first_name, last_name) is stored in auth.users
       // and will be used by our database trigger to create the profile
+      // New users are automatically assigned PENDING role until approved
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -101,7 +87,6 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
           data: {
             first_name: firstName,
             last_name: lastName,
-            role: selectedRole,
           },
         },
       });
@@ -252,55 +237,12 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
               </View>
             </View>
 
-            {/* Role Selection */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>I am a...</Text>
-              <View style={styles.roleContainer}>
-                {roleOptions.map((role) => (
-                  <TouchableOpacity
-                    key={role.value}
-                    style={[
-                      styles.roleOption,
-                      selectedRole === role.value && styles.roleOptionSelected,
-                    ]}
-                    onPress={() => setSelectedRole(role.value)}
-                    disabled={isLoading}
-                    activeOpacity={0.7}
-                  >
-                    <View style={[
-                      styles.roleIconContainer,
-                      selectedRole === role.value && styles.roleIconContainerSelected,
-                    ]}>
-                      <Ionicons
-                        name={role.icon}
-                        size={22}
-                        color={selectedRole === role.value ? '#1e3a5f' : '#6b7280'}
-                      />
-                    </View>
-                    <View style={styles.roleTextContainer}>
-                      <Text
-                        style={[
-                          styles.roleLabel,
-                          selectedRole === role.value && styles.roleLabelSelected,
-                        ]}
-                      >
-                        {role.label}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.roleDescription,
-                          selectedRole === role.value && styles.roleDescriptionSelected,
-                        ]}
-                      >
-                        {role.description}
-                      </Text>
-                    </View>
-                    {selectedRole === role.value && (
-                      <Ionicons name="checkmark-circle" size={24} color="#1e3a5f" />
-                    )}
-                  </TouchableOpacity>
-                ))}
-              </View>
+            {/* Pending Approval Notice */}
+            <View style={styles.pendingNotice}>
+              <Ionicons name="time-outline" size={20} color="#1e3a5f" style={styles.pendingIcon} />
+              <Text style={styles.pendingText}>
+                After registration, your account will be reviewed by an administrator who will assign your role.
+              </Text>
             </View>
 
             {/* Submit Button */}
@@ -442,52 +384,25 @@ const styles = StyleSheet.create({
   inputNoIcon: {
     paddingLeft: 4,
   },
-  roleContainer: {
-    gap: 8,
-  },
-  roleOption: {
+  pendingNotice: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f8fafc',
-    borderWidth: 2,
-    borderColor: '#e2e8f0',
-    borderRadius: 12,
-    padding: 10,
-  },
-  roleOptionSelected: {
+    alignItems: 'flex-start',
     backgroundColor: '#e8f4fc',
-    borderColor: '#1e3a5f',
+    borderWidth: 1,
+    borderColor: '#bfdbfe',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 4,
   },
-  roleIconContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#e2e8f0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
+  pendingIcon: {
+    marginRight: 10,
+    marginTop: 2,
   },
-  roleIconContainerSelected: {
-    backgroundColor: '#bfdbfe',
-  },
-  roleTextContainer: {
+  pendingText: {
     flex: 1,
-  },
-  roleLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 1,
-  },
-  roleLabelSelected: {
+    fontSize: 13,
     color: '#1e3a5f',
-  },
-  roleDescription: {
-    fontSize: 12,
-    color: '#6b7280',
-  },
-  roleDescriptionSelected: {
-    color: '#2d5a7b',
+    lineHeight: 18,
   },
   button: {
     backgroundColor: '#1e3a5f',

@@ -46,6 +46,13 @@ type RoleSectionConfig = {
 // User roles (excludes scout since scouts are in separate table)
 const ROLE_SECTIONS: RoleSectionConfig[] = [
   {
+    role: 'PENDING',
+    label: 'Pending Approval',
+    description: 'New users awaiting role assignment',
+    icon: 'time',
+    color: '#f59e0b',
+  },
+  {
     role: 'DEV',
     label: 'Developers',
     description: 'Developers with full access and role switching',
@@ -72,13 +79,6 @@ const ROLE_SECTIONS: RoleSectionConfig[] = [
     description: 'Camp staff who teach merit badge classes',
     icon: 'people',
     color: '#059669',
-  },
-  {
-    role: 'LEADER',
-    label: 'Leaders',
-    description: 'Troop leaders with view-only access',
-    icon: 'flag',
-    color: '#16a34a',
   },
 ];
 
@@ -227,7 +227,8 @@ type RoleSectionComponentProps = {
 };
 
 const RoleSection = ({ config, users, isDesktop, onChangeRole }: RoleSectionComponentProps) => {
-  const { label, description, icon, color } = config;
+  const { label, description, icon, color, role } = config;
+  const isPending = role === 'PENDING';
 
   return (
     <View style={[styles.sectionCard, isDesktop && styles.sectionCardDesktop]}>
@@ -251,7 +252,9 @@ const RoleSection = ({ config, users, isDesktop, onChangeRole }: RoleSectionComp
         {users.length === 0 ? (
           <View style={styles.emptyRole}>
             <Ionicons name={icon} size={40} color="#d1d5db" />
-            <Text style={styles.emptyRoleText}>No {label.toLowerCase()} yet</Text>
+            <Text style={styles.emptyRoleText}>
+              {isPending ? 'No pending users' : `No ${label.toLowerCase()} yet`}
+            </Text>
           </View>
         ) : (
           <View style={styles.usersList}>
@@ -319,6 +322,8 @@ export const DevUsersScreen = () => {
     acc[config.role] = users.filter((u) => u.user_role === config.role);
     return acc;
   }, {} as Record<UserRole, DbUser[]>);
+
+  const pendingCount = usersByRole['PENDING']?.length || 0;
 
   /** Open role picker modal */
   const handleChangeRole = (user: DbUser) => {
@@ -388,7 +393,9 @@ export const DevUsersScreen = () => {
             </View>
           </View>
           <Text style={styles.subtitle}>
-            Tap any user to change their role for testing
+            {pendingCount > 0
+              ? `${pendingCount} user${pendingCount > 1 ? 's' : ''} pending approval - tap to assign role`
+              : 'Tap any user to change their role for testing'}
           </Text>
         </View>
       </View>

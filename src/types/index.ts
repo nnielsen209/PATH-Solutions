@@ -20,7 +20,7 @@ export const TABLET_BREAKPOINT = 768;
  * - AREA_DIRECTOR: Area director overseeing operations
  * - SCOUT: Scout/participant
  */
-export type UserRole = 'DEV' | 'ADMIN' | 'COUNSELOR' | 'AREA_DIRECTOR' | 'SCOUT' | `LEADER`;
+export type UserRole = 'DEV' | 'ADMIN' | 'COUNSELOR' | 'AREA_DIRECTOR' | 'SCOUT' | 'LEADER' | 'PENDING';
 
 /**
  * Check if a role has admin-level access (DEV or ADMIN).

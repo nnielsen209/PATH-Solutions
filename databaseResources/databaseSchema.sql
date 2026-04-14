@@ -13,7 +13,7 @@ DROP TYPE IF EXISTS troop_type;
 DROP TYPE IF EXISTS user_role;
 
 CREATE TYPE troop_type AS ENUM ('BTROOP', 'GTROOP', 'MTROOP');
-CREATE TYPE user_role AS ENUM ('DEV', 'ADMIN', 'AREA_DIRECTOR' 'COUNSELOR', 'LEADER', 'SCOUT');
+CREATE TYPE user_role AS ENUM ('DEV', 'ADMIN', 'AREA_DIRECTOR', 'COUNSELOR', 'LEADER', 'SCOUT', 'PENDING');
 
 CREATE TABLE IF NOT EXISTS public.camp_dpmt (
 	dpmt_id uuid NOT NULL DEFAULT gen_random_uuid(),

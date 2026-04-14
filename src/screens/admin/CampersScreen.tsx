@@ -300,8 +300,8 @@ export const CampersScreen = () => {
     fetchData();
   }, [fetchData]);
 
-  // Admin and Area Director can add campers/leaders
-  const canAdd = userRole === 'ADMIN' || userRole === 'AREA_DIRECTOR';
+  // DEV, Admin, and Area Director can add campers/leaders
+  const canAdd = userRole === 'DEV' || userRole === 'ADMIN' || userRole === 'AREA_DIRECTOR';
 
   const handleAddScoutSuccess = () => {
     setShowAddScoutModal(false);

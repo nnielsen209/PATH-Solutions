@@ -14,13 +14,12 @@ import { CounselorTabParamList, TABLET_BREAKPOINT } from '../types';
 import { CounselorSidebar } from '../components';
 import {
   CounselorDashboardScreen,
-  CounselorUsersScreen,
-  CounselorCampersScreen,
   MyActivitiesScreen,
   AttendanceScreen,
   ProgressScreen,
   ProfileScreen,
 } from '../screens/counselor';
+import { UsersScreen, CampersScreen } from '../screens/admin';
 
 const Tab = createBottomTabNavigator<CounselorTabParamList>();
 
@@ -78,8 +77,8 @@ const MobileCounselorNavigator = () => {
       })}
     >
       <Tab.Screen name="Dashboard" component={CounselorDashboardScreen} />
-      <Tab.Screen name="Users" component={CounselorUsersScreen} />
-      <Tab.Screen name="Campers" component={CounselorCampersScreen} />
+      <Tab.Screen name="Users" component={UsersScreen} />
+      <Tab.Screen name="Campers" component={CampersScreen} />
       <Tab.Screen name="MyActivities" component={MyActivitiesScreen} options={{ tabBarLabel: 'Activities' }} />
       <Tab.Screen name="Attendance" component={AttendanceScreen} />
       <Tab.Screen name="Progress" component={ProgressScreen} />
@@ -96,8 +95,8 @@ type ScreenProps = {
 /** Map of tab names to screen components for the desktop sidebar layout. */
 const screens: Record<keyof CounselorTabParamList, React.ComponentType<ScreenProps>> = {
   Dashboard: CounselorDashboardScreen,
-  Users: CounselorUsersScreen,
-  Campers: CounselorCampersScreen,
+  Users: UsersScreen,
+  Campers: CampersScreen,
   MyActivities: MyActivitiesScreen,
   Attendance: AttendanceScreen,
   Progress: ProgressScreen,
