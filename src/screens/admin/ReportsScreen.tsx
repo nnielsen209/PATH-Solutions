@@ -24,10 +24,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { TABLET_BREAKPOINT } from '../../types';
 import { styles, DESKTOP_BREAKPOINT } from '../../styles/ReportsStyles';
 
-const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 const ACCENT_COLOR = '#7c3aed';
 
 const reportOptions = [
