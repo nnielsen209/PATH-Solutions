@@ -1,8 +1,20 @@
 /**
- * DashboardScreen.tsx - Leader Dashboard Home
+ * @file DashboardScreen.tsx
+ * @description Read-only dashboard for troop leaders with scout overview and quick navigation.
  *
- * Main landing page for troop leaders: overview of their scouts and quick access
- * to view schedules and scout progress. View-only - no editing capabilities.
+ * This screen displays:
+ * - summary statistics for scouts and scheduled activities
+ * - quick action shortcuts for viewing scouts, schedules, progress, and profile data
+ * - a recent activity section for troop-related updates
+ * - a read-only access notice for troop leaders
+ *
+ * The dashboard fetches troop-related summary data from Supabase and presents
+ * it in a responsive layout for both mobile and desktop screen sizes. It is
+ * designed as the main landing page for troop leaders after login.
+ *
+ * This screen is intended to give troop leaders visibility into scout and
+ * troop information without edit permissions. Future updates may limit the
+ * displayed scout data to only the currently signed-in leader’s assigned troop.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

@@ -1,8 +1,29 @@
 /**
- * ScheduleScreen.tsx - Leader Schedule View
+ * @file ScheduleScreen.tsx
+ * @description View-only schedule screen for troop leaders to browse camp activities.
  *
- * View-only schedule of camp activities for leaders.
- * Leaders can see the schedule but cannot add or modify activities.
+ * This screen provides:
+ * - a read-only view of all scheduled camp activities
+ * - support for both grid and list display modes
+ * - formatted activity details including date, time, duration, and associated merit badge
+ *
+ * Data is fetched from Supabase and displayed in chronological order.
+ * Leaders cannot create, edit, or delete activities—this is strictly for viewing purposes.
+ *
+ * The interface includes:
+ * - a toggle between grid and list views
+ * - a total activity count indicator
+ * - responsive layout for mobile and desktop devices
+ *
+ * Helper functions are used to format:
+ * - time (12-hour AM/PM format)
+ * - duration (hours/minutes)
+ * - dates (readable short format)
+ *
+ * Future enhancements may include:
+ * - filtering activities by date or badge
+ * - limiting results to the leader’s assigned troop
+ * - calendar-style visualization
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

@@ -1,8 +1,18 @@
 /**
- * ProgramsScreen.tsx - Admin Program Management
+ * @file ProgramsScreen.tsx
+ * @description Admin program management screen for camp merit badges and requirements.
  *
- * Page for admins to manage programs (merit badges). Fetches data from
- * merit_badge table and shows requirements from merit_badge_rqmt table.
+ * This screen allows administrators to:
+ * - view program areas loaded from the database
+ * - expand areas to see associated merit badge programs
+ * - expand programs to view nested requirements
+ * - load data dynamically from Supabase
+ *
+ * Program data is retrieved from the `merit_badge` table and requirement data
+ * is retrieved from the `merit_badge_rqmt` table. Requirements are organized
+ * into a hierarchical tree structure for display.
+ *
+ * The layout is responsive and adapts to both mobile and desktop screen sizes.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

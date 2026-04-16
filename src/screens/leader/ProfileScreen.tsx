@@ -1,7 +1,18 @@
 /**
- * ProfileScreen.tsx - Leader Profile
+ * @file ProfileScreen.tsx
+ * @description Profile screen for troop leaders to view account details and sign out.
  *
- * Profile screen for troop leaders to view their account info and sign out.
+ * This screen displays:
+ * - basic account/profile information (placeholder for future data)
+ * - a profile section for viewing user details
+ * - a sign-out action to return to the authentication flow
+ *
+ * The layout is responsive for both mobile and desktop screen sizes,
+ * maintaining consistency with other leader-facing screens in the app.
+ *
+ * This screen is primarily informational and does not currently support
+ * editing profile data. Future updates may allow leaders to view and
+ * manage their personal information and troop assignment.
  */
 
 import React from 'react';

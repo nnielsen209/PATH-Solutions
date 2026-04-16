@@ -1,5 +1,15 @@
 /**
- * AttendanceScreen.tsx - Counselor attendance placeholder
+ * @file AttendanceScreen.tsx
+ * @description Counselor-facing screen for recording and viewing attendance for camp activities.
+ *
+ * This screen is intended to:
+ * - allow counselors to mark attendance for their assigned activities
+ * - display attendance-related information in a structured layout
+ * - provide a placeholder UI until full attendance functionality is implemented
+ *
+ * Currently, the screen shows an empty state indicating no attendance data,
+ * but is structured to support future integration with activity selection
+ * and attendance tracking features. The layout is responsive for mobile and desktop.
  */
 
 import React from 'react';

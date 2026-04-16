@@ -1,9 +1,15 @@
 /**
- * DashboardScreen.tsx - Admin Dashboard Home
+ * @file DashboardScreen.tsx
+ * @description Admin dashboard home screen displaying key statistics, quick actions, and recent activity.
  *
- * First screen admins see after logging in. Shows a greeting, a few stat cards
- * (total users, counselors, active sessions), and quick action buttons for
- * common tasks. Fetches real counts from Supabase.
+ * This screen serves as the main entry point for administrators after login.
+ * It provides:
+ * - overview statistics (total users, counselors, activities)
+ * - quick action buttons for common tasks (users, schedule, reports, settings)
+ * - a recent activity section (placeholder for future functionality)
+ *
+ * Data is fetched from Supabase and displayed in a responsive layout
+ * that adapts to both mobile and desktop screen sizes.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

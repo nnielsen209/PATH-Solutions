@@ -1,8 +1,17 @@
 /**
- * SettingsScreen.tsx - Admin Settings
+ * @file SettingsScreen.tsx
+ * @description Admin Settings screen for managing application configuration.
  *
- * Camp and app settings. Includes change password and sign out.
- * Ready for future: camp name, contact info, notifications, theme.
+ * Provides functionality for:
+ * - Viewing placeholder app settings
+ * - Changing user password with validation
+ * - Signing out of the application
+ *
+ * Future enhancements may include:
+ * - Camp name configuration
+ * - Contact information
+ * - Notification preferences
+ * - Theme customization
  */
 
 import React, { useState } from 'react';
@@ -22,48 +31,120 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../context/AuthContext';
 import { styles, DESKTOP_BREAKPOINT, ACCENT_COLOR } from '../../styles/SettingsStyles';
 
+/**
+ * Minimum number of characters required for a valid password.
+ */
 const MIN_PASSWORD_LENGTH = 6;
 
+/**
+ * SettingsScreen Component
+ *
+ * Renders the settings UI including:
+ * - Static settings placeholder section
+ * - Expandable password change form
+ * - Sign out functionality
+ *
+ * Handles user input validation and communicates with AuthContext
+ * to update passwords securely.
+ *
+ * @returns The rendered Settings screen component
+ */
 export const SettingsScreen = () => {
   const { width } = useWindowDimensions();
   const { logout, updatePassword } = useAuth();
+
+  /**
+   * Determines if the layout should use desktop styling.
+   */
   const isDesktop = width >= DESKTOP_BREAKPOINT;
+
+  /**
+   * Horizontal padding for responsive layout.
+   */
   const contentPadding = isDesktop ? 32 : 20;
 
+  /**
+   * Controls visibility of the password change form.
+   */
   const [passwordExpanded, setPasswordExpanded] = useState(false);
+
+  /**
+   * Stores the user's current password input.
+   */
   const [currentPassword, setCurrentPassword] = useState('');
+
+  /**
+   * Stores the new password input.
+   */
   const [newPassword, setNewPassword] = useState('');
+
+  /**
+   * Stores confirmation of the new password.
+   */
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  /**
+   * Holds any validation or API error message.
+   */
   const [passwordError, setPasswordError] = useState<string | null>(null);
+
+  /**
+   * Indicates whether password update succeeded.
+   */
   const [passwordSuccess, setPasswordSuccess] = useState(false);
+
+  /**
+   * Tracks loading state during password update request.
+   */
   const [isPasswordLoading, setIsPasswordLoading] = useState(false);
 
+  /**
+   * Handles password update logic.
+   *
+   * Performs validation:
+   * - Ensures all fields are filled
+   * - Checks minimum length
+   * - Confirms passwords match
+   * - Ensures new password differs from current
+   *
+   * Calls updatePassword from AuthContext on success.
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleChangePassword = async () => {
     setPasswordError(null);
     setPasswordSuccess(false);
+
     if (!currentPassword || !newPassword || !confirmPassword) {
       setPasswordError('Please fill in all password fields.');
       return;
     }
+
     if (newPassword.length < MIN_PASSWORD_LENGTH) {
       setPasswordError(`New password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
       return;
     }
+
     if (newPassword !== confirmPassword) {
       setPasswordError('New password and confirmation do not match.');
       return;
     }
+
     if (currentPassword === newPassword) {
       setPasswordError('New password must be different from your current password.');
       return;
     }
+
     setIsPasswordLoading(true);
     const { error } = await updatePassword(currentPassword, newPassword);
     setIsPasswordLoading(false);
+
     if (error) {
       setPasswordError(error.message || 'Failed to update password.');
       return;
     }
+
     setPasswordSuccess(true);
     setCurrentPassword('');
     setNewPassword('');
@@ -142,6 +223,7 @@ export const SettingsScreen = () => {
               />
             </View>
           </TouchableOpacity>
+
           {passwordExpanded ? (
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -180,12 +262,15 @@ export const SettingsScreen = () => {
                 autoCorrect={false}
                 editable={!isPasswordLoading}
               />
+
               {passwordError ? (
                 <Text style={styles.errorText}>{passwordError}</Text>
               ) : null}
+
               {passwordSuccess ? (
                 <Text style={styles.successText}>Password updated successfully.</Text>
               ) : null}
+
               <TouchableOpacity
                 style={[styles.passwordButton, isPasswordLoading && styles.passwordButtonDisabled]}
                 onPress={handleChangePassword}

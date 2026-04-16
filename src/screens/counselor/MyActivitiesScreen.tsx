@@ -1,5 +1,15 @@
 /**
- * MyActivitiesScreen.tsx - Counselor activities placeholder
+ * @file MyActivitiesScreen.tsx
+ * @description Screen for counselors to view and manage their assigned activities.
+ *
+ * This screen displays:
+ * - a list of activities assigned to the counselor
+ * - basic information about each activity (e.g., name, schedule)
+ * - an empty state when no activities are assigned
+ *
+ * The screen is intended to be expanded with functionality for managing
+ * attendance, viewing details, and interacting with assigned sessions.
+ * The layout is responsive and adapts for mobile and desktop devices.
  */
 
 import React from 'react';

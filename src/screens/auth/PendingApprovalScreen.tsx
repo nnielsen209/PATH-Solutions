@@ -1,8 +1,15 @@
 /**
- * PendingApprovalScreen.tsx - Waiting for Approval Page
+ * @file PendingApprovalScreen.tsx
+ * @description Screen displayed to users whose accounts are awaiting administrative approval.
  *
- * Shown to users who have registered but haven't been approved yet.
- * Displays a friendly message and allows them to sign out.
+ * This screen provides:
+ * - a clear message indicating the account is pending approval
+ * - estimated approval timeframe information
+ * - display of the user's registered email
+ * - a sign-out option to allow users to return later
+ *
+ * It is shown when a user has a "PENDING" role and restricts access
+ * to the rest of the application until an administrator assigns a role.
  */
 
 import React from 'react';

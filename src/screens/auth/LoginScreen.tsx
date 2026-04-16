@@ -1,9 +1,16 @@
 /**
- * LoginScreen.tsx - User Login Page
+ * @file LoginScreen.tsx
+ * @description Authentication screen for signing users into the Camp Geiger Achievement Tracking System.
  *
- * First screen when the user is not logged in. Has email and password fields,
- * a login button, and a link to the registration screen. Uses the auth context
- * to sign in; on success the app switches to the right dashboard.
+ * This screen is the entry point for unauthenticated users and provides:
+ * - email and password input fields
+ * - validation for missing credentials
+ * - login submission through the authentication context
+ * - error feedback for failed sign-in attempts
+ * - navigation to the registration screen
+ *
+ * On successful login, the application routes the user to the appropriate
+ * dashboard based on their authenticated role.
  */
 
 import React, { useState } from 'react';

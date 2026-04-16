@@ -1,5 +1,15 @@
 /**
- * ProfileScreen.tsx - Counselor profile placeholder
+ * @file ProfileScreen.tsx
+ * @description Screen for counselors to view and manage their profile information.
+ *
+ * This screen displays:
+ * - basic user profile information (placeholder)
+ * - future options for updating account details (name, email, preferences)
+ * - a sign out action to log the user out of the application
+ *
+ * Currently serves as a placeholder UI with planned functionality for
+ * profile editing and account management. The layout is responsive and
+ * adapts for both mobile and desktop screen sizes.
  */
 
 import React from 'react';

@@ -1,8 +1,17 @@
 /**
- * DashboardScreen.tsx - Counselor Dashboard Home
+ * @file CounselorDashboardScreen.tsx
+ * @description Dashboard screen for counselors providing an overview of their activities,
+ * attendance responsibilities, and quick access to key features.
  *
- * Main landing page for counselors: overview and quick access to activities,
- * attendance, and progress.
+ * This screen displays:
+ * - a personalized greeting and counselor role information
+ * - overview statistic cards (assigned activities, attendance, progress)
+ * - quick action buttons for navigation (activities, attendance, progress, profile)
+ * - placeholder for recent activity updates
+ *
+ * The screen is designed for counselor-specific workflows and focuses on
+ * day-to-day operational tasks rather than administrative controls.
+ * The layout is responsive and adapts for mobile and desktop devices.
  */
 
 import React from 'react';

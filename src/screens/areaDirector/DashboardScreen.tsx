@@ -1,7 +1,17 @@
 /**
- * DashboardScreen.tsx - Area Director Dashboard Home
+ * @file AreaDirectorDashboardScreen.tsx
+ * @description Dashboard screen for Area Directors providing an overview of camp activity
+ * and quick navigation to key management sections.
  *
- * Main landing page for area directors: overview and quick access.
+ * This screen displays:
+ * - greeting and user information
+ * - overview statistic cards (users, counselors, sessions)
+ * - quick action buttons for navigation (users, schedule, reports, settings)
+ * - placeholder for recent activity
+ *
+ * Unlike the admin dashboard, this version is simplified and does not fetch
+ * live data. It is designed for read-only overview and navigation purposes.
+ * The layout is responsive and adapts for desktop and mobile screens.
  */
 
 import React from 'react';

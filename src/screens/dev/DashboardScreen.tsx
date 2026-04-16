@@ -1,9 +1,19 @@
 /**
- * DashboardScreen.tsx - Developer Dashboard Home
+ * @file DashboardScreen.tsx
+ * @description Developer dashboard providing full administrative access and system overview.
  *
- * First screen developers see after logging in. Has all admin functionality.
- * Uses purple accent color to distinguish from admin view.
- * Fetches real counts from Supabase.
+ * This screen displays:
+ * - key system metrics (total users, counselors, activities)
+ * - quick action shortcuts for core management features
+ * - a placeholder for recent system activity
+ *
+ * Data is fetched from Supabase using parallel queries to retrieve
+ * aggregate counts efficiently. The interface mirrors admin functionality
+ * but uses a distinct visual style (purple theme) to indicate developer mode.
+ *
+ * This dashboard serves as the primary entry point for developers, enabling
+ * testing, monitoring, and full access to application features. The layout
+ * is responsive and adapts for both mobile and desktop environments.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

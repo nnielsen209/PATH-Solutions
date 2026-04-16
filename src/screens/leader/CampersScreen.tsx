@@ -1,9 +1,22 @@
 /**
- * CampersScreen.tsx - Leader Campers & Leaders View
+ * @file CampersScreen.tsx
+ * @description Read-only troop member screen for scout leaders.
  *
- * Shows campers and leaders grouped by troop. Read-only view - leaders cannot
- * add or modify campers/leaders. Once troop filtering is implemented in the database,
- * this will only show members from the leader's assigned troop.
+ * This screen displays:
+ * - campers and leaders fetched from Supabase
+ * - troop members grouped by troop
+ * - summary counts for leaders and campers
+ * - a read-only view of troop participant information
+ *
+ * Camper and leader data are loaded from separate Supabase tables and then
+ * combined into grouped troop structures for display. Each troop section
+ * shows its leaders and campers in a structured layout with basic contact
+ * or role information.
+ *
+ * This screen is intended for troop leaders who need visibility into troop
+ * membership without edit permissions. It supports responsive layouts for
+ * both mobile and desktop devices. Future updates may restrict results to
+ * only the currently signed-in leader’s assigned troop.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

@@ -1,9 +1,22 @@
 /**
- * UsersScreen.tsx - Dev User Management with Role Switching
+ * @file UsersScreen.tsx
+ * @description Developer-only user management screen with role switching and testing controls.
  *
- * Dev-only screen that fetches real user data from Supabase and allows
- * developers to change user roles for testing different personas.
- * Campers/scouts are managed in the separate Campers screen.
+ * This screen displays:
+ * - all registered users fetched from Supabase
+ * - users grouped by assigned application role
+ * - role-based summary counts for quick inspection
+ * - a modal interface for changing user roles during testing
+ *
+ * User records are loaded from the `users` table and organized into
+ * role sections such as pending, developer, admin, area director,
+ * and counselor. Developers can tap any user to open a role picker
+ * modal and update that user's role directly in the database.
+ *
+ * This screen is intended for development and QA workflows, making it
+ * easier to test permissions, dashboards, and user-specific experiences
+ * across multiple roles. The layout is responsive for both mobile and
+ * desktop screen sizes.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

@@ -1,9 +1,18 @@
 /**
- * UsersScreen.tsx - User Management (Admin & Area Director)
+ * @file UsersScreen.tsx
+ * @description
+ * Administrative user management screen for viewing and approving user accounts.
  *
- * Fetches real user data from Supabase and displays users grouped by role.
- * Admin sees all sections; Area Director sees Counselors only.
- * Scouts/Campers are managed in the separate Campers screen.
+ * This screen retrieves user records from Supabase, groups them by role,
+ * and displays them in organized sections. Users with sufficient privileges
+ * can approve pending accounts by assigning a role.
+ *
+ * Access behavior:
+ * - Admin users can view all supported role sections.
+ * - Area Directors can view pending users and counselors only.
+ * - Counselors can view pending users and counselors only.
+ *
+ * Scouts and campers are managed in a separate screen.
  */
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -24,25 +33,52 @@ import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabase';
 import { styles, DESKTOP_BREAKPOINT } from '../../styles/UsersStyles';
 
-/** Database user record from Supabase */
+/**
+ * Represents a user record returned from the Supabase `users` table.
+ */
 interface DbUser {
+  /** Unique identifier for the user. */
   user_id: string;
+
+  /** User email address. */
   user_email: string;
+
+  /** User first name. */
   user_first_name: string;
+
+  /** User last name. */
   user_last_name: string;
+
+  /** Current application role assigned to the user. */
   user_role: UserRole;
+
+  /** Record creation date stored in the database. */
   crtn_date: string;
 }
 
-/** Config for each role section: label, description, icon, and accent color. */
+/**
+ * Defines the UI configuration for a role section.
+ */
 type RoleSectionConfig = {
+  /** Role represented by the section. */
   role: UserRole;
+
+  /** Display label shown in the section header. */
   label: string;
+
+  /** Short description explaining the section purpose. */
   description: string;
+
+  /** Ionicons icon name used in the section header. */
   icon: keyof typeof Ionicons.glyphMap;
+
+  /** Accent color used for badges and icons in the section. */
   color: string;
 };
 
+/**
+ * Static display configuration for each supported role section.
+ */
 const ROLE_SECTIONS: RoleSectionConfig[] = [
   {
     role: 'PENDING',
@@ -74,46 +110,85 @@ const ROLE_SECTIONS: RoleSectionConfig[] = [
   },
 ];
 
-/** Role hierarchy - lower index = higher privilege */
+/**
+ * Ordered role hierarchy from highest privilege to lowest privilege.
+ *
+ * Lower index means greater authority.
+ */
 const ROLE_HIERARCHY: UserRole[] = ['DEV', 'ADMIN', 'AREA_DIRECTOR', 'COUNSELOR'];
 
-/** Get roles that a user can assign based on their own role */
+/**
+ * Returns the list of roles the current user is allowed to assign.
+ *
+ * Rules:
+ * - DEV can assign roles from ADMIN downward.
+ * - Other authorized users can assign roles at their own level and below.
+ * - PENDING is excluded from assignable roles.
+ *
+ * @param currentUserRole The role of the currently authenticated user.
+ * @returns A filtered list of role section configurations the user may assign.
+ */
 const getAssignableRoles = (currentUserRole: UserRole | null): RoleSectionConfig[] => {
   if (!currentUserRole) return [];
 
   const currentRoleIndex = ROLE_HIERARCHY.indexOf(currentUserRole);
-  if (currentRoleIndex === -1) return []; // Role not in hierarchy (e.g., PENDING, SCOUT)
+  if (currentRoleIndex === -1) return [];
 
-  // User can assign roles at their level or below (excluding PENDING and DEV for non-DEV users)
   const assignableRoleNames = ROLE_HIERARCHY.slice(
-    currentUserRole === 'DEV' ? 1 : currentRoleIndex, // DEV can assign from ADMIN down, others from their level
+    currentUserRole === 'DEV' ? 1 : currentRoleIndex,
   );
 
   return ROLE_SECTIONS.filter(
-    (s) => s.role !== 'PENDING' && assignableRoleNames.includes(s.role)
+    (section) => section.role !== 'PENDING' && assignableRoleNames.includes(section.role)
   );
 };
 
-/** Check if user can approve pending accounts */
+/**
+ * Determines whether a user role has permission to approve pending users.
+ *
+ * @param role The authenticated user's role.
+ * @returns True if the role is included in the approval hierarchy.
+ */
 const canApproveUsers = (role: UserRole | null): boolean => {
   return role !== null && ROLE_HIERARCHY.includes(role);
 };
 
-/** Get config for a specific role */
+/**
+ * Returns the display configuration for a given role.
+ *
+ * If no exact match is found, the first section configuration is returned
+ * as a fallback.
+ *
+ * @param role The role to look up.
+ * @returns The matching role section configuration.
+ */
 const getRoleConfig = (role: UserRole): RoleSectionConfig => {
-  return ROLE_SECTIONS.find((s) => s.role === role) || ROLE_SECTIONS[0];
+  return ROLE_SECTIONS.find((section) => section.role === role) || ROLE_SECTIONS[0];
 };
 
 /**
- * UserCard - Displays a single user with optional action button
+ * Props for the {@link UserCard} component.
  */
 type UserCardProps = {
+  /** User record displayed in the card. */
   user: DbUser;
+
+  /** Indicates whether the layout is in desktop mode. */
   isDesktop: boolean;
+
+  /** Whether the approve button should be shown. */
   showApproveButton?: boolean;
+
+  /** Callback fired when the approve button is pressed. */
   onApprove?: (user: DbUser) => void;
 };
 
+/**
+ * Displays a single user entry with avatar, name, email, and optional approval action.
+ *
+ * @param props Component props.
+ * @returns Rendered user card component.
+ */
 const UserCard = ({ user, isDesktop, showApproveButton, onApprove }: UserCardProps) => {
   const config = getRoleConfig(user.user_role);
 
@@ -124,12 +199,14 @@ const UserCard = ({ user, isDesktop, showApproveButton, onApprove }: UserCardPro
           {user.user_first_name[0]}{user.user_last_name[0]}
         </Text>
       </View>
+
       <View style={styles.userInfo}>
         <Text style={styles.userName}>
           {user.user_first_name} {user.user_last_name}
         </Text>
         <Text style={styles.userEmail}>{user.user_email}</Text>
       </View>
+
       {showApproveButton && onApprove && (
         <TouchableOpacity
           style={[styles.addButton, { backgroundColor: '#059669', borderColor: '#059669' }]}
@@ -144,18 +221,34 @@ const UserCard = ({ user, isDesktop, showApproveButton, onApprove }: UserCardPro
   );
 };
 
-
 /**
- * RoleSection - One card per role showing users in that role
+ * Props for the {@link RoleSection} component.
  */
 type RoleSectionProps = {
+  /** Section configuration describing the role group. */
   config: RoleSectionConfig;
+
+  /** Users belonging to the section role. */
   users: DbUser[];
+
+  /** Indicates whether the layout is in desktop mode. */
   isDesktop: boolean;
+
+  /** Whether approval actions should be enabled in this section. */
   canApprove?: boolean;
+
+  /** Callback fired when a pending user should be approved. */
   onApprove?: (user: DbUser) => void;
 };
 
+/**
+ * Renders a full role-based section card containing grouped users.
+ *
+ * If the section has no users, an empty state message is shown instead.
+ *
+ * @param props Component props.
+ * @returns Rendered role section component.
+ */
 const RoleSection = ({ config, users, isDesktop, canApprove, onApprove }: RoleSectionProps) => {
   const { label, description, icon, color, role } = config;
   const isPending = role === 'PENDING';
@@ -167,17 +260,20 @@ const RoleSection = ({ config, users, isDesktop, canApprove, onApprove }: RoleSe
           <View style={[styles.sectionIconWrap, { backgroundColor: color + '20' }]}>
             <Ionicons name={icon} size={24} color={color} />
           </View>
+
           <View style={styles.sectionTitleBlock}>
             <Text style={[styles.sectionTitle, isDesktop && styles.sectionTitleDesktop]}>
               {label}
             </Text>
             <Text style={styles.sectionDescription}>{description}</Text>
           </View>
+
           <View style={[styles.countBadge, { backgroundColor: color + '20' }]}>
             <Text style={[styles.countText, { color }]}>{users.length}</Text>
           </View>
         </View>
       </View>
+
       <View style={styles.sectionContent}>
         {users.length === 0 ? (
           <View style={styles.emptyRole}>
@@ -209,32 +305,58 @@ const RoleSection = ({ config, users, isDesktop, canApprove, onApprove }: RoleSe
   );
 };
 
-
 /**
- * UsersScreen Component
+ * Main user management screen.
  *
- * Renders the Users page with real data from Supabase.
- * Admin sees all role sections + scouts; Area Director sees Counselors + Scouts.
- * DEV users can approve pending users by assigning them a role.
+ * This component:
+ * - fetches users from Supabase
+ * - groups users by role
+ * - filters visible sections based on the authenticated user's role
+ * - allows privileged users to approve pending accounts
+ *
+ * @returns Rendered users management screen.
  */
 export const UsersScreen = () => {
   const { width } = useWindowDimensions();
   const { userRole } = useAuth();
+
+  /** True when the current screen width meets the desktop breakpoint. */
   const isDesktop = width >= DESKTOP_BREAKPOINT;
+
+  /** Horizontal padding applied to scroll content based on screen size. */
   const contentPadding = isDesktop ? 32 : 20;
+
+  /** Whether the current user can approve pending users. */
   const canApprove = canApproveUsers(userRole);
+
+  /** Roles the current user is allowed to assign. */
   const assignableRoles = getAssignableRoles(userRole);
 
+  /** Full collection of users returned from Supabase. */
   const [users, setUsers] = useState<DbUser[]>([]);
+
+  /** Loading state for the initial and refresh fetch operations. */
   const [isLoading, setIsLoading] = useState(true);
+
+  /** Error message shown when loading fails. */
   const [error, setError] = useState<string | null>(null);
 
-  // Modal state for role assignment
+  /** User currently selected for role assignment in the modal. */
   const [selectedUser, setSelectedUser] = useState<DbUser | null>(null);
+
+  /** Controls visibility of the role assignment modal. */
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  /** Loading state used while a role update request is in progress. */
   const [isUpdating, setIsUpdating] = useState(false);
 
-  /** Fetch all users from Supabase */
+  /**
+   * Fetches all users from the Supabase `users` table and sorts them by first name.
+   *
+   * If the request fails, an error message is shown in the UI.
+   *
+   * @returns Promise that resolves when the fetch completes.
+   */
   const fetchData = useCallback(async () => {
     try {
       setError(null);
@@ -255,17 +377,32 @@ export const UsersScreen = () => {
     }
   }, []);
 
+  /**
+   * Loads user data when the screen first mounts.
+   */
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  /** Open the role assignment modal */
+  /**
+   * Opens the role assignment modal for a selected pending user.
+   *
+   * @param user The user selected for approval.
+   */
   const handleApproveUser = (user: DbUser) => {
     setSelectedUser(user);
     setIsModalVisible(true);
   };
 
-  /** Assign a role to the selected user */
+  /**
+   * Updates the selected user's role in Supabase.
+   *
+   * After a successful update, the user list is refreshed and the modal closes.
+   * If the update fails, an alert is shown.
+   *
+   * @param newRole The role to assign to the selected user.
+   * @returns Promise that resolves when the update flow completes.
+   */
   const handleAssignRole = async (newRole: UserRole) => {
     if (!selectedUser) return;
 
@@ -278,7 +415,6 @@ export const UsersScreen = () => {
 
       if (updateError) throw updateError;
 
-      // Refresh the user list
       await fetchData();
       setIsModalVisible(false);
       setSelectedUser(null);
@@ -290,29 +426,44 @@ export const UsersScreen = () => {
     }
   };
 
-  /** Filter sections based on user role */
+  /**
+   * Returns the role sections visible to the current user.
+   *
+   * Visibility rules depend on the authenticated user's role.
+   */
   const visibleSections = useMemo(() => {
     if (userRole === 'AREA_DIRECTOR') {
-      // Area Directors see Pending + Counselors (can approve counselors)
-      return ROLE_SECTIONS.filter((s) => s.role === 'PENDING' || s.role === 'COUNSELOR');
+      return ROLE_SECTIONS.filter((section) =>
+        section.role === 'PENDING' || section.role === 'COUNSELOR'
+      );
     }
+
     if (userRole === 'COUNSELOR') {
-      // Counselors see Pending + Counselors (can only approve as counselor)
-      return ROLE_SECTIONS.filter((s) => s.role === 'PENDING' || s.role === 'COUNSELOR');
+      return ROLE_SECTIONS.filter((section) =>
+        section.role === 'PENDING' || section.role === 'COUNSELOR'
+      );
     }
-    // Admins see all sections
+
     return ROLE_SECTIONS;
   }, [userRole]);
 
-  /** Group users by role */
+  /**
+   * Groups all fetched users by role for display in each section.
+   */
   const usersByRole = useMemo(() => {
     return ROLE_SECTIONS.reduce((acc, config) => {
-      acc[config.role] = users.filter((u) => u.user_role === config.role);
+      acc[config.role] = users.filter((user) => user.user_role === config.role);
       return acc;
     }, {} as Record<UserRole, DbUser[]>);
   }, [users]);
 
+  /** Number of pending users waiting for approval. */
   const pendingCount = usersByRole['PENDING']?.length || 0;
+
+  /**
+   * Subtitle shown below the screen heading.
+   * The subtitle changes depending on the current user's role and pending count.
+   */
   const subtitle =
     userRole === 'AREA_DIRECTOR'
       ? 'View counselors'
@@ -419,6 +570,7 @@ export const UsersScreen = () => {
                         color={roleConfig.color}
                       />
                     </View>
+
                     <View style={styles.roleOptionText}>
                       <Text style={styles.roleOptionLabel}>{roleConfig.label}</Text>
                       <Text style={styles.roleOptionDesc}>{roleConfig.description}</Text>

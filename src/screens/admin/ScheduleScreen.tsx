@@ -1,4 +1,18 @@
 /**
+ * @file ScheduleScreen.tsx
+ * @description Admin schedule management screen for camp activities.
+ *
+ * This screen allows authorized users to:
+ * - view scheduled camp activities
+ * - switch between grid and list schedule views
+ * - create new activities
+ * - delete existing activities
+ *
+ * Activity and period data are loaded from Supabase and displayed in
+ * a responsive layout for mobile and desktop screen sizes.
+ */
+
+/**
  * ScheduleScreen.tsx - Admin Schedule Management
  *
  * Manage camp sessions and activity schedules.

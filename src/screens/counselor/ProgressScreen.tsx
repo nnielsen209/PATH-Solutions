@@ -1,8 +1,20 @@
 /**
- * ProgressScreen.tsx - Counselor progress review
+ * @file ProgressScreen.tsx
+ * @description Screen for counselors to review and sign off on scout badge progress.
  *
- * Shows scout badge progress that needs counselor review/sign-off.
- * Fetches data from scout_badge_rqmt joined with related tables.
+ * This screen displays:
+ * - a list of scouts and their associated merit badges
+ * - progress metrics (completed vs total requirements)
+ * - completion percentages for each badge
+ * - indicators for fully completed badges
+ *
+ * Data is fetched from Supabase by joining scout_badge, merit_badge,
+ * and requirement-related tables. Additional queries calculate the
+ * number of completed and total requirements per badge.
+ *
+ * The screen includes loading and error states, and supports responsive
+ * layout for both mobile and desktop devices. Intended to be expanded
+ * with functionality for approving or updating requirement progress.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

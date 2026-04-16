@@ -1,8 +1,22 @@
 /**
- * ProgressScreen.tsx - Leader Progress View
+ * @file ProgressScreen.tsx
+ * @description View-only progress screen for troop leaders to monitor scout merit badge progress.
  *
- * View-only screen for leaders to see scout progress on merit badges.
- * Leaders can view but cannot modify progress records.
+ * This screen provides:
+ * - a read-only overview of scout progress toward merit badge completion
+ * - a visual placeholder for future progress tracking data
+ * - a clear indication that leaders cannot modify progress records
+ *
+ * Leaders use this screen to stay informed about their troop’s advancement,
+ * while counselors are responsible for updating and approving progress.
+ *
+ * The layout is responsive across mobile and desktop devices and follows
+ * the same design patterns as other leader-facing screens in the application.
+ *
+ * Future enhancements may include:
+ * - displaying real-time progress data per scout
+ * - filtering by badge or scout
+ * - visual progress indicators (e.g., percentages or completion bars)
  */
 
 import React from 'react';

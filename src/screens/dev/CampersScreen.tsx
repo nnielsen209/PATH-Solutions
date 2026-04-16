@@ -1,8 +1,20 @@
 /**
- * CampersScreen.tsx - Dev Camper & Leader Management
+ * @file CampersScreen.tsx
+ * @description Developer-only screen for managing campers and troop leaders.
  *
- * Dev-only screen that fetches campers and leaders from Supabase.
- * Developers can add campers and leaders, grouped by troop.
+ * This screen displays:
+ * - campers and leaders fetched from Supabase
+ * - participant data grouped by troop
+ * - troop-level counts and participant summaries
+ * - developer actions for adding new campers and leaders
+ *
+ * Campers and leaders are loaded from separate Supabase tables and then
+ * combined into grouped troop structures for display. Each troop section
+ * shows its leaders and campers in a structured, responsive layout.
+ *
+ * This screen is intended for development and testing workflows, giving
+ * developers direct visibility into participant data and add-member flows.
+ * The layout supports both mobile and desktop screen sizes.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

@@ -1,9 +1,19 @@
 /**
- * RegisterScreen.tsx - User Registration Page
+ * @file RegisterScreen.tsx
+ * @description User registration screen for creating new accounts in the Camp Geiger system.
  *
- * Lets new users create an account with name, email, password, and role.
- * We validate the form and then call Supabase auth; a database trigger
- * creates the user row in our users table so role and name are stored there too.
+ * This screen allows new users to:
+ * - enter personal information (first name, last name, email)
+ * - create and confirm a password
+ * - validate form inputs before submission
+ * - submit registration data to Supabase authentication
+ *
+ * Upon successful registration:
+ * - user metadata (name fields) is stored in Supabase Auth
+ * - a database trigger creates a corresponding user record
+ * - the account is assigned a "PENDING" role until approved by an administrator
+ *
+ * The UI includes error handling, loading states, and navigation back to the login screen.
  */
 
 import React, { useState } from 'react';

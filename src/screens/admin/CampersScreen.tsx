@@ -1,8 +1,15 @@
 /**
- * CampersScreen.tsx - Camper & Leader Management (Admin & Area Director)
+ * @file CampersScreen.tsx
+ * @description Camper and leader management screen displaying all camp participants grouped by troop.
  *
- * Fetches scout and leader data from Supabase and displays them grouped by troop.
- * Admin and Area Director can add new campers and leaders.
+ * This screen allows administrators and area directors to:
+ * - view campers and leaders organized by troop
+ * - see troop-level summaries including member counts
+ * - add new campers and leaders via modal forms
+ *
+ * Data is fetched from Supabase and grouped dynamically by troop,
+ * with sorting applied to troops and members for consistent display.
+ * The layout adapts responsively for mobile and desktop screen sizes.
  */
 
 import React, { useState, useEffect, useCallback } from 'react';

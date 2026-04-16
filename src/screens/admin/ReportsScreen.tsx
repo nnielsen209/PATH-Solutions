@@ -1,7 +1,16 @@
 /**
- * ReportsScreen.tsx - Admin Reports & Analytics
+ * @file ReportsScreen.tsx
+ * @description Admin reports and analytics screen for viewing and generating camp reports.
  *
- * View and generate reports (attendance, progress, etc.).
+ * This screen provides access to different report types, including:
+ * - attendance reports
+ * - scout progress reports
+ * - activity schedule reports
+ *
+ * Each report option includes a description and a generate button.
+ * Currently, report generation is mocked with an alert for demo purposes.
+ *
+ * The layout is responsive and adapts to mobile and desktop screen sizes.
  */
 
 import React from 'react';
