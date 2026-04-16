@@ -18,13 +18,12 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, useWindowDimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, useWindowDimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { TABLET_BREAKPOINT } from '../../types';
+import { styles, DESKTOP_BREAKPOINT } from '../../styles/ProgressStyles';
 import { supabase } from '../../services/supabase';
 
-const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 const ACCENT_COLOR = '#d97706';
 
 /** Scout badge progress record */
@@ -224,64 +223,3 @@ export const ProgressScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f3f4f6' },
-  header: { paddingHorizontal: 20, paddingVertical: 16, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#e5e7eb' },
-  headerDesktop: { paddingHorizontal: 32, paddingVertical: 20 },
-  headerInner: {},
-  headerInnerDesktop: { maxWidth: 1200, width: '100%', alignSelf: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#1f2937' },
-  titleDesktop: { fontSize: 26 },
-  subtitle: { fontSize: 14, color: '#6b7280', marginTop: 4 },
-  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  loadingText: { marginTop: 12, fontSize: 16, color: '#6b7280' },
-  errorContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  errorText: { fontSize: 16, color: '#dc2626', marginTop: 12, textAlign: 'center' },
-  retryButton: { marginTop: 16, backgroundColor: ACCENT_COLOR, paddingHorizontal: 24, paddingVertical: 12, borderRadius: 8 },
-  retryButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
-  scroll: { flex: 1 },
-  scrollContent: { paddingTop: 20 },
-  scrollContentDesktop: { maxWidth: 1200, width: '100%', alignSelf: 'center' },
-  mainCard: { backgroundColor: '#fff', borderRadius: 12, overflow: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 2, elevation: 2 },
-  mainCardDesktop: { marginBottom: 0 },
-  cardHeader: { paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: '#f3f4f6' },
-  cardTitleRow: { flexDirection: 'row', alignItems: 'center' },
-  cardIconWrap: { width: 44, height: 44, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginRight: 12 },
-  cardTitleBlock: { flex: 1 },
-  cardTitle: { fontSize: 18, fontWeight: '600', color: '#1f2937' },
-  cardTitleDesktop: { fontSize: 19 },
-  cardDescription: { fontSize: 13, color: '#6b7280', marginTop: 2 },
-  countBadge: { minWidth: 32, height: 28, borderRadius: 8, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 8 },
-  countText: { fontSize: 15, fontWeight: '600' },
-  cardContent: { minHeight: 200, padding: 16 },
-  emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 32 },
-  emptyStateText: { fontSize: 16, fontWeight: '500', color: '#6b7280', marginTop: 16 },
-  emptyStateSubtext: { fontSize: 13, color: '#9ca3af', marginTop: 6, textAlign: 'center' },
-  progressList: { gap: 8 },
-  progressItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f9fafb',
-    borderRadius: 10,
-    padding: 12,
-    justifyContent: 'space-between',
-  },
-  progressInfo: { flexDirection: 'row', alignItems: 'center', flex: 1, gap: 12 },
-  scoutAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: ACCENT_COLOR + '20',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scoutInitials: { fontSize: 14, fontWeight: '600', color: ACCENT_COLOR },
-  progressDetails: { flex: 1 },
-  scoutName: { fontSize: 15, fontWeight: '600', color: '#1f2937' },
-  badgeName: { fontSize: 13, color: '#6b7280', marginTop: 2 },
-  progressStats: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  progressPercent: { fontSize: 16, fontWeight: '700', color: ACCENT_COLOR },
-  progressCount: { fontSize: 12, color: '#9ca3af' },
-  completedBadge: { marginLeft: 4 },
-});
