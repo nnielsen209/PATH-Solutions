@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 
 jest.mock('../src/services/supabase', () => {
   const mockResult = Promise.resolve({ data: [], error: null });
@@ -48,15 +48,14 @@ jest.mock('../src/context/AuthContext', () => ({
   }),
 }));
 
-import { ProgramsScreen } from '../src/screens/admin/ProgramsScreen';
+import { ReportsScreen } from '../src/screens/admin/ReportsScreen';
 
-describe('ProgramsScreen', () => {
-  it('renders without crashing', () => {
-    render(<ProgramsScreen />);
-  });
+describe('ReportsScreen interactions', () => {
+  it('renders Generate buttons that can be pressed', () => {
+    render(<ReportsScreen />);
+    const buttons = screen.getAllByText('Generate');
+    expect(buttons.length).toBeGreaterThan(0);
 
-  it('shows the Programs heading', () => {
-    render(<ProgramsScreen />);
-    expect(screen.getByText('Programs')).toBeTruthy();
+    fireEvent.press(buttons[0]);
   });
 });

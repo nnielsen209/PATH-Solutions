@@ -38,9 +38,9 @@ jest.mock('../src/services/supabase', () => {
 jest.mock('../src/context/AuthContext', () => ({
   useAuth: () => ({
     user: {
-      id: 'test-user-id',
-      email: 'test@example.com',
-      role: 'admin',
+      id: 'dev-user-id',
+      email: 'dev@example.com',
+      role: 'developer',
     },
     session: null,
     loading: false,
@@ -48,15 +48,15 @@ jest.mock('../src/context/AuthContext', () => ({
   }),
 }));
 
-import { ProgramsScreen } from '../src/screens/admin/ProgramsScreen';
+import { DevUsersScreen } from '../src/screens/dev/UsersScreen';
 
-describe('ProgramsScreen', () => {
+describe('DevUsersScreen', () => {
   it('renders without crashing', () => {
-    render(<ProgramsScreen />);
+    render(<DevUsersScreen />);
   });
 
-  it('shows the Programs heading', () => {
-    render(<ProgramsScreen />);
-    expect(screen.getByText('Programs')).toBeTruthy();
+  it('shows at least one Users label', () => {
+    render(<DevUsersScreen />);
+    expect(screen.getAllByText(/Users/i).length).toBeGreaterThan(0);
   });
 });
