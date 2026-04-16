@@ -259,3 +259,80 @@ Dedicated style files created for maintainability:
 - **LeaderTabParamList** - Navigation types for leader role
 - **LEADER Role** - Added to UserRole union type
 
+---
+
+### Version 1.3 - Code Milestone 4
+
+#### Progressive Web App (PWA) Support
+- **Web App Manifest** - Full PWA configuration with app name, icons, theme colors, and standalone display mode
+- **Service Worker** - Network-first caching strategy with offline fallback
+  - Caches static assets on install (index.html, icons)
+  - Serves cached content when offline
+  - Automatic cache cleanup on version updates
+- **Service Worker Registration** - Utility functions for registering/unregistering the service worker
+  - Hourly update checks for new versions
+  - Platform-aware (only runs on web)
+- **PWA Meta Tags** - Apple mobile web app support, theme color, viewport configuration
+- **App Icons** - Custom icons for PWA (icon.png, adaptive-icon.png, favicon.png, splash-icon.png)
+
+#### User Registration System
+- **Registration Screen** - New user signup with:
+  - First name, last name fields
+  - Email and password input
+  - Password confirmation with validation
+  - Minimum 6 character password requirement
+  - Pending approval notice informing users of the approval process
+- **PENDING Role** - New users automatically assigned PENDING status
+- **Database Trigger** - User metadata (name) stored in Supabase Auth, profile created via trigger
+- **Pending Approval Screen** - Dedicated screen for users awaiting approval
+  - Clear messaging about account status
+  - Displays registered email
+  - Sign out option to check back later
+  - 24-48 hour approval timeframe notice
+
+#### Role Change Hierarchy
+- **Role Hierarchy System** - Privilege levels from highest to lowest:
+  1. DEV - Can assign ADMIN and below
+  2. ADMIN - Can assign ADMIN and below
+  3. AREA_DIRECTOR - Can assign AREA_DIRECTOR and below
+  4. COUNSELOR - Can assign COUNSELOR only
+- **Role Assignment Modal** - Select role when approving pending users
+  - Shows only roles the approver is authorized to assign
+  - Role icons and descriptions for clarity
+  - Loading state during update
+- **Approve Button** - One-click approval initiation on pending user cards
+
+#### Users Screen Enhancements
+- **Pending Approval Section** - Dedicated section at top for users awaiting approval
+  - Orange color coding for pending status
+  - Count badge showing pending users
+  - Empty state when no pending users
+- **Role-Based Visibility** - Sections filtered by viewer's role:
+  - Admin/Dev see all role sections
+  - Area Directors see Pending and Counselors only
+  - Counselors see Pending and Counselors only
+- **Dynamic Subtitle** - Shows pending count or "Manage all users" based on context
+
+#### Jest Testing Setup
+- **Jest Configuration** - Expo Jest preset with TypeScript support
+- **Mock Setup** - Environment variables, Supabase client, Auth context, vector icons
+- **Component Tests:**
+  - UsersScreen render and heading tests
+  - DevUsersScreen tests
+  - ProgramsScreen tests
+  - ReportsScreen tests (render, button press, interaction)
+  - SettingsScreen tests
+- **Logic Tests:**
+  - Basic counts and filtering
+  - Formatting utilities
+  - Search and filter functions
+  - User validation
+  - Campers logic
+  - Program logic
+
+#### Type System Updates
+- **PENDING Role** - Added to UserRole union type
+- **Role Hierarchy Constants** - Ordered array for permission checking
+- **canApproveUsers()** - Helper function to check approval permissions
+- **getAssignableRoles()** - Returns roles a user can assign based on their level
+
