@@ -24,7 +24,18 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/favicon.png",
+      "name": "PATH Solutions",
+      "shortName": "PATH",
+      "description": "Scout camp management and activity tracking application",
+      "themeColor": "#1a73e8",
+      "backgroundColor": "#ffffff",
+      "display": "standalone",
+      "orientation": "portrait",
+      "scope": "/",
+      "startUrl": "/"
     }
   }
 }

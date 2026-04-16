@@ -7,6 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build:web": "expo export --platform web && node scripts/pwa-postbuild.js",
     "docs": "typedoc",
     "test": "jest",
     "test:watch": "jest --watch"

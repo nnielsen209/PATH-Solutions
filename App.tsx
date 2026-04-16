@@ -6,7 +6,7 @@
  * a loading spinner, or the right dashboard (admin, counselor, area director).
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { AuthNavigator, AdminNavigator, CounselorNavigator, AreaDirectorNavigator, DevNavigator, LeaderNavigator } from './src/navigation';
 import { PendingApprovalScreen } from './src/screens/auth/PendingApprovalScreen';
+import { registerServiceWorker } from './src/registerServiceWorker';
 
 /**
  * Shown when the user is logged in but has no valid role (e.g. role missing or unsupported).
@@ -94,6 +95,10 @@ const RootNavigator = () => {
  * RootNavigator so the right screen shows based on login and role.
  */
 export default function App() {
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <AuthProvider>

@@ -115,9 +115,7 @@ export const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
         return;
       }
 
-      // Success! The database trigger automatically creates the users record.
-      // The auth state listener in AuthContext will detect the new session
-      // and navigate the user to the appropriate dashboard.
+    
     } catch (err) {
       // Catch any unexpected errors
       setError('An unexpected error occurred');
