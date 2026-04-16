@@ -194,4 +194,19 @@ export const styles = StyleSheet.create({
     marginTop: 4,
     textAlign: 'center',
   },
+  viewOnlyBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#dcfce7',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginTop: 16,
+    gap: 8,
+  },
+  viewOnlyText: {
+    fontSize: 13,
+    color: '#166534',
+    fontWeight: '500',
+  },
 });
