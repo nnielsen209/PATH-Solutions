@@ -152,4 +152,67 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
   },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: 1.5,
+  },
+  content: { 
+    marginBottom: 16,
+  },
+
+  link: { 
+    padding: 8, 
+    borderBottomWidth: 1, 
+    borderColor: '#ccc'
+  },
+    
+  buttonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+
+  searchInput: {
+    padding: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 16 },
+
+  activityItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+    flexDirection: "row",
+    alignItems: 'center',
+    gap: 8
+  },
+
+    loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#6b7280',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#dc2626',
+    marginTop: 12,
+    textAlign: 'center',
+  }
+
 });
