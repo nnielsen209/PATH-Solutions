@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS public.troop (
 	troop_type troop_type NOT NULL,
 	troop_city varchar(150) NOT NULL,
 	troop_state char(2) NOT NULL,
+	troop_council varchar(150), 
 	crtn_date timestamp with time zone NOT NULL DEFAULT now(),
 	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
 	CONSTRAINT troop_pkey PRIMARY KEY (troop_id),
@@ -94,8 +95,7 @@ CREATE TABLE IF NOT EXISTS public.merit_badge_rqmt (
 	crtn_date timestamp with time zone NOT NULL DEFAULT now(),
 	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
 	CONSTRAINT merit_badge_rqmt_pkey PRIMARY KEY (rqmt_id),
-	CONSTRAINT merit_badge_rqmt_badge_id_rqmt_idnf_key UNIQUE (badge_id, rqmt_idnf, parent_rqmt_id),
-	CONSTRAINT metit_badge_rqmt_parent_rqmt_id_rqmt_idnf_key UNIQUE (parent_rqmt_id, rqmt_idnf)
+	CONSTRAINT merit_badge_rqmt_badge_id_rqmt_idnf_key UNIQUE (badge_id, rqmt_idnf, parent_rqmt_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.scout_badge (
@@ -126,16 +126,24 @@ CREATE TABLE IF NOT EXISTS public.activity (
 	activity_id uuid NOT NULL DEFAULT gen_random_uuid(),
 	period_id uuid NOT NULL, 
 	activity_name varchar(150) NOT NULL,
+	activity_duration INTEGER NOT NULL DEFAULT 1
 	crtn_date timestamp with time zone NOT NULL DEFAULT now(),
 	last_uptd_date timestamp with time zone NOT NULL DEFAULT now(),
 	CONSTRAINT activity_pkey PRIMARY KEY (activity_id),
-	CONSTRAINT activity_period_id_key UNIQUE (activity_name, period_id)
+	CONSTRAINT activity_period_id_key UNIQUE (activity_name, period_id),
+	CONSTRAINT activity_duration_values CHECK (activity_duration IN (1, 2, 3) )
 );
 
 CREATE TABLE IF NOT EXISTS public.activity_badge (
 	activity_id uuid NOT NULL, 
 	badge_id uuid NOT NULL,
 	CONSTRAINT activity_badge_pkey PRIMARY KEY (activity_id, badge_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.activity_counselor (
+	activity_id uuid NOT NULL, 
+	user_id uuid NOT NULL,
+	CONSTRAINT activity_counselor_pkey PRIMARY KEY (activity_id, user_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.attendance (
@@ -187,27 +195,30 @@ AS PERMISSIVE
 FOR SELECT
 USING (auth.uid() = user_id);
 
+
+-- Function to retrieve user_role
+CREATE OR REPLACE FUNCTION public.get_my_role()
+RETURNS user_role
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+	SELECT user_role FROM public.users WHERE user_id = auth.uid();
+$$;
+
 -- Policy 2: Admins and Devs can read all users, Area Directors and Counselors can read all Area Directors, Counselors, Leaders, and Scouts
-CREATE POLICY "Admins and Devs can read all users, Area Directors and Counselors can read all Area Directors, Counselors, Leaders, and Scouts"
+CREATE POLICY "Admins and Devs All, Area Director and Counselor below"
 ON public.users
 AS PERMISSIVE
 FOR SELECT
-USING ( 
-	EXISTS ( 
-		SELECT 1 
-		FROM public.users AS me 
-		WHERE me.user_id = auth.uid() 
-		AND ( 
-			-- Admins and Devs can read everything 
-			me.user_role IN ('ADMIN', 'DEV') 
-			
-			-- Area Directors and Counselors can read only non-admin/dev users 
-			OR ( 
-				me.user_role IN ('AREA_DIRECTOR', 'COUNSELOR') 
-				AND users.user_role NOT IN ('ADMIN', 'DEV') 
-			) 
-		) 
-	) 
+TO public
+USING (
+	get_my_role() IN ('ADMIN', 'DEV')
+	OR (
+		get_my_role() IN ('AREA_DIRECTOR', 'COUNSELOR')
+		AND user_role NOT IN ('ADMIN', 'DEV')
+	)
 );
 
 -- Policy 3: Devs can update any user's role (for testing/development)
@@ -576,7 +587,7 @@ ALTER TABLE IF EXISTS public.activity_badge
 	REFERENCES public.merit_badge (badge_id)
 	MATCH SIMPLE
 	ON UPDATE NO ACTION
-	ON DELETE SET NULL;
+	ON DELETE CASCADE;
 
 ALTER TABLE IF EXISTS public.activity_badge
 	ADD CONSTRAINT activity_badge_activity_id_fkey
@@ -584,7 +595,24 @@ ALTER TABLE IF EXISTS public.activity_badge
 	REFERENCES public.activity (activity_id)
 	MATCH SIMPLE
 	ON UPDATE NO ACTION
-	ON DELETE SET NULL;
+	ON DELETE CASCADE;
+	
+	
+ALTER TABLE IF EXISTS public.activity_counselor
+	ADD CONSTRAINT activity_counselor_user_id_fkey
+	FOREIGN KEY(user_id)
+	REFERENCES public.users (user_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS public.activity_counselor
+	ADD CONSTRAINT activity_counselor_activity_id_fkey
+	FOREIGN KEY(activity_id)
+	REFERENCES public.activity (activity_id)
+	MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
 
 
 -- ============================================
@@ -664,3 +692,11 @@ CREATE INDEX idx_activity_badge_badge_id
 	
 CREATE INDEX idx_activity_badge_activity_id
 	ON public.activity_badge(activity_id);
+	
+
+-- activity_counselor
+CREATE INDEX idx_activity_counselor_user_id
+	ON public.activity_counselor(user_id);
+	
+CREATE INDEX idx_activity_counselor_activity_id
+	ON public.activity_counselor(activity_id);

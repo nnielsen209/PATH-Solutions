@@ -9,12 +9,9 @@ import glob
 
 from supabase import Client
 
-from meritBadge import MeritBadge, Requirement
+from database_objects import MeritBadge, Requirement
 
 from postgrest import APIError
-
-
-# def insert_merit_badge(dpmt_name: str, )
 
 count = 0
 
@@ -98,9 +95,9 @@ merit_badge_files = [(os.path.basename(folder.rstrip('/\\')).upper(), file)
                      for folder in department_folders
                      for file in glob.glob(os.path.join(folder, "*.json"))]
 
-print(department_folders)
+# print(department_folders)
 
-print(merit_badge_files)
+# print(merit_badge_files)
 
 merit_badges = []
 departments_with_merit_badges_out = {}
@@ -117,9 +114,9 @@ for department,file in merit_badge_files:
         raise e
 
 
-print(departments_with_merit_badges_out)
+# print(departments_with_merit_badges_out)
 
-
+print("hello")
 
 for merit_badge_list in departments_with_merit_badges_out.values():
     for MeritBadge in merit_badge_list:
@@ -129,5 +126,7 @@ for merit_badge_list in departments_with_merit_badges_out.values():
         print(MeritBadge.dpmt_name)
         print_all_requirements(MeritBadge.requirements, "\t")
 
+print(f"Total Requirement Count: {count}")
 
-add_merit_badges_by_dpmt(departments_with_merit_badges_out, supabase)
+
+# add_merit_badges_by_dpmt(departments_with_merit_badges_out, supabase)
