@@ -25,10 +25,12 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { styles, DESKTOP_BREAKPOINT } from '../../styles/ReportsStyles';
+import { styles, DESKTOP_BREAKPOINT, ACCENT_COLOR } from '../../styles/ReportsStyles';
 import { supabase } from '../../services/supabase';
 
-const ACCENT_COLOR = '#7c3aed';
+import { RosterUI } from '../../components/ReportsComponents/RosterUI';
+
+
 
 
 interface dbActivity{
@@ -142,7 +144,7 @@ export const ReportsScreen = () => {
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={ACCENT_COLOR} />
-          <Text style={styles.loadingText}>Loading campers & leaders...</Text>
+          <Text style={styles.loadingText}>Loading...</Text>
         </View>
       ) : error ? (
         <View style={styles.errorContainer}>
@@ -171,6 +173,9 @@ export const ReportsScreen = () => {
                 <View style={styles.cardTitleBlock}>
                   <Text style={[styles.cardTitle, isDesktop && styles.cardTitleDesktop]}>
                     {currView.title}
+                    {currView.time && (
+                    <Text style={styles.cardTitle}>{"\t"+currView.time}</Text>
+                  )}
                   </Text>
                   <Text style={styles.cardDescription}>
                     {currView.desc}                
@@ -188,7 +193,7 @@ export const ReportsScreen = () => {
           
             </View>
 
-            {currView.onHome && 
+            {currView.onHome? ( 
               viewList?.sort((a, b) => a.title.localeCompare(b.title)).map((act) => (
                 <TouchableOpacity
                   key={act.id}
@@ -199,6 +204,12 @@ export const ReportsScreen = () => {
                   <Text>{act.time}</Text>
                 </TouchableOpacity>
               ))
+            ) : (
+              <RosterUI 
+                activity_id={currView.id}
+                activity_name={currView.title}
+                period_id={currView.time || "0"}/>
+            )
             }
 
           </View>

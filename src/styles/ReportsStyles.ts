@@ -3,6 +3,8 @@ import { TABLET_BREAKPOINT } from '../types';
 
 export const DESKTOP_BREAKPOINT = TABLET_BREAKPOINT;
 
+export const ACCENT_COLOR = '#7c3aed';
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -213,6 +215,67 @@ export const styles = StyleSheet.create({
     color: '#dc2626',
     marginTop: 12,
     textAlign: 'center',
-  }
+  },
+ 
+
+  rosterContainer: {
+    flex: 1,
+    padding: 16,
+  },
+
+  rosterRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    paddingVertical: 8,
+  },
+
+  rosterLabelRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 2,
+    borderColor: '#000',
+    paddingVertical: 8,
+    backgroundColor: '#f0f0f0'
+  },
+
+  rosterCell: {
+    padding: 8,
+    justifyContent: 'center',
+    alignContent: 'center'
+  },
+
+  rosterlabelCell: {
+    padding: 8,
+    justifyContent: 'center',
+    alignContent:'center'
+  },
+
+  roseterLabelText:{
+    fontWeight: 'bold'
+  },
+
+  nameCell: {
+    width: 120,
+    textAlign: 'left'
+  },
+  troopCell: {
+    width: 80,
+    textAlign: 'left'
+  },
+  typeCell: {
+    width: 60,
+    textAlign: 'center'
+  },
+  boxCell: {
+    width: 60,
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  completeCell: {
+    width: 80,
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+
 
 });
