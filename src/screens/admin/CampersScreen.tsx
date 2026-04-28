@@ -331,7 +331,7 @@ export const CampersScreen = () => {
         <View style={[styles.headerInner, isDesktop && styles.headerInnerDesktop]}>
           <View style={styles.headerRow}>
             <View>
-              <Text style={[styles.title, isDesktop && styles.titleDesktop]}>Campers & Leaders</Text>
+              <Text style={[styles.title, isDesktop && styles.titleDesktop]}>Campers</Text>
               <Text style={styles.subtitle}>{subtitle}</Text>
             </View>
             {canAdd && (
