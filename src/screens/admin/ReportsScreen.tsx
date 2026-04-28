@@ -105,7 +105,7 @@ export const ReportsScreen = () => {
   }
   catch (err) {
     console.error('Error fetching data:', err);
-    setError('Failed to load campers and leaders');
+    setError('Failed to load activities');
   }
   finally {
     setIsLoading(false);
@@ -205,10 +205,9 @@ export const ReportsScreen = () => {
                 </TouchableOpacity>
               ))
             ) : (
-              <RosterUI 
-                activity_id={currView.id}
-                activity_name={currView.title}
-                period_id={currView.time || "0"}/>
+              <RosterUI
+                {...{id: currView.id, name: currView.title, periodID: "0"}}
+              />
             )
             }
 

@@ -254,6 +254,11 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 
+  categoryChangeCell:{
+    borderRightWidth: 2,
+    borderColor: '#000',
+  },
+
   nameCell: {
     width: 120,
     textAlign: 'left'
@@ -277,5 +282,10 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-
+  syncingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 8,
+    gap: 3
+  }
 });
