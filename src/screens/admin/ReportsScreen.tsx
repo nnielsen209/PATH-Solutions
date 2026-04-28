@@ -37,6 +37,7 @@ interface dbActivity{
   activity_id: string;
   activity_name: string;
   period_id: string;
+  time?: string;
 };
 
 interface dbPeriod{
@@ -206,7 +207,7 @@ export const ReportsScreen = () => {
               ))
             ) : (
               <RosterUI
-                {...{id: currView.id, name: currView.title, periodID: "0"}}
+                {...{id: currView.id, name: currView.title, periodID: "0", time: currView.time}}
               />
             )
             }

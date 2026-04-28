@@ -18,12 +18,14 @@ import { styles, ACCENT_COLOR } from "../../styles/ReportsStyles";
 import { Checkbox } from 'expo-checkbox';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../services/supabase';
+import { makeAttendanceRoster, makeProgressReport } from "../../services/makeReport";
 
 
 interface dbActivity{
   id: string;
   name: string;
   periodID: string;
+  time?: string;
 };
 
 interface dbAttendance{
@@ -326,8 +328,7 @@ export const RosterUI = (activity: dbActivity) => {
     }
 
     const sortMBReqs = (retrieved: dbMerit_badge_rqmt[]): dbMerit_badge_rqmt[] => {
-        console.log("retrieved: ")
-        console.log(retrieved)
+
         // Create a map for quick lookup
         const map: Record<string, dbMerit_badge_rqmt> = {};
         const children: Record<string, dbMerit_badge_rqmt[]> = {};
@@ -347,15 +348,12 @@ export const RosterUI = (activity: dbActivity) => {
 
         // Recursive function to sort the hierarchy
         const sortHierarchy = (ancestors: dbMerit_badge_rqmt[], siblings: dbMerit_badge_rqmt[]): dbMerit_badge_rqmt[] => {
-            console.log("unsorted siblings:")
-            console.log(siblings)
+
             var sortedLevel: dbMerit_badge_rqmt[] = [];
             
             siblings.sort((a, b) =>
                 a.rqmt_idnf.localeCompare(b.rqmt_idnf, undefined, { numeric: true, sensitivity: 'base' })
             );
-            console.log("sorted siblings: ");
-            console.log(siblings);
 
             if(siblings.length === 0){
                 return ancestors;
@@ -387,11 +385,10 @@ export const RosterUI = (activity: dbActivity) => {
         };
 
         const roots = retrieved.filter((item) => !item.parent_rqmt_id);
-        console.log("base roots")
-        console.log(roots)
+
 
         const sorted: dbMerit_badge_rqmt[] = sortHierarchy([], roots);
-        console.log("final sorted: "+sorted);
+
         return sorted;
 
     };
@@ -547,7 +544,10 @@ export const RosterUI = (activity: dbActivity) => {
 
     const renderHeader = (thisBadge: string, first: boolean) => (
         <View style={styles.rosterLabelRow}>
-            {/* <pre>{JSON.stringify(rqmtList1)}</pre> */}
+
+            <View style={styles.reportButton2}>
+                <Text>   </Text>
+            </View>
 
             <Text style={[styles.rosterlabelCell, styles.nameCell]}>Name</Text>
             <Text style={[styles.rosterlabelCell, styles.troopCell]}>Troop</Text>
@@ -574,9 +574,20 @@ export const RosterUI = (activity: dbActivity) => {
 
     const renderRow: ListRenderItem<rosterRow> = ({item}) => (
         <View style={styles.rosterRow}>
+            <Pressable 
+                onPress={ () => makeProgressReport(item, activity, rqmtList1)} 
+                style={[
+                styles.reportButton2, {
+                borderColor: ACCENT_COLOR, 
+                borderWidth: 1.5,
+                borderRadius: 1
+                }]}>
+                <Ionicons name="document" size={12} color={ACCENT_COLOR} style={[{padding: 3}]}/>
+            </Pressable>
             {/* hard scout info */}
             <Text style={[styles.rosterCell, styles.nameCell]}>
-                {item.scout.scout_first_name+" "+item.scout.scout_last_name}</Text>
+                {item.scout.scout_first_name+" "+item.scout.scout_last_name}
+            </Text>
             <Text style={[styles.rosterCell, styles.troopCell]}>
                 {item.troop.troop_nmbr}</Text>
             <Text style={[styles.rosterCell, styles.typeCell, styles.categoryChangeCell]}>
@@ -743,41 +754,53 @@ export const RosterUI = (activity: dbActivity) => {
       }, [fetchRosterData]);
 
     return(
-
-        
-        <ScrollView horizontal={true}>
-            {isLoading ? (
-                <View style={styles.loadingContainer}>
-                 <ActivityIndicator size="large" color={ACCENT_COLOR} />
-                <Text style={styles.loadingText}>Loading...</Text>
-                </View>
-            ) : error ? (
-                <View style={styles.errorContainer}>
-                    <Ionicons name="alert-circle" size={48} color="#dc2626" />
-                    <Text style={styles.errorText}>{error}</Text>
-                </View>
-            ) : (
-                <View style={styles.rosterContainer}>
-
-                    <View style={styles.syncingContainer}>
-                        {isSyncing && <ActivityIndicator size="small" color={ACCENT_COLOR} />}
+        <View>
+            <View style={styles.syncRow}>
+                            <View style={styles.syncingContainer}>
+                                <Text>Synced: </Text>
+                                {isSyncing?  (
+                                    <ActivityIndicator size={20} color={ACCENT_COLOR} />
+                                ) : (
+                                    <Ionicons name="checkmark" size={20} color={ACCENT_COLOR}/>
+                                )}
+                            </View>
+                            
+                                <Pressable onPress={ () => makeAttendanceRoster(rosterData, activity, rqmtList1, rqmtList2)} 
+                                    style={[styles.reportButton, {borderColor: ACCENT_COLOR}]}>
+                                        <Ionicons name="document" size={20} color={ACCENT_COLOR} style={[{padding: 3}]}/>
+                                        <Text>Make Report</Text>
+                                </Pressable>
+                            
+                        </View>
+            
+            <ScrollView horizontal={true}>
+                {isLoading ? (
+                    <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={ACCENT_COLOR} />
+                    <Text style={styles.loadingText}>Loading...</Text>
                     </View>
-
-                    <FlatList
-                        data={rosterData?.filter( (row) => (row.badge_id === badge1ID))}
-                        renderItem={renderRow}
-                        keyExtractor={ (item) => item.id }
-                        ListHeaderComponent={renderHeader(badge1ID, true)}/>
-                    
-                    { isMultibadge &&
+                ) : error ? (
+                    <View style={styles.errorContainer}>
+                        <Ionicons name="alert-circle" size={48} color="#dc2626" />
+                        <Text style={styles.errorText}>{error}</Text>
+                    </View>
+                ) : (
+                    <View style={styles.rosterContainer}>
                         <FlatList
-                        data={rosterData?.filter( (row) => (row.badge_id === badge2ID))}
-                        renderItem={renderRow}
-                        keyExtractor={ (item) => item.id }
-                        ListHeaderComponent={renderHeader(badge2ID, false)}/>}
-                </View>
-            )}
-        </ScrollView>
-
+                            data={rosterData?.filter( (row) => (row.badge_id === badge1ID))}
+                            renderItem={renderRow}
+                            keyExtractor={ (item) => item.id }
+                            ListHeaderComponent={renderHeader(badge1ID, true)}/>
+                        
+                        { isMultibadge &&
+                            <FlatList
+                            data={rosterData?.filter( (row) => (row.badge_id === badge2ID))}
+                            renderItem={renderRow}
+                            keyExtractor={ (item) => item.id }
+                            ListHeaderComponent={renderHeader(badge2ID, false)}/>}
+                    </View>
+                )}
+            </ScrollView>
+        </View>
     );
 };

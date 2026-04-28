@@ -220,7 +220,12 @@ export const styles = StyleSheet.create({
 
   rosterContainer: {
     flex: 1,
-    padding: 16,
+    gap: 5,
+    marginTop: 3,
+    flexDirection: 'column',
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: '#000'
   },
 
   rosterRow: {
@@ -228,6 +233,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#ccc',
     paddingVertical: 8,
+    flex: 1
   },
 
   rosterLabelRow: {
@@ -235,19 +241,24 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: '#000',
     paddingVertical: 8,
-    backgroundColor: '#f0f0f0'
+    backgroundColor: '#f0f0f0',
+    padding: 3,
+    flex: 1
   },
 
   rosterCell: {
     padding: 8,
     justifyContent: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+    flexDirection: 'row'
   },
 
   rosterlabelCell: {
     padding: 8,
     justifyContent: 'center',
-    alignContent:'center'
+    alignContent:'center',
+    marginTop: 3,
+    flexDirection: 'row'
   },
 
   roseterLabelText:{
@@ -261,7 +272,9 @@ export const styles = StyleSheet.create({
 
   nameCell: {
     width: 120,
-    textAlign: 'left'
+    textAlign: 'left',
+    flex: 1,
+    flexDirection: 'row'
   },
   troopCell: {
     width: 80,
@@ -282,10 +295,32 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  syncRow: {
+    flex: 1,
+    flexDirection: 'row',
+    margin:3,
+    padding: 8 
+  },
+
   syncingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 8,
-    gap: 3
+    flexDirection: 'row',
+    alignContent: 'flex-start',
+  },
+
+  reportButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 1.5,
+    padding: 3
+  },
+  reportButton2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 2,
+    alignSelf: 'center'
   }
 });
