@@ -1,8 +1,8 @@
 /**
- * AddLeaderModal.tsx - Modal for Adding New Leaders
+ * AddLeaderModal.tsx - Modal for Adding/Editing Leaders
  *
- * Shared modal component for Admin, Dev, and Area Director to add new troop leaders.
- * Creates a leader record in the Supabase scout_leader table.
+ * Shared modal component for Admin, Dev, and Area Director to add or edit troop leaders.
+ * Creates or updates a leader record in the Supabase scout_leader table.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -33,13 +33,24 @@ interface Troop {
   troop_type: string;
 }
 
+/** Leader record for editing */
+interface LeaderToEdit {
+  scout_leader_id: string;
+  scout_leader_first_name: string;
+  scout_leader_last_name: string;
+  troop_id: string;
+  troop_leader_phone_nmbr: string | null;
+  troop_leader_email: string | null;
+}
+
 type AddLeaderModalProps = {
   visible: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  leaderToEdit?: LeaderToEdit | null;
 };
 
-export const AddLeaderModal = ({ visible, onClose, onSuccess }: AddLeaderModalProps) => {
+export const AddLeaderModal = ({ visible, onClose, onSuccess, leaderToEdit }: AddLeaderModalProps) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
@@ -51,12 +62,21 @@ export const AddLeaderModal = ({ visible, onClose, onSuccess }: AddLeaderModalPr
   const [error, setError] = useState<string | null>(null);
   const [showTroopPicker, setShowTroopPicker] = useState(false);
 
-  // Fetch troops when modal opens
+  const isEditMode = !!leaderToEdit;
+
+  // Fetch troops when modal opens and populate form if editing
   useEffect(() => {
     if (visible) {
       fetchTroops();
+      if (leaderToEdit) {
+        setFirstName(leaderToEdit.scout_leader_first_name);
+        setLastName(leaderToEdit.scout_leader_last_name);
+        setPhone(leaderToEdit.troop_leader_phone_nmbr || '');
+        setEmail(leaderToEdit.troop_leader_email || '');
+        setSelectedTroopId(leaderToEdit.troop_id);
+      }
     }
-  }, [visible]);
+  }, [visible, leaderToEdit]);
 
   const fetchTroops = async () => {
     setIsLoadingTroops(true);
@@ -116,25 +136,43 @@ export const AddLeaderModal = ({ visible, onClose, onSuccess }: AddLeaderModalPr
     setError(null);
 
     try {
-      const { error: insertError } = await supabase
-        .from('scout_leader')
-        .insert({
-          scout_leader_first_name: firstName.trim(),
-          scout_leader_last_name: lastName.trim(),
-          troop_id: selectedTroopId,
-          troop_leader_phone_nmbr: phone.trim() || null,
-          troop_leader_email: email.trim() || null,
-        });
+      if (isEditMode && leaderToEdit) {
+        // Update existing leader
+        const { error: updateError } = await supabase
+          .from('scout_leader')
+          .update({
+            scout_leader_first_name: firstName.trim(),
+            scout_leader_last_name: lastName.trim(),
+            troop_id: selectedTroopId,
+            troop_leader_phone_nmbr: phone.trim() || null,
+            troop_leader_email: email.trim() || null,
+          })
+          .eq('scout_leader_id', leaderToEdit.scout_leader_id);
 
-      if (insertError) throw insertError;
+        if (updateError) throw updateError;
+        showAlert('Success', `Leader "${firstName} ${lastName}" has been updated`);
+      } else {
+        // Insert new leader
+        const { error: insertError } = await supabase
+          .from('scout_leader')
+          .insert({
+            scout_leader_first_name: firstName.trim(),
+            scout_leader_last_name: lastName.trim(),
+            troop_id: selectedTroopId,
+            troop_leader_phone_nmbr: phone.trim() || null,
+            troop_leader_email: email.trim() || null,
+          });
+
+        if (insertError) throw insertError;
+        showAlert('Success', `Leader "${firstName} ${lastName}" has been added`);
+      }
 
       // Success
       resetForm();
       onSuccess();
-      showAlert('Success', `Leader "${firstName} ${lastName}" has been added`);
     } catch (err: any) {
-      console.error('Error adding leader:', err);
-      setError(err.message || 'Failed to add leader');
+      console.error('Error saving leader:', err);
+      setError(err.message || `Failed to ${isEditMode ? 'update' : 'add'} leader`);
     } finally {
       setIsLoading(false);
     }
@@ -172,9 +210,9 @@ export const AddLeaderModal = ({ visible, onClose, onSuccess }: AddLeaderModalPr
               {/* Header */}
               <View style={styles.header}>
                 <View style={[styles.headerIcon, { backgroundColor: LEADER_ACCENT + '20' }]}>
-                  <Ionicons name="shield" size={24} color={LEADER_ACCENT} />
+                  <Ionicons name={isEditMode ? 'create' : 'shield'} size={24} color={LEADER_ACCENT} />
                 </View>
-                <Text style={styles.title}>Add New Leader</Text>
+                <Text style={styles.title}>{isEditMode ? 'Edit Leader' : 'Add New Leader'}</Text>
                 <TouchableOpacity
                   onPress={handleClose}
                   style={styles.closeBtn}
@@ -185,7 +223,7 @@ export const AddLeaderModal = ({ visible, onClose, onSuccess }: AddLeaderModalPr
               </View>
 
               <Text style={styles.subtitle}>
-                Add a troop leader to manage scouts
+                {isEditMode ? 'Update leader information' : 'Add a troop leader to manage scouts'}
               </Text>
 
               {/* Error */}
@@ -337,8 +375,8 @@ export const AddLeaderModal = ({ visible, onClose, onSuccess }: AddLeaderModalPr
                     <ActivityIndicator color="#fff" size="small" />
                   ) : (
                     <>
-                      <Ionicons name="add" size={20} color="#fff" />
-                      <Text style={styles.submitBtnText}>Add Leader</Text>
+                      <Ionicons name={isEditMode ? 'checkmark' : 'add'} size={20} color="#fff" />
+                      <Text style={styles.submitBtnText}>{isEditMode ? 'Save Changes' : 'Add Leader'}</Text>
                     </>
                   )}
                 </TouchableOpacity>

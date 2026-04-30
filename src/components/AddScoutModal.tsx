@@ -1,8 +1,8 @@
 /**
- * AddScoutModal.tsx - Modal for Adding New Scouts
+ * AddScoutModal.tsx - Modal for Adding/Editing Scouts
  *
- * Shared modal component for Admin, Dev, and Area Director to add new scouts.
- * Creates a scout record in the Supabase scout table.
+ * Shared modal component for Admin, Dev, and Area Director to add or edit scouts.
+ * Creates or updates a scout record in the Supabase scout table.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -31,13 +31,22 @@ interface Troop {
   troop_type: string;
 }
 
+/** Scout record for editing */
+interface ScoutToEdit {
+  scout_id: string;
+  scout_first_name: string;
+  scout_last_name: string;
+  troop_id: string;
+}
+
 type AddScoutModalProps = {
   visible: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  scoutToEdit?: ScoutToEdit | null;
 };
 
-export const AddScoutModal = ({ visible, onClose, onSuccess }: AddScoutModalProps) => {
+export const AddScoutModal = ({ visible, onClose, onSuccess, scoutToEdit }: AddScoutModalProps) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [selectedTroopId, setSelectedTroopId] = useState<string | null>(null);
@@ -47,12 +56,19 @@ export const AddScoutModal = ({ visible, onClose, onSuccess }: AddScoutModalProp
   const [error, setError] = useState<string | null>(null);
   const [showTroopPicker, setShowTroopPicker] = useState(false);
 
-  // Fetch troops when modal opens
+  const isEditMode = !!scoutToEdit;
+
+  // Fetch troops when modal opens and populate form if editing
   useEffect(() => {
     if (visible) {
       fetchTroops();
+      if (scoutToEdit) {
+        setFirstName(scoutToEdit.scout_first_name);
+        setLastName(scoutToEdit.scout_last_name);
+        setSelectedTroopId(scoutToEdit.troop_id);
+      }
     }
-  }, [visible]);
+  }, [visible, scoutToEdit]);
 
   const fetchTroops = async () => {
     setIsLoadingTroops(true);
@@ -110,23 +126,39 @@ export const AddScoutModal = ({ visible, onClose, onSuccess }: AddScoutModalProp
     setError(null);
 
     try {
-      const { error: insertError } = await supabase
-        .from('scout')
-        .insert({
-          scout_first_name: firstName.trim(),
-          scout_last_name: lastName.trim(),
-          troop_id: selectedTroopId,
-        });
+      if (isEditMode && scoutToEdit) {
+        // Update existing scout
+        const { error: updateError } = await supabase
+          .from('scout')
+          .update({
+            scout_first_name: firstName.trim(),
+            scout_last_name: lastName.trim(),
+            troop_id: selectedTroopId,
+          })
+          .eq('scout_id', scoutToEdit.scout_id);
 
-      if (insertError) throw insertError;
+        if (updateError) throw updateError;
+        showAlert('Success', `Scout "${firstName} ${lastName}" has been updated`);
+      } else {
+        // Insert new scout
+        const { error: insertError } = await supabase
+          .from('scout')
+          .insert({
+            scout_first_name: firstName.trim(),
+            scout_last_name: lastName.trim(),
+            troop_id: selectedTroopId,
+          });
+
+        if (insertError) throw insertError;
+        showAlert('Success', `Scout "${firstName} ${lastName}" has been added`);
+      }
 
       // Success
       resetForm();
       onSuccess();
-      showAlert('Success', `Scout "${firstName} ${lastName}" has been added`);
     } catch (err: any) {
-      console.error('Error adding scout:', err);
-      setError(err.message || 'Failed to add scout');
+      console.error('Error saving scout:', err);
+      setError(err.message || `Failed to ${isEditMode ? 'update' : 'add'} scout`);
     } finally {
       setIsLoading(false);
     }
@@ -164,9 +196,9 @@ export const AddScoutModal = ({ visible, onClose, onSuccess }: AddScoutModalProp
               {/* Header */}
               <View style={styles.header}>
                 <View style={styles.headerIcon}>
-                  <Ionicons name="person-add" size={24} color="#d97706" />
+                  <Ionicons name={isEditMode ? 'create' : 'person-add'} size={24} color="#d97706" />
                 </View>
-                <Text style={styles.title}>Add New Scout</Text>
+                <Text style={styles.title}>{isEditMode ? 'Edit Scout' : 'Add New Scout'}</Text>
                 <TouchableOpacity
                   onPress={handleClose}
                   style={styles.closeBtn}
@@ -177,7 +209,7 @@ export const AddScoutModal = ({ visible, onClose, onSuccess }: AddScoutModalProp
               </View>
 
               <Text style={styles.subtitle}>
-                Add a scout participant to a troop
+                {isEditMode ? 'Update scout information' : 'Add a scout participant to a troop'}
               </Text>
 
               {/* Error */}
@@ -300,8 +332,8 @@ export const AddScoutModal = ({ visible, onClose, onSuccess }: AddScoutModalProp
                     <ActivityIndicator color="#fff" size="small" />
                   ) : (
                     <>
-                      <Ionicons name="add" size={20} color="#fff" />
-                      <Text style={styles.submitBtnText}>Add Scout</Text>
+                      <Ionicons name={isEditMode ? 'checkmark' : 'add'} size={20} color="#fff" />
+                      <Text style={styles.submitBtnText}>{isEditMode ? 'Save Changes' : 'Add Scout'}</Text>
                     </>
                   )}
                 </TouchableOpacity>

@@ -20,6 +20,9 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   ActivityIndicator,
+  Modal,
+  Alert,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -72,7 +75,7 @@ interface TroopGroup {
 }
 
 /**
- * PersonCard - Displays a single leader or camper
+ * PersonCard - Displays a single leader or camper with edit/delete actions
  */
 type PersonCardProps = {
   name: string;
@@ -80,9 +83,12 @@ type PersonCardProps = {
   subtitle: string;
   isLeader: boolean;
   isDesktop: boolean;
+  canEdit: boolean;
+  onEdit: () => void;
+  onDelete: () => void;
 };
 
-const PersonCard = ({ name, initials, subtitle, isLeader, isDesktop }: PersonCardProps) => {
+const PersonCard = ({ name, initials, subtitle, isLeader, isDesktop, canEdit, onEdit, onDelete }: PersonCardProps) => {
   const accent = isLeader ? LEADER_ACCENT : CAMPER_ACCENT;
 
   return (
@@ -102,6 +108,16 @@ const PersonCard = ({ name, initials, subtitle, isLeader, isDesktop }: PersonCar
         </View>
         <Text style={styles.personSubtitle}>{subtitle}</Text>
       </View>
+      {canEdit && (
+        <View style={styles.personActions}>
+          <TouchableOpacity style={styles.actionButton} onPress={onEdit}>
+            <Ionicons name="create-outline" size={18} color="#6b7280" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.actionButton, styles.deleteButton]} onPress={onDelete}>
+            <Ionicons name="trash-outline" size={18} color="#dc2626" />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -112,9 +128,22 @@ const PersonCard = ({ name, initials, subtitle, isLeader, isDesktop }: PersonCar
 type TroopSectionProps = {
   troopGroup: TroopGroup;
   isDesktop: boolean;
+  canEdit: boolean;
+  onEditLeader: (leader: DbLeader) => void;
+  onDeleteLeader: (leader: DbLeader) => void;
+  onEditCamper: (camper: DbScout) => void;
+  onDeleteCamper: (camper: DbScout) => void;
 };
 
-const TroopSection = ({ troopGroup, isDesktop }: TroopSectionProps) => {
+const TroopSection = ({
+  troopGroup,
+  isDesktop,
+  canEdit,
+  onEditLeader,
+  onDeleteLeader,
+  onEditCamper,
+  onDeleteCamper,
+}: TroopSectionProps) => {
   const totalMembers = troopGroup.leaders.length + troopGroup.campers.length;
 
   return (
@@ -146,6 +175,9 @@ const TroopSection = ({ troopGroup, isDesktop }: TroopSectionProps) => {
               subtitle={leader.troop_leader_email || leader.troop_leader_phone_nmbr || 'No contact info'}
               isLeader={true}
               isDesktop={isDesktop}
+              canEdit={canEdit}
+              onEdit={() => onEditLeader(leader)}
+              onDelete={() => onDeleteLeader(leader)}
             />
           ))}
         </View>
@@ -162,6 +194,9 @@ const TroopSection = ({ troopGroup, isDesktop }: TroopSectionProps) => {
               subtitle="Camper"
               isLeader={false}
               isDesktop={isDesktop}
+              canEdit={canEdit}
+              onEdit={() => onEditCamper(camper)}
+              onDelete={() => onDeleteCamper(camper)}
             />
           ))}
         </View>
@@ -196,6 +231,14 @@ export const CampersScreen = () => {
   const [error, setError] = useState<string | null>(null);
   const [showAddScoutModal, setShowAddScoutModal] = useState(false);
   const [showAddLeaderModal, setShowAddLeaderModal] = useState(false);
+  const [scoutToEdit, setScoutToEdit] = useState<DbScout | null>(null);
+  const [leaderToEdit, setLeaderToEdit] = useState<DbLeader | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    type: 'scout' | 'leader';
+    item: DbScout | DbLeader;
+    name: string;
+  } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   /** Fetch all campers and leaders from Supabase and group by troop */
   const fetchData = useCallback(async () => {
@@ -312,12 +355,95 @@ export const CampersScreen = () => {
 
   const handleAddScoutSuccess = () => {
     setShowAddScoutModal(false);
+    setScoutToEdit(null);
     fetchData();
   };
 
   const handleAddLeaderSuccess = () => {
     setShowAddLeaderModal(false);
+    setLeaderToEdit(null);
     fetchData();
+  };
+
+  const handleEditScout = (scout: DbScout) => {
+    setScoutToEdit(scout);
+    setShowAddScoutModal(true);
+  };
+
+  const handleEditLeader = (leader: DbLeader) => {
+    setLeaderToEdit(leader);
+    setShowAddLeaderModal(true);
+  };
+
+  const handleDeleteScout = (scout: DbScout) => {
+    setDeleteConfirm({
+      type: 'scout',
+      item: scout,
+      name: `${scout.scout_first_name} ${scout.scout_last_name}`,
+    });
+  };
+
+  const handleDeleteLeader = (leader: DbLeader) => {
+    setDeleteConfirm({
+      type: 'leader',
+      item: leader,
+      name: `${leader.scout_leader_first_name} ${leader.scout_leader_last_name}`,
+    });
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteConfirm) return;
+
+    setIsDeleting(true);
+    try {
+      if (deleteConfirm.type === 'scout') {
+        const scout = deleteConfirm.item as DbScout;
+        const { error: deleteError } = await supabase
+          .from('scout')
+          .delete()
+          .eq('scout_id', scout.scout_id);
+        if (deleteError) throw deleteError;
+      } else {
+        const leader = deleteConfirm.item as DbLeader;
+        const { error: deleteError } = await supabase
+          .from('scout_leader')
+          .delete()
+          .eq('scout_leader_id', leader.scout_leader_id);
+        if (deleteError) throw deleteError;
+      }
+
+      const alertTitle = 'Success';
+      const alertMessage = `${deleteConfirm.name} has been removed`;
+      if (Platform.OS === 'web') {
+        alert(`${alertTitle}: ${alertMessage}`);
+      } else {
+        Alert.alert(alertTitle, alertMessage);
+      }
+
+      setDeleteConfirm(null);
+      fetchData();
+    } catch (err: any) {
+      console.error('Error deleting:', err);
+      const alertTitle = 'Error';
+      const alertMessage = err.message || 'Failed to delete';
+      if (Platform.OS === 'web') {
+        alert(`${alertTitle}: ${alertMessage}`);
+      } else {
+        Alert.alert(alertTitle, alertMessage);
+      }
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleCloseScoutModal = () => {
+    setShowAddScoutModal(false);
+    setScoutToEdit(null);
+  };
+
+  const handleCloseLeaderModal = () => {
+    setShowAddLeaderModal(false);
+    setLeaderToEdit(null);
   };
 
   const subtitle =
@@ -435,6 +561,11 @@ export const CampersScreen = () => {
                       key={group.troop_id}
                       troopGroup={group}
                       isDesktop={isDesktop}
+                      canEdit={canAdd}
+                      onEditLeader={handleEditLeader}
+                      onDeleteLeader={handleDeleteLeader}
+                      onEditCamper={handleEditScout}
+                      onDeleteCamper={handleDeleteScout}
                     />
                   ))}
                 </View>
@@ -448,15 +579,60 @@ export const CampersScreen = () => {
 
       <AddScoutModal
         visible={showAddScoutModal}
-        onClose={() => setShowAddScoutModal(false)}
+        onClose={handleCloseScoutModal}
         onSuccess={handleAddScoutSuccess}
+        scoutToEdit={scoutToEdit}
       />
 
       <AddLeaderModal
         visible={showAddLeaderModal}
-        onClose={() => setShowAddLeaderModal(false)}
+        onClose={handleCloseLeaderModal}
         onSuccess={handleAddLeaderSuccess}
+        leaderToEdit={leaderToEdit}
       />
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        visible={!!deleteConfirm}
+        transparent
+        animationType="fade"
+        onRequestClose={() => !isDeleting && setDeleteConfirm(null)}
+      >
+        <View style={styles.deleteOverlay}>
+          <View style={styles.deleteModal}>
+            <View style={styles.deleteIconWrap}>
+              <Ionicons name="warning" size={32} color="#dc2626" />
+            </View>
+            <Text style={styles.deleteTitle}>Remove {deleteConfirm?.type === 'leader' ? 'Leader' : 'Camper'}?</Text>
+            <Text style={styles.deleteMessage}>
+              Are you sure you want to remove {deleteConfirm?.name}? This action cannot be undone.
+            </Text>
+            <View style={styles.deleteActions}>
+              <TouchableOpacity
+                style={styles.deleteCancelBtn}
+                onPress={() => setDeleteConfirm(null)}
+                disabled={isDeleting}
+              >
+                <Text style={styles.deleteCancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.deleteConfirmBtn, isDeleting && styles.deleteConfirmBtnDisabled]}
+                onPress={confirmDelete}
+                disabled={isDeleting}
+              >
+                {isDeleting ? (
+                  <ActivityIndicator color="#fff" size="small" />
+                ) : (
+                  <>
+                    <Ionicons name="trash" size={18} color="#fff" />
+                    <Text style={styles.deleteConfirmText}>Remove</Text>
+                  </>
+                )}
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
