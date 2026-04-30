@@ -336,3 +336,51 @@ Dedicated style files created for maintainability:
 - **canApproveUsers()** - Helper function to check approval permissions
 - **getAssignableRoles()** - Returns roles a user can assign based on their level
 
+---
+
+### Version 1.4 - Code Milestone 5
+
+#### Report Generation System
+- **Reports Screen Redesign** - Transformed into data entry and retrieval hub
+- **Activity-Based Navigation** - Select activities from alphabetized list to view roster
+- **PDF Report Generation** - Full attendance rosters and individual progress reports using jsPDF
+  - Attendance roster includes name, troop, type, weekday attendance, requirements, completion status
+  - Individual progress reports per scout with attendance and requirement details
+- **Multi-Badge Support** - Activities linked to multiple badges display separate tables
+
+#### Roster UI Component
+- **Full Roster View** - Spreadsheet-style interface for attendance and requirement tracking
+- **Weekday Attendance** - Monday through Friday checkboxes per camper
+- **Requirement Tracking** - Checkbox columns for each merit badge requirement
+- **Overall Completion** - Badge completion status checkbox
+- **Auto-Sync** - Changes automatically sync to Supabase every 5 seconds
+- **Sync Indicator** - Visual feedback showing sync status
+- **Per-Scout Reports** - Generate individual progress report PDFs from roster rows
+
+#### Edit/Delete Campers & Leaders
+- **PersonCard Component** - Updated with edit and delete action buttons
+- **Edit Camper Modal** - Modify camper first name, last name, and troop assignment
+- **Delete Confirmation** - Confirmation prompts before deletion
+- **Edit Leader Modal** - Update leader information including contact details
+- **Role-Based Access** - Edit/delete actions available to Admin and Dev roles
+
+#### Database Initialization Scripts
+- **user_initializer.py** - Bulk import scouts and troops from CSV roster files
+  - Parses Class Roster CSV exports
+  - Creates troops with number, type (Boy/Girl/Mixed), city, state, council
+  - Inserts scouts with troop associations
+  - Auto-creates scout_badge and scout_badge_rqmt records for enrolled activities
+- **activity_badge_initializer.py** - Links activities to their associated merit badges
+- **database_objects.py** - Python data models (Scout, Troop, TroopType enum)
+- **CSV Data Files** - Sample roster data for testing and initialization
+
+#### Database Schema Updates
+- **activity_badge Table** - Junction table linking activities to merit badges
+- **Attendance Table Updates** - Structure for tracking weekly attendance per activity
+- **scout_badge_rqmt Table** - Individual requirement completion tracking per scout
+
+#### New Dependencies
+- **jspdf** - PDF document generation
+- **jspdf-autotable** - Table formatting plugin for PDF reports
+- **expo-checkbox** - Checkbox component for roster UI
+
